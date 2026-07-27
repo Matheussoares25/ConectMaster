@@ -1,0 +1,71 @@
+@import url("../../../Themes/ThemePrincipal.css");
+
+.chamado-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.chamado-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.chamado-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.chamado-group label {
+  color: var(--text-primary);
+  font-size: 13px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.chamado-group input,
+.chamado-group select,
+.chamado-group textarea {
+  width: 100%;
+  background: var(--bg-page);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: var(--transition-fast);
+}
+
+.chamado-group input:focus,
+.chamado-group select:focus,
+.chamado-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.chamado-group textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.chamado-button {
+  background: var(--gradient-primary);
+  color: white;
+  border-radius: var(--radius-sm);
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: var(--transition-fast);
+}
+
+.chamado-button:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .chamado-row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,52 @@
+/* src/styles/theme.css */
+:root {
+    --color-primary: #46abe5;
+    --color-secondary: #2f6fed;
+    --color-success: #22c58b;
+    --color-warning: #f5a623;
+    --color-danger: #ef5da8;
+    --color-slate: #94a3c4;
+
+    --bg-page: #0b0e1a;
+    --bg-card: rgba(255, 255, 255, 0.035);
+    --bg-card-hover: rgba(255, 255, 255, 0.055);
+    --bg-glass: rgba(255, 255, 255, 0.06);
+
+
+    --background-image: url("../../src/assets/logo1.ico");
+
+    --border-card: rgba(255, 255, 255, 0.08);
+    --border-soft: rgba(255, 255, 255, 0.12);
+    --border-strong: rgba(255, 255, 255, 0.16);
+
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.75);
+    --text-muted: rgba(255, 255, 255, 0.55);
+    --text-disabled: rgba(255, 255, 255, 0.45);
+
+    --shadow-primary: 0 10px 24px rgba(47, 111, 237, 0.35);
+
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 18px;
+    --radius-pill: 999px;
+
+    --transition-fast: .2s ease;
+    --transition-normal: .3s ease;
+    --transition-card:
+        transform .3s cubic-bezier(.2,.8,.2,1),
+        border-color .3s ease,
+        background .3s ease;
+
+    --gradient-primary:
+        linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    --gradient-primary-vertical:
+        linear-gradient(180deg, var(--color-primary), var(--color-secondary));
+
+    --blur-glass: 14px;
+    --container-width: 1180px;
+
+    --dot-grid:
+        radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0);
+    --dot-grid-size: 28px 28px;
+}

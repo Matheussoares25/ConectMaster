@@ -1,0 +1,51 @@
+/* ===== BADGES DE STATUS ===== */
+
+.badge-status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-status--pendente {
+  background: rgba(245, 166, 35, 0.15);
+  color: #f5a623;
+}
+
+.badge-status--aprovado {
+  background: rgba(34, 197, 139, 0.15);
+  color: #22c58b;
+}
+
+.badge-status--reprovado {
+  background: rgba(239, 93, 168, 0.15);
+  color: #ef5da8;
+}
+
+/* ===== CARDS DO DASHBOARD ===== */
+
+.dash-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dash-card-value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.dash-card-label {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dash-card--primary .dash-card-value { color: #46abe5; }
+.dash-card--warning .dash-card-value { color: #f5a623; }
+.dash-card--success .dash-card-value { color: #22c58b; }
+.dash-card--danger .dash-card-value { color: #ef5da8; }

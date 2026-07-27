@@ -1,0 +1,152 @@
+
+@import url("../../../Themes/ThemePrincipal.css");
+.gu-text-primary {
+  color: var(--text-primary) !important;
+}
+
+.gu-text-muted {
+  color: var(--text-muted) !important;
+}
+
+.gu-label {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.gu-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+}
+
+.gu-input {
+  background: var(--bg-glass) !important;
+  border: 1px solid var(--border-card) !important;
+  color: var(--text-primary) !important;
+  color-scheme: dark;
+}
+
+.gu-input option {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+
+.gu-input::placeholder {
+  color: var(--text-disabled) !important;
+}
+
+.gu-input:focus {
+  border-color: var(--color-secondary) !important;
+  box-shadow: 0 0 0 0.2rem rgba(47, 111, 237, 0.25) !important;
+  background: var(--bg-card-hover) !important;
+}
+
+/* Select nativo — ajusta a seta para o tema escuro */
+select.gu-input {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%2394a3c4' d='M8 11L3 6h10z'/%3e%3c/svg%3e");
+  color: var(--text-muted) !important;
+}
+
+.gu-btn-primary {
+  background: var(--gradient-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 22px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: var(--shadow-primary);
+}
+
+.gu-btn-primary:hover {
+  color: #fff;
+  opacity: 0.9;
+}
+
+.gu-btn-primary:disabled {
+  opacity: 0.6;
+}
+
+/* ===== TABELA ===== */
+
+.gu-table {
+  color: var(--text-secondary) !important;
+  --bs-table-bg: transparent;
+}
+
+.gu-table thead th {
+  color: var(--text-muted) !important;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--border-card);
+  padding-bottom: 12px;
+
+}
+
+.gu-table tbody td {
+  color: var(--text-secondary) !important;
+  border-bottom: 1px solid var(--border-card);
+  padding: 12px 8px;
+  font-size: 14px;
+}
+
+.gu-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.gu-badge {
+  display: inline-block;
+  background: rgba(70, 171, 229, 0.15);
+  color: var(--color-primary) !important;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.gu-btn-icon {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-card);
+  color: var(--text-secondary) !important;
+  border-radius: var(--radius-sm);
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gu-btn-icon:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary) !important;
+}
+
+.gu-btn-icon--danger:hover {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+/* ===== FORMULÁRIO DENTRO DO SWAL ===== */
+
+.swal-form {
+  text-align: left;
+}
+
+.swal-label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 10px 0 4px 0;
+}
+
+.swal-input {
+  background: var(--bg-glass) !important;
+  border: 1px solid var(--border-card) !important;
+  color: var(--text-primary) !important;
+  margin: 0 0 8px 0 !important;
+}

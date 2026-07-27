@@ -1,0 +1,24 @@
+•	HistoricosController
+•	"Visualizar historicos"
+•	"Editar historicos"
+•	"Apagar historicos"
+•	ChamadosController
+•	"Visualizar chamados"
+•	"Criar chamados"
+•	"Editar chamados"
+•	"Apagar chamados"
+•	PerfilPermissoesController
+•	"Criar perfilpermissoes" (nota: existe uma ocorrência comentada de "Apagar perfilpermissoes")
+•	PermissoesController
+•	"Criar permissoes"
+•	"Editar permissoes"
+•	"Apagar permissoes"
+•	PerfisController
+•	"Criar perfis"
+•	"Editar perfis"
+•	"Apagar perfis"
+•	UsuariosController
+•	"Visualizar usuarios"
+•	"Criar Usuario"
+•	"Editar usuarios"
+•	"Apagar usuarios"

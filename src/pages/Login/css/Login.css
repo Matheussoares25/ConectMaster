@@ -1,0 +1,222 @@
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: none;
+  outline: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* ===== PÁGINA ===== */
+
+.auth-page-simples {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-page);
+  background-image: var(--dot-grid);
+  background-size: var(--dot-grid-size);
+  padding: 24px;
+}
+
+/* ===== CARD ===== */
+
+.auth-card-simples {
+  width: 100%;
+  max-width: 380px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+}
+
+.auth-logo-simples {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.auth-logo-mark-simples {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.auth-form-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  margin: 0 0 6px 0;
+}
+
+.auth-form-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0 0 28px 0;
+}
+
+/* ===== FORMULÁRIO ===== */
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.input-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.input-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.input-label-row .input-label {
+  margin-bottom: 0;
+}
+
+.auth-input {
+  width: 100%;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.auth-input::placeholder {
+  color: var(--text-disabled);
+}
+
+.auth-input:focus {
+  border-color: var(--color-secondary);
+  background: var(--bg-card-hover);
+}
+
+/* ===== SENHA (com botão mostrar/ocultar) ===== */
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper .auth-input {
+  padding-right: 70px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px;
+}
+
+.toggle-password:hover {
+  color: var(--color-secondary);
+}
+
+/* ===== LINKS ===== */
+
+.forgot-link {
+  font-size: 13px;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.forgot-link:hover {
+  color: var(--color-secondary);
+  text-decoration: underline;
+}
+
+/* ===== CHECKBOX ===== */
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.checkbox-wrapper input {
+  accent-color: var(--color-secondary);
+  cursor: pointer;
+}
+
+/* ===== BOTÃO PRINCIPAL ===== */
+
+.auth-button {
+  width: 100%;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-sm);
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: var(--shadow-primary);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.auth-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(47, 111, 237, 0.45);
+}
+
+/* ===== RODAPÉ (cadastro) ===== */
+
+.signup-text {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 24px;
+}
+
+.signup-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.signup-link:hover {
+  color: var(--color-secondary);
+  text-decoration: underline;
+}
+
+/* ===== RESPONSIVO ===== */
+
+@media (max-width: 480px) {
+  .auth-card-simples {
+    padding: 28px 20px;
+  }
+}
