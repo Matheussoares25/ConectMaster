@@ -366,7 +366,7 @@ export default function GerenciarUsuarios() {
     console.log(id, usuarioAberto);
     try {
       console.log(id, usuarioAberto);
-      await Api.CallEndpoint("usuarioview", "DELETE", usuarioAberto, id);
+    await Api.CallEndpoint("usuarioview", "DELETE", usuarioAberto, id);
 
       carregarDados();
     } catch (error) {

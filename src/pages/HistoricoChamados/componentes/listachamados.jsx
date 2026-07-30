@@ -298,6 +298,7 @@ export default function HistoricoChamados() {
                   <th>ID</th>
                   <th>Título</th>
                   <th>Usuário </th>
+                  <th>Departamento</th>
                   <th>Categoria</th>
                   <th>Prioridade</th>
                   <th>Status</th>
@@ -315,6 +316,7 @@ export default function HistoricoChamados() {
                       <td>{chamado.id}</td>
                       <td>{chamado.titulo}</td>
                       <td>{chamado.usuario.nome}</td>
+                      <td>{chamado.usuario.setor}</td>
                       <td>{chamado.categoria}</td>
                       <td>
                         <span className={classePrioridade(chamado.prioridade)} >

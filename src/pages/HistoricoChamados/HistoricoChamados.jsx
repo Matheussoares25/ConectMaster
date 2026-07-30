@@ -38,16 +38,11 @@ const icons = {
 const panelItems = [
   {
     id: "ListaChamados",
-    title: "Nova OS",
+    title: "Chamados",
     icon: icons.relatorios,
     content: <Listachamados />,
   },
-  {
-    id: "DashboardChamados",
-    title: "Historico de OS",
-    icon: icons.configuracoes,
-    content: <h1>Meus Chamados</h1>,
-  },
+
 ];
 
 export default function HistoricoChamados() {

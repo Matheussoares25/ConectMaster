@@ -17,6 +17,23 @@ button {
   cursor: pointer;
 }
 
+/* ===== UTILITÁRIOS (usados no Sidebar) ===== */
+/* NOVO: necessários pois o Sidebar.jsx usa essas classes e elas não existiam */
+
+.d-flex {
+  display: flex;
+  width: 100%;        /* NOVO: corrige o encolhimento dentro do .home-page (flex pai) */
+}
+
+.flex-grow-1 {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.p-4 {
+  padding: 80px;
+}
+
 /* ===== LAYOUT GERAL (sidebar + main) ===== */
 
 .home-page {
@@ -40,7 +57,7 @@ button {
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-width: 0; /* evita overflow do conteúdo em flex */
+  min-width: 0;
 }
 
 /* ===== SIDEBAR ===== */
@@ -200,6 +217,13 @@ button {
   width: 100%;
 }
 
+/* NOVO: como o <main> do Sidebar usa .flex-grow-1.p-4 (sem .home-content),
+   garante que ele também tenha rolagem própria dentro da viewport */
+main.flex-grow-1 {
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
 .home-welcome {
   margin-bottom: 36px;
 }
@@ -222,7 +246,10 @@ button {
 .home-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
+  gap: 15px;
+  max-width: 950px;   /* NOVO: limita a largura do grid */
+  margin: 0 auto; 
+  padding-top: 80px;
 }
 
 .home-card {
@@ -341,6 +368,10 @@ button {
 
   .home-content {
     padding: 32px 20px;
+  }
+
+  .p-4 {
+    padding: 16px;
   }
 
   .home-user-info {
