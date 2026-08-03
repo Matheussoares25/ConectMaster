@@ -89,7 +89,7 @@ export default function Permissoes() {
         background: "#141826",
         color: "#fff",
         confirmButtonColor: "#2f6fed",
-      })
+      });
     } finally {
       setLoading(false);
     }
@@ -137,6 +137,13 @@ export default function Permissoes() {
   const addpermissao = async () => {
     const permissoes = await Api.CallEndpoint(`Permissoes`, "GET");
 
+    const viewsAssociadas =
+      perfis.find((u) => u.id === perfilAberto).permissoes || [];
+
+    const viewsNaoAssociadas = permissoes.filter(
+      (p) => !viewsAssociadas.some((v) => v.id === p.id),
+    );
+
     Swal.fire({
       icon: "question",
       title: "Selecione uma permissão",
@@ -146,17 +153,21 @@ export default function Permissoes() {
       showCancelButton: true,
       showConfirmButton: true,
       html: `
-    <select class="form-select" id="permissao">
-      ${permissoes
-        .map(
-          (p) => `
-            <option value="${p.id}">
-              ${p.name}
-            </option>
-          `,
-        )
-        .join("")}
-    </select>
+<select class="form-select" id="permissao">
+  ${
+    viewsNaoAssociadas.length > 0
+      ? viewsNaoAssociadas
+          .map(
+            (p) => `
+              <option value="${p.id}">
+                ${p.name}
+              </option>
+            `,
+          )
+          .join("")
+      : `<option disabled>Nao existe outras permissões</option>`
+  }
+</select>
   `,
       preConfirm: () => {
         return document.getElementById("permissao").value;

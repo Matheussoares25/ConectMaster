@@ -37,8 +37,6 @@ export default function Login() {
         senha,
       });
 
-
-
       const lembrarDeMim = document.getElementById("lembrarDeMim").checked;
       console.log("lembrarDeMim:", lembrarDeMim);
 
