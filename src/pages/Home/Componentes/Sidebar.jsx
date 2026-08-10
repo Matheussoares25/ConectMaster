@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MenuMain from "./MenuMain";
+import Configuracoes from "./Config";
 
 const sidebarItems = [
   {
@@ -18,7 +19,7 @@ const sidebarItems = [
     id: "configuracoes",
     title: "Configurações",
     icon: "⚙️",
-    content: <div>Em breve</div>,
+    content: <div><Configuracoes /></div>,
   },
 ];
 

@@ -1,0 +1,138 @@
+/* src/pages/PainelControle/Componentes/Configuracoes.css */
+.cf-wrapper * {
+  box-sizing: border-box;
+}
+
+.cf-text-primary {
+  color: var(--text-primary) !important;
+}
+
+.cf-text-muted {
+  color: var(--text-muted) !important;
+}
+
+.cf-label {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.cf-hint {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.cf-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+}
+
+.cf-input {
+  background: var(--bg-glass) !important;
+  border: 1px solid var(--border-card) !important;
+  color: var(--text-primary) !important;
+  color-scheme: dark;
+}
+
+.cf-input::placeholder {
+  color: var(--text-disabled) !important;
+}
+
+.cf-input:focus {
+  border-color: var(--color-secondary) !important;
+  box-shadow: 0 0 0 0.2rem rgba(47, 111, 237, 0.25) !important;
+  background: var(--bg-card-hover) !important;
+}
+
+.cf-btn-primary {
+  background: var(--gradient-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 24px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: var(--shadow-primary);
+}
+
+.cf-btn-primary:hover {
+  color: #fff;
+  opacity: 0.9;
+}
+
+.cf-btn-primary:disabled {
+  opacity: 0.6;
+}
+
+/* ===== LINHAS DE TOGGLE ===== */
+
+.cf-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.cf-toggle-row--last {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.cf-toggle-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* ===== SWITCH (toggle customizado) ===== */
+
+.cf-switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.cf-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.cf-switch-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-pill);
+  transition: var(--transition-fast);
+}
+
+.cf-switch-slider::before {
+  content: '';
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background: var(--text-muted);
+  border-radius: 50%;
+  transition: var(--transition-fast);
+}
+
+.cf-switch input:checked + .cf-switch-slider {
+  background: var(--gradient-primary);
+  border-color: transparent;
+}
+
+.cf-switch input:checked + .cf-switch-slider::before {
+  transform: translateX(18px);
+  background: #fff;
+}
