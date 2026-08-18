@@ -182,7 +182,7 @@ button {
   border-radius: var(--radius-sm);
   padding: 13px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   color: #fff;
   box-shadow: var(--shadow-primary);
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
@@ -190,7 +190,7 @@ button {
 
 .auth-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 28px rgba(47, 111, 237, 0.45);
+  box-shadow: 0 8px 18px rgba(47, 111, 237, 0.45);
 }
 
 /* ===== RODAPÉ (cadastro) ===== */

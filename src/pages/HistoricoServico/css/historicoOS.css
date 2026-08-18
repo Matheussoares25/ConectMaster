@@ -17,6 +17,13 @@
   background: rgba(34, 197, 139, 0.15);
   color: #22c58b;
 }
+.fw-semibold{
+  color: var(--text-primary);
+}
+
+.h4{
+  color: var(--text-primary);
+}
 
 .badge-status--reprovado {
   background: rgba(239, 93, 168, 0.15);

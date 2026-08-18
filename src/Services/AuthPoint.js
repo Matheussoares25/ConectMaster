@@ -1,8 +1,6 @@
 import Swal from "sweetalert2";
 
-
 class Api {
-
     static async CallEndpoint(setor, method, body = null, id = null) {
 
         try {
@@ -25,8 +23,6 @@ class Api {
                 url += `/${id}`;
             }
             const response = await fetch(url, options);
-
-
 
             if (response.status === 400) {
                 const erro = await response.json();
@@ -58,8 +54,6 @@ class Api {
                 throw new Error('Usaurio não cadastrado');
             }
 
-
-
             if (!response.ok) {
                 const erro = await response.json();
 
@@ -78,9 +72,7 @@ class Api {
                     throw new Error('Sua sessão expirou, faca login novamente.');
                 }
 
-
             }
-
 
             return await response.json();
         } catch (error) {
@@ -89,7 +81,6 @@ class Api {
     }
 
 }
-
 
 
 export default Api;

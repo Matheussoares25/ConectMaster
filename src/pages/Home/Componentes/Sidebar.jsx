@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MenuMain from "./MenuMain";
 import Configuracoes from "./Config";
+import CotacaoMoeda from "./BuscaMoedas";
 
 const sidebarItems = [
   {
@@ -21,6 +22,12 @@ const sidebarItems = [
     icon: "⚙️",
     content: <div><Configuracoes /></div>,
   },
+  {
+    id: "BuscarMoedas",
+    title: "Buscar valor Moedas",
+    icon: "🪙",
+    content: <div><CotacaoMoeda /></div>,
+  }
 ];
 
 export default function Sidebar({ onLogout }) {
@@ -32,7 +39,7 @@ export default function Sidebar({ onLogout }) {
     const storedUser =
       JSON.parse(localStorage.getItem("user")) ||
       JSON.parse(sessionStorage.getItem("user"));
-    setUser(storedUser || {});
+    setUser(storedUser || {});  
   }, []);
 
   const activeItem = sidebarItems.find((item) => item.id === activeId);

@@ -1,0 +1,115 @@
+/* src/pages/PainelControle/Componentes/CotacaoMoeda.css */
+.cb-wrapper * {
+  box-sizing: border-box;
+}
+
+.cb-text-primary {
+  color: var(--text-primary) !important;
+}
+
+.cb-text-muted {
+  color: var(--text-muted) !important;
+}
+
+.cb-label {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.cb-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+}
+
+.cb-input {
+  background: var(--bg-glass) !important;
+  border: 1px solid var(--border-card) !important;
+  color: var(--text-primary) !important;
+  color-scheme: dark;
+}
+
+.cb-input option {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.cb-input::placeholder {
+  color: var(--text-disabled) !important;
+}
+
+.cb-input:focus {
+  border-color: var(--color-secondary) !important;
+  box-shadow: 0 0 0 0.2rem rgba(47, 111, 237, 0.25) !important;
+  background: var(--bg-card-hover) !important;
+}
+
+.cb-btn-primary {
+  background: var(--gradient-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: var(--shadow-primary);
+}
+
+.cb-btn-primary:hover {
+  color: #fff;
+  opacity: 0.9;
+}
+
+.cb-btn-primary:disabled {
+  opacity: 0.6;
+}
+
+/* ===== TABELA ===== */
+
+.cb-table {
+  color: var(--text-secondary);
+  --bs-table-bg: transparent;
+  --bs-table-hover-bg: var(--bg-card-hover);
+  --bs-table-hover-color: var(--text-primary);
+}
+
+.cb-table thead th {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--border-card);
+  padding-bottom: 12px;
+}
+
+.cb-table tbody td {
+  border-bottom: 1px solid var(--border-card);
+  padding: 12px 8px;
+  font-size: 14px;
+}
+
+.cb-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== BADGE DE VARIAÇÃO ===== */
+
+.cb-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.cb-badge--success {
+  background: rgba(34, 197, 139, 0.15);
+  color: var(--color-success);
+}
+
+.cb-badge--danger {
+  background: rgba(239, 93, 168, 0.15);
+  color: var(--color-danger);
+}

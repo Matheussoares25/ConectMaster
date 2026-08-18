@@ -9,7 +9,7 @@
 
     --bg-page: #0b0e1a;
     --bg-card: rgba(255, 255, 255, 0.035);
-    --bg-card-hover: rgba(255, 255, 255, 0.055);
+    --bg-card-hover: rgba(27, 25, 25, 0.845);
     --bg-glass: rgba(255, 255, 255, 0.06);
 
 
@@ -20,9 +20,9 @@
     --border-strong: rgba(255, 255, 255, 0.16);
 
     --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.75);
-    --text-muted: rgba(255, 255, 255, 0.55);
-    --text-disabled: rgba(255, 255, 255, 0.45);
+    --text-secondary: rgb(255, 255, 255);
+    --text-muted: rgb(245, 247, 245);
+    --text-disabled: rgba(255, 255, 255, 0.712);
 
     --shadow-primary: 0 10px 24px rgba(47, 111, 237, 0.35);
 

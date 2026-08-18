@@ -184,7 +184,7 @@ export default function HistoricoServicos() {
   const carregarServicos = async () => {
     setLoading(true);
     try {
-      const data = await APi.CallEndpoint("Servicos"); // sem desestruturar { data }
+      const data = await APi.CallEndpoint("Servicos");
       setServicos(data);
     } catch (err) {
       Swal.fire({

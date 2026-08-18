@@ -16,7 +16,6 @@ export default function GerenciarUsuarios() {
   const toggleViews = (id) => {
     setUsuarioAberto(usuarioAberto === id ? null : id);
   };
-
   const [form, setForm] = useState({
     nome: "",
     email: "",
@@ -26,12 +25,10 @@ export default function GerenciarUsuarios() {
     setor: "",
     perfilId: "",
   });
-
   // ===== CARREGA USUÁRIOS E PERFIS =====
   useEffect(() => {
     carregarDados();
   }, []);
-
   const carregarDados = async () => {
     setCarregando(true);
 
@@ -58,7 +55,6 @@ export default function GerenciarUsuarios() {
       setCarregando(false);
     }
   };
-
   // ===== FORM DE NOVO USUÁRIO =====
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,7 +72,6 @@ export default function GerenciarUsuarios() {
       perfilId: "",
     });
   };
-
   // ========= CADASTRAR NOVO USUÁRIO ========
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -123,7 +118,6 @@ export default function GerenciarUsuarios() {
       setSalvando(false);
     }
   };
-
   // ===== EXCLUIR USUÁRIO =====
   const handleExcluir = async (usuario) => {
     const confirmacao = await Swal.fire({
@@ -167,7 +161,6 @@ export default function GerenciarUsuarios() {
       });
     }
   };
-
   // ===== EDITAR USUÁRIO (SWAL COM FORMULÁRIO) =====
   const handleEditar = async (usuario) => {
     const opcoesPerfis = perfis
@@ -277,12 +270,10 @@ export default function GerenciarUsuarios() {
       });
     }
   };
-
   const nomePerfil = (perfilId) => {
     const perfil = perfis.find((p) => p.id === perfilId);
     return perfil?.nome || "—";
   };
-
   //Filtro//
   const usuariosFiltrados = usuarios.filter((usuario) => {
     const bateTexto =
@@ -295,7 +286,6 @@ export default function GerenciarUsuarios() {
 
     return bateTexto && batePerfil;
   });
-
   // ===== ADICIONAR PERMISSÃO AO USUARIO =========
   const addpermissao = async () => {
     const permissoes = await Api.CallEndpoint(`views`, "GET");
