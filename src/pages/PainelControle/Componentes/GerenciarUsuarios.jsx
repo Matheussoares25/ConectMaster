@@ -356,7 +356,7 @@ export default function GerenciarUsuarios() {
     console.log(id, usuarioAberto);
     try {
       console.log(id, usuarioAberto);
-    await Api.CallEndpoint("usuarioview", "DELETE", usuarioAberto, id);
+      await Api.CallEndpoint("usuarioview", "DELETE", usuarioAberto, id);
 
       carregarDados();
     } catch (error) {
@@ -421,25 +421,27 @@ export default function GerenciarUsuarios() {
 
           <div className="col-12 col-md-6">
             <label className="form-label gu-label">Permissão</label>
-            <select
-              name="perfilId"
-              className="form-select gu-input"
-              value={form.perfilId}
-              onChange={handleChange}
-            >
-              <option value="">Selecione um perfil</option>
-              {perfis.map((perfil) => (
-                <option
-                  key={perfil.id}
-                  value={perfil.id}
-                  className="text-black"
-                >
-                  {perfil.name}
-                </option>
-              ))}
-            </select>
+            <div className="d-flex gap-2">
+              <select
+                name="perfilId"
+                className="form-select gu-input"
+                value={form.perfilId}
+                onChange={handleChange}
+              >
+                <option value="">Selecione um perfil</option>
+                {perfis.map((perfil) => (
+                  <option
+                    key={perfil.id}
+                    value={perfil.id}
+                    className="text-black"
+                  >
+                    {perfil.name}
+                  </option>
+                ))}
+              </select>
+      
+            </div>
           </div>
-
           <div className="col-12 col-md-4">
             <label className="form-label gu-label">Ramal</label>
             <input

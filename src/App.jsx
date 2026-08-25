@@ -1,6 +1,7 @@
 // src/App.jsx
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { useEffect } from "react";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
@@ -38,18 +39,22 @@ function AppContent() {
     };
 
     const exibirNovasNotificacoes = (notificacoes) => {
-      notificacoes.forEach((n) => {
-        const notification = new Notification(n.tipo || "Nova notificação", {
-          body: n.mensagem,
-          icon: "/logo1.png",
-        });
-
-        notification.onclick = () => {
-          window.focus();
-          navigate("/historicochamados");
-          lernotificacao(n.id);
-        };
-      });
+       Swal.fire({
+         title: "Notificação",
+         text: notificacoes.map((notificacao) => notificacao.mensagem).join("\n"),
+         icon: "info",
+         position: "bottom-end",
+         showCancelButton: true,
+         confirmButtonColor: "#3085d6",
+         cancelButtonColor: "#d33",
+         confirmButtonText: "Visualizar",
+         cancelButtonText: "Fechar",
+       })
+       .then(async (result) => {
+         if (!result.isConfirmed ) {
+           await Api.CallEndpoint("Notificacoes/lida", "PUT", null, noticacoes[0].id);
+         }
+       });
     };
     carregarViews();
 

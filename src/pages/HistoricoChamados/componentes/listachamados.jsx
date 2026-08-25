@@ -48,6 +48,21 @@ export default function HistoricoChamados() {
         return;
       }
 
+      console.log(chamadoEditando, status);
+      if(status === "Concluído") {
+        await Api.CallEndpoint(`Chamados/${id}/fechar`, "PUT", {status});
+        await carregarChamados();
+        Swal.fire({
+          icon: "success",
+          title: "Chamado concluido com sucesso!",
+          background: "#141826",
+          color: "#fff",
+          confirmButtonColor: "#2f6fed",
+        });
+        setChamadoEditando(null);
+        return;
+      }
+
       await Api.CallEndpoint(`Chamados/${id}`, "PUT", { status });
       await carregarChamados();
       Swal.fire({
@@ -305,6 +320,7 @@ export default function HistoricoChamados() {
 
                   <th className="text-end">Ações</th>
                   <th>Data de abertura</th>
+                  <th>Data de conclusão</th>
                 </tr>
               </thead>
               <tbody>
@@ -318,6 +334,8 @@ export default function HistoricoChamados() {
                       <td>{chamado.usuario.nome}</td>
                       <td>{chamado.usuario.setor}</td>
                       <td>{chamado.categoria}</td>
+                      
+                    
                       <td>
                         <span className={classePrioridade(chamado.prioridade)} >
                           {prioridadeLabel[chamado.prioridade] || "N/A"}
@@ -372,6 +390,7 @@ export default function HistoricoChamados() {
                       <td className="text-nowrap">
                         {formatarData(chamado.dataAbertura)}
                       </td>
+                      <td>{formatarData(chamado.dataFechamento)}</td>
                     </tr>
                   );
                 })}

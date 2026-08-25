@@ -9,8 +9,8 @@
 
     --bg-page: #0b0e1a;
     --bg-card: rgba(255, 255, 255, 0.035);
-    --bg-card-hover: rgba(27, 25, 25, 0.845);
-    --bg-glass: rgba(255, 255, 255, 0.06);
+    --bg-card-hover: rgba(92, 83, 83, 0.329);
+    --bg-glass: rgba(255, 255, 255, 0);
 
 
     --background-image: url("../../src/assets/logo1.ico");

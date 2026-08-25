@@ -96,6 +96,7 @@ export default function PainelControle() {
   const [user, setUser] = useState({});
   const [activeId, setActiveId] = useState(null);
   const [itensvisiveis, setVisibleItems] = useState([]);
+  const [showPerfis, setShowPerfis] = useState(false);
 
    useEffect(() => {
     const storedUser =
@@ -110,14 +111,12 @@ export default function PainelControle() {
     setVisibleItems(items);
   }, []);
 
-  // Define o primeiro item ativo assim que a lista carregar
   useEffect(() => {
     if (!activeId && itensvisiveis.length > 0) {
       setActiveId(itensvisiveis[0].id);
     }
   }, [itensvisiveis, activeId]);
 
-  // Agora busca na MESMA lista que é renderizada no menu
   const activeItem = itensvisiveis.find((item) => item.id === activeId);
   return (
     <div className="panel-wrapper" data-bs-theme="dark">

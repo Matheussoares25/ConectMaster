@@ -1,7 +1,7 @@
 // src/pages/PainelControle/sections/LogsSistema.jsx
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import Api from '../../../services/EndPoint';
+import Api from '../../../Services/EndPoint';
 
 export default function LogsSistema() {
   const [logs, setLogs] = useState([]);
