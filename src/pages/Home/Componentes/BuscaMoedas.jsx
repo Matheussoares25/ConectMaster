@@ -21,29 +21,47 @@ export default function CotacaoMoeda() {
   const [buscando, setBuscando] = useState(false);
   const [buscou, setBuscou] = useState(false);
 
-
   const addDays = (date, days) => {
-  const result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result;
-};
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  };
 
-const periodos = [
-  {
-    nome: "5 dias",
-    dias: 5,
-  },
-];
+  const periodos = [
+    {
+      id: 1,
+      nome: "5 dias",
+      dias: 5,
+    },
+    {
+      id: 2,
+      nome: "7 dias",
+      dias: 7,
+    },
+    {
+      id: 3,
+      nome: "15 dias",
+      dias: 15,
+    }
+  ];
 
- const setperiodos = (dias) => {
-  setDataInicio(addDays(new Date(), -dias).toISOString().split("T")[0]);
+  const handlePeriodoChange = (e) => {
+  const periodoId = Number(e.target.value);
+
+  const novaDataInicio = addDays(new Date(), -periodoId) .toISOString().split("T")[0];
+
+  setDataInicio(novaDataInicio);
   setDataFim(new Date().toISOString().split("T")[0]);
-}
+
+  console.log(novaDataInicio);
+
+  };
+
 
   const buscarCotacoes = async (e) => {
     e.preventDefault();
 
-    if (!dataInicio || !dataFim) {
+    if (!dataInicio || !dataFim ) {
       Swal.fire({
         icon: "warning",
         title: "Período obrigatório",
@@ -158,17 +176,12 @@ const periodos = [
 
             <div className="col-12 col-md-4">
               <label className="form-label cb-label">Periodos</label>
-              <select
-                className="form-select cb-input"
-                
-                onChange={(e) => setPeriodo(e.target.value)}
-              >
+              <select onChange={handlePeriodoChange}>
                 {periodos.map((p) => (
-                  <option key={p.id} value={p.id} >
+                  <option key={p.id} value={p.dias}>
                     {p.nome}
                   </option>
                 ))}
-
               </select>
             </div>
 

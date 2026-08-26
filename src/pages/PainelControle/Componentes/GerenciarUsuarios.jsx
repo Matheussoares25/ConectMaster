@@ -33,20 +33,20 @@ export default function GerenciarUsuarios() {
     setCarregando(true);
 
     try {
-      const [dataUsuarios, dataPerfis] = await Promise.all([
-        Api.CallEndpoint("usuarios", "GET"),
+     
+      const [dataPerfis, dataUsuarios] = await Promise.all([
         Api.CallEndpoint("perfis", "GET"),
-      ]);
+        Api.CallEndpoint("usuarios", "GET"),
+      ])
 
       setUsuarios(dataUsuarios?.usuarios || []);
       setPerfis(dataPerfis?.perfis || dataPerfis || []);
       console.log(perfis);
     } catch (error) {
-      console.error("Erro ao carregar dados:", error);
       Swal.fire({
         icon: "error",
         title: "Erro",
-        text: "Não foi possível carregar os dados. Tente novamente.",
+        text: error.message + " " +"Visualizar usuarios",
         background: "#141826",
         color: "#fff",
         confirmButtonColor: "#2f6fed",
@@ -167,7 +167,7 @@ export default function GerenciarUsuarios() {
       .map(
         (p) =>
           `<option value="${p.id}" ${
-            p.id === usuario.perfilId ? "selected" : ""
+            p.id === usuario.perfil.id ? "selected" : ""
           }>${p.name}</option>`,
       )
       .join("");
@@ -215,7 +215,7 @@ export default function GerenciarUsuarios() {
           }" placeholder="Setor">
 
           <label class="swal-label">Permissão</label>
-          <select id="swal-perfil" class="swal2-select swal-input">
+          <select id="swal-perfil" class="form-select">
             ${opcoesPerfis}
           </select>
         </div>
@@ -356,6 +356,7 @@ export default function GerenciarUsuarios() {
     console.log(id, usuarioAberto);
     try {
       console.log(id, usuarioAberto);
+      if(usuarioAberto === null) return
       await Api.CallEndpoint("usuarioview", "DELETE", usuarioAberto, id);
 
       carregarDados();
@@ -379,7 +380,7 @@ export default function GerenciarUsuarios() {
       </p>
 
       {/* ===== FORMULÁRIO DE NOVO USUÁRIO ===== */}
-      <form className="gu-card p-4 mb-4" onSubmit={handleSubmit}>
+       <form className="gu-card p-4 mb-4" onSubmit={handleSubmit}>
         <h3 className="h6 fw-semibold mb-3 gu-text-primary">Novo usuário</h3>
 
         <div className="row g-3">
