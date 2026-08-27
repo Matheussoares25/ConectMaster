@@ -103,7 +103,7 @@ class Api {
 
       return data;
     } catch (error) {
-      console.error("CallEndpoint:", error);
+      
       throw error;
     } finally {
       window.dispatchEvent(new Event("loading:end"));

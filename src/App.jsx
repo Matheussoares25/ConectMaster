@@ -10,12 +10,12 @@ import PrivateRoute from "./services/PrivateRoute";
 import AbrirChamado from "./pages/AbrirChamado/AberturaDeChamado";
 import AbrirServico from "./pages/AbrirServico/AbrirServico";
 import HistoricoChamados from "./pages/HistoricoChamados/HistoricoChamados";
-import Api from "./Services/EndPoint";
+import Api from "./services/EndPoint";
 import HistoricoServicos from "./pages/HistoricoServico/HistoricoServico";
 
 function AppContent() {
   const location = useLocation();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location.pathname === "/") return;
@@ -39,35 +39,35 @@ function AppContent() {
     };
 
     const exibirNovasNotificacoes = (notificacoes) => {
-       Swal.fire({
-         title: "Notificação",
-         text: notificacoes.map((notificacao) => notificacao.mensagem).join("\n"),
-         icon: "info",
-         position: "bottom-end",
-         showCancelButton: true,
-         confirmButtonColor: "#3085d6",
-         cancelButtonColor: "#d33",
-         confirmButtonText: "Visualizar",
-         cancelButtonText: "Fechar",
-       })
-       .then(async (result) => {
-         if (!result.isConfirmed ) {
-           await Api.CallEndpoint("Notificacoes/lida", "PUT", null, noticacoes[0].id);
-         }
-       });
+      Swal.fire({
+        title: "Notificação",
+        text: notificacoes.map((n) => n.mensagem).join("\n"),
+        icon: "info",
+        position: "bottom-end",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Visualizar",
+        cancelButtonText: "Fechar",
+      }).then(async (result) => {
+        if (!result.isConfirmed) {
+          await Promise.all(notificacoes.map((n) => lernotificacao(n.id)));
+
+        }
+      });
     };
     carregarViews();
 
     const intervalo = setInterval(() => {
       carregarViews();
-    }, 8000);
+    }, 30000);
 
     return () => clearInterval(intervalo);
   }, [location.pathname]);
 
   const lernotificacao = async (id) => {
     try {
-      await Api.CallEndpoint("Notificacoes/lida", "PUT", null, id );
+      await Api.CallEndpoint("Notificacoes/lida", "PUT", null, id);
     } catch (error) {
       console.error("Erro ao marcar notificação como lida:", error);
     }
