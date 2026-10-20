@@ -26,6 +26,7 @@
   font-weight: 500;
 }
 
+
 .chamado-group input,
 .chamado-group select,
 .chamado-group textarea {
@@ -37,6 +38,26 @@
   color: var(--text-primary);
   font-size: 14px;
   transition: var(--transition-fast);
+}
+
+.hc-badge--info {
+  background: rgba(70, 171, 229, 0.15);
+  color: var(--color-primary);
+}
+
+.hc-badge--warning {
+  background: rgba(245, 166, 35, 0.15);
+  color: var(--color-warning);
+}
+
+.hc-badge--success {
+  background: rgba(34, 197, 139, 0.15);
+  color: var(--color-success);
+}
+
+.hc-badge--danger {
+  background: rgba(239, 93, 168, 0.15);
+  color: var(--color-danger);
 }
 
 .chamado-group input:focus,

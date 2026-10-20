@@ -1,0 +1,141 @@
+
+@import url("../../../Themes/ThemePrincipal.css");
+
+/* ===== CONTAINER ===== */
+
+.estoque-container {
+  width: 100%;
+  min-height: 100%;
+  padding: 32px;
+  color: black; 
+  box-sizing: border-box;
+}
+
+.estoque-container *,
+.estoque-container *::before,
+.estoque-container *::after {
+  box-sizing: border-box;
+}
+
+/* ===== CABEÇALHO ===== */
+
+
+
+/* ===== TÍTULO E SUBTÍTULO ===== */
+.estoque-container {
+  background: var(--bg-page, #0b0e1a);
+  color: var(--text-primary, #ffffff);
+  min-height: 100vh;
+}
+
+
+.estoque-container .home-welcome {
+  margin-bottom: 28px;
+}
+
+.estoque-container .home-title {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.estoque-container .home-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ===== BOTÃO NOVO ITEM ===== */
+
+.estoque-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.estoque-toolbar .estoque-btn {
+  padding: 10px 22px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--gradient-primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.estoque-toolbar .estoque-btn:hover {
+  opacity: 0.85;
+}
+
+/* ===== TABELA ===== */
+
+.estoque-tabela-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+}
+
+.estoque-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.estoque-tabela thead {
+  background: rgba(70, 171, 229, 0.12);
+}
+
+.estoque-tabela th {
+  padding: 15px 18px;
+  color: var(--text-primary);
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.estoque-tabela td {
+  padding: 14px 18px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-card);
+}
+
+.estoque-tabela tbody tr {
+  transition: background 0.2s ease;
+}
+
+.estoque-tabela tbody tr:hover {
+  background: var(--bg-card-hover);
+}
+
+.estoque-tabela tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.estoque-tabela .estoque-vazio {
+  padding: 32px 18px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+@media (max-width: 768px) {
+  .estoque-container {
+    padding: 20px 12px;
+  }
+
+  .estoque-tabela {
+    min-width: 600px;
+  }
+
+  .estoque-tabela th,
+  .estoque-tabela td {
+    padding: 12px;
+  }
+}

@@ -19,8 +19,6 @@ class Api {
 
     let url = `https://localhost:7029/api/${setor}`;
 
-    
-
     if (id !== null) {
       url += `/${id}`;
     }

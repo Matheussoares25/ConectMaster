@@ -39,7 +39,7 @@ class Api {
                 try {
                     erro = await response.json();
                 } catch {
-                    // resposta sem corpo
+                   
                 }
 
                 if (erro?.message?.includes('Nenhuma licença atribuída ao usuário.')) {

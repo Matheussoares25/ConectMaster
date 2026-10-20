@@ -360,7 +360,25 @@ main.flex-grow-1 {
     display: block;
   }
 }
+.btn-primary {
+  background: var(--gradient-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 22px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: var(--shadow-primary);
+}
 
+.btn-primary:hover {
+  color: #fff;
+  opacity: 0.9;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+}
 @media (max-width: 600px) {
   .home-header {
     padding: 14px 20px;

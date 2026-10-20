@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import Api from "../../../Services/EndPoint";
 import { useNavigate } from "react-router-dom";
+import "../css/AbrirChamado.css";
 
 export default function FormularioChamado() {
   const [titulo, setTitulo] = useState("");

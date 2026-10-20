@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import Api from '../../../services/EndPoint';
 import Swal from 'sweetalert2';
-import '../css/Configuracoes.css';
+
+
 
 export default function Configuracoes() {
   const [carregando, setCarregando] = useState(true);

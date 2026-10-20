@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import MenuMain from "./MenuMain";
-import Configuracoes from "./Config";
 import CotacaoMoeda from "./BuscaMoedas";
 import EstoquesMain from "./EstoquesMain";
 
@@ -16,12 +15,6 @@ const sidebarItems = [
     title: "Minha Agenda",
     icon: "👥",
     content: <div>Em breve</div>,
-  },
-  {
-    id: "configuracoes",
-    title: "Configurações",
-    icon: "⚙️",
-    content: <div><Configuracoes /></div>,
   },
   {
     id: "BuscarMoedas",

@@ -11,6 +11,7 @@ import AbrirChamado from "./pages/AbrirChamado/AberturaDeChamado";
 import AbrirServico from "./pages/AbrirServico/AbrirServico";
 import HistoricoChamados from "./pages/HistoricoChamados/HistoricoChamados";
 import Api from "./services/EndPoint";
+import Estoque from "./pages/Estoques/Estoque";
 import HistoricoServicos from "./pages/HistoricoServico/HistoricoServico";
 
 function AppContent() {
@@ -52,7 +53,6 @@ function AppContent() {
       }).then(async (result) => {
         if (!result.isConfirmed) {
           await Promise.all(notificacoes.map((n) => lernotificacao(n.id)));
-
         }
       });
     };
@@ -119,6 +119,14 @@ function AppContent() {
         element={
           <PrivateRoute>
             <HistoricoServicos />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/estoque/:id"
+        element={
+          <PrivateRoute>
+            <Estoque />
           </PrivateRoute>
         }
       />

@@ -538,7 +538,7 @@ export default function GerenciarUsuarios() {
                   <th>E-mail</th>
                   <th>Setor</th>
                   <th>Ramal</th>
-                  <th>Permissão</th>
+                  <th>Permissão (Visualizar) </th>
                   <th className="text-end">Ações</th>
                 </tr>
               </thead>

@@ -113,6 +113,14 @@ const menuItems = [
     icon: icons.portaria,
     color: "primary",
     route: "/portaria",
+  },
+  {
+    id: "formularios",
+    title: "Formulários",
+    description: "Acesse os formulários disponíveis para preenchimento",
+    icon: icons.servicos,
+    color: "primary",
+    route: "/formularios",
   }
 ];
 
