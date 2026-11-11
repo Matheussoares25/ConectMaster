@@ -1,6 +1,6 @@
 // src/pages/PainelControle/Componentes/Configuracoes.jsx
 import React, { useEffect, useState } from 'react';
-import Api from '../../../services/EndPoint';
+import Api from '../../../Services/EndPoint';
 import Swal from 'sweetalert2';
 
 
