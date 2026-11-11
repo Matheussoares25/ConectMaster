@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import PainelControle from "./pages/PainelControle/PainelControle";
-import PrivateRoute from "./services/PrivateRoute";
+import PrivateRoute from "./Services/PrivateRoute";
 import AbrirChamado from "./pages/AbrirChamado/AberturaDeChamado";
 import AbrirServico from "./pages/AbrirServico/AbrirServico";
 import HistoricoChamados from "./pages/HistoricoChamados/HistoricoChamados";
