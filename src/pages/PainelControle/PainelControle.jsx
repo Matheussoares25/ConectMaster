@@ -35,6 +35,11 @@ const icons = {
       <path d="M4 6h16M4 12h16M4 18h7" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   ),
+  departamentos: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="18" height="18">
+      <path d="M3 3h18v18H3z" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
 };
 
 // ===== CONFIGURAÇÃO DOS ITENS DO MENU =====
@@ -88,7 +93,19 @@ const panelItems = [
         <p className="panel-text-muted">Ajuste parâmetros e preferências do sistema.</p>
       </div>
     ),
+    
   },
+  {
+    id: 'departamentos',
+    title: 'Departamentos',
+    icon: icons.departamentos,
+    content: (
+      <div>
+        <h2 className="h4 fw-bold mb-2 panel-text-primary">Departamentos</h2>
+        <p className="panel-text-muted">Gerencie os departamentos da empresa.</p>
+      </div>
+    )
+  }
 ];
 
 export default function PainelControle() {

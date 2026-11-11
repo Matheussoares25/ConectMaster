@@ -27,8 +27,7 @@ const sidebarItems = [
     title: "Estoques",
     icon: "📦",
     content: <div><EstoquesMain /></div>,
-  }
-
+  },
 ];
 
 export default function Sidebar({ onLogout }) {

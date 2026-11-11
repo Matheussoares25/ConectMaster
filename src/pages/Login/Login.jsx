@@ -89,7 +89,7 @@ export default function Login() {
       <div className="auth-card-simples">
         <div className="auth-logo-simples">
           <div className="auth-logo-mark-simples">
-            ConectMaster
+            Web
           </div>
         </div>
 

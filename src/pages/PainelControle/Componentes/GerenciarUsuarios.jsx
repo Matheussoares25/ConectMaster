@@ -33,20 +33,23 @@ export default function GerenciarUsuarios() {
     setCarregando(true);
 
     try {
-     
       const [dataPerfis, dataUsuarios] = await Promise.all([
         Api.CallEndpoint("perfis", "GET"),
         Api.CallEndpoint("usuarios", "GET"),
-      ])
+      ]);
 
-      setUsuarios(dataUsuarios?.usuarios || []);
+      setUsuarios(
+        Array.isArray(dataUsuarios)
+          ? dataUsuarios
+          : dataUsuarios?.usuarios || [],
+      );
       setPerfis(dataPerfis?.perfis || dataPerfis || []);
       console.log(perfis);
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Erro",
-        text: error.message + " " +"Visualizar usuarios",
+        text: error.message + " " + "Visualizar usuarios",
         background: "#141826",
         color: "#fff",
         confirmButtonColor: "#2f6fed",
@@ -356,7 +359,7 @@ export default function GerenciarUsuarios() {
     console.log(id, usuarioAberto);
     try {
       console.log(id, usuarioAberto);
-      if(usuarioAberto === null) return
+      if (usuarioAberto === null) return;
       await Api.CallEndpoint("usuarioview", "DELETE", usuarioAberto, id);
 
       carregarDados();
@@ -380,7 +383,7 @@ export default function GerenciarUsuarios() {
       </p>
 
       {/* ===== FORMULÁRIO DE NOVO USUÁRIO ===== */}
-       <form className="gu-card p-4 mb-4" onSubmit={handleSubmit}>
+      <form className="gu-card p-4 mb-4" onSubmit={handleSubmit}>
         <h3 className="h6 fw-semibold mb-3 gu-text-primary">Novo usuário</h3>
 
         <div className="row g-3">
@@ -440,7 +443,6 @@ export default function GerenciarUsuarios() {
                   </option>
                 ))}
               </select>
-      
             </div>
           </div>
           <div className="col-12 col-md-4">
@@ -560,7 +562,7 @@ export default function GerenciarUsuarios() {
                           <button
                             className="btn btn-sm gu-btn-icon"
                             title="Ver permissões de visualização"
-                            onClick={() => toggleViews(usuario.id)}
+                            onClick={() => toggleViews(usuario?.id)}
                           >
                             👁
                           </button>

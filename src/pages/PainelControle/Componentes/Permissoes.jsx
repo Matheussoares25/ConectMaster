@@ -111,12 +111,15 @@ export default function Permissoes() {
       cancelButtonColor: "#2a2f45",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await Api.CallEndpoint(
+        const response = await Api.CallEndpoint(
           `PerfilPermissoes`,
-          "DELETE",
-          perfilAberto,
-          permissao.id,
+          "DELETE",{
+          perfilId: perfilAberto,
+          permissaoId: permissao.id
+          }
         );
+
+        if (response === null) {
 
         Swal.fire({
           icon: "success",
@@ -128,6 +131,16 @@ export default function Permissoes() {
           showConfirmButton: false,
         });
         carregarPerfis();
+      }else {
+        Swal.fire({
+          icon: "error",
+          title: "Erro ao excluir permissão",
+          text: response.message || "Não foi possível excluir a permissão.",
+          background: "#141826",
+          color: "#fff",
+          confirmButtonColor: "#2f6fed",
+        });
+      }
       } else {
         return false;
       }

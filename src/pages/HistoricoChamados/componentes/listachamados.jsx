@@ -86,7 +86,7 @@ export default function HistoricoChamados() {
       Swal.fire({
         icon: "error",
         title: "Erro",
-        text: "Não foi possível carregar os chamados.",
+        text: error?.message,
         background: "#141826",
         color: "#fff",
         confirmButtonColor: "#2f6fed",

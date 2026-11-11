@@ -1,9 +1,9 @@
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 
 class Api {
   static async CallEndpoint(setor, method, body = null, id = null) {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
 
     const options = {
       method,
@@ -18,7 +18,6 @@ class Api {
     }
 
     let url = `https://localhost:7029/api/${setor}`;
-
     if (id !== null) {
       url += `/${id}`;
     }
@@ -33,11 +32,27 @@ class Api {
       }
 
       let data = null;
-
       try {
         data = await response.json();
       } catch {
         data = null;
+      }
+
+      if (response.status === 401) {
+        localStorage.clear();
+        sessionStorage.clear();
+        window.dispatchEvent(new Event("auth:expired"));
+
+        swal.fire({
+          icon: "error",
+          title: "Sessão expirada",
+          text: "Sua sessão expirou. Faça login novamente.",
+          timeout: 5000,
+        });
+
+        const err = new Error("Sessão expirada. Faça login novamente.");
+        err.status = 401;
+        throw err;
       }
 
       if (response.status === 400) {
@@ -47,62 +62,30 @@ class Api {
           mensagem = Object.values(data.errors).flat().join(" ");
         }
 
-        throw new Error(mensagem || data?.title || "Erro de validação.");
-      }
-
-      if (response.status === 401) {
-        localStorage.clear();
-
-        Swal.fire({
-          icon: "error",
-          title: "Sessão expirada",
-          text: "Faça login novamente.",
-          timer: 2000,
-        }).then(() => {
-          navigate("/");
-        })
-
-        return;
-      }
-
-      if (response.status === 403) {
-        
-        throw new Error(
-          data?.message ||
-            data?.error ||
-            "Você não tem permissão para realizar esta operação."
-        );
-      }
-
-      if (response.status === 404) {
-        throw new Error(
-          data?.message ||
-            data?.error ||
-            "Registro não encontrado."
-        );
-      }
-
-      if (response.status === 409) {
-        throw new Error(
-          data?.message ||
-            data?.error ||
-            "Conflito ao salvar registro."
-        );
+        const err = new Error(mensagem || data?.title || "Erro de validação.");
+        err.status = 400;
+        throw err;
       }
 
       if (!response.ok) {
-        throw new Error(
+        const padrao = {
+          403: "Você não tem permissão para realizar esta operação.",
+          404: "Registro não encontrado.",
+          409: "Conflito ao salvar registro.",
+        };
+
+        const err = new Error(
           data?.message ||
             data?.error ||
             data?.title ||
+            padrao[response.status] ||
             "Erro ao processar solicitação."
         );
+        err.status = response.status;
+        throw err;
       }
 
       return data;
-    } catch (error) {
-      
-      throw error;
     } finally {
       window.dispatchEvent(new Event("loading:end"));
     }

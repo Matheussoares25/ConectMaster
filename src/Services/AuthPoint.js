@@ -1,5 +1,4 @@
 import Swal from "sweetalert2";
-
 class Api {
     static async CallEndpoint(setor, method, body = null, id = null) {
 
