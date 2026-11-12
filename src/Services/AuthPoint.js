@@ -1,4 +1,6 @@
 import Swal from "sweetalert2";
+const API_URL = import.meta.env.VITE_API_URL;
+    
 class Api {
     static async CallEndpoint(setor, method, body = null, id = null) {
 
@@ -16,8 +18,8 @@ class Api {
                 options.body = JSON.stringify(body);
             }
 
-            let url = ` https://conectapi-a7a5grfdbpfzhhcv.westus3-01.azurewebsites.net//api/${setor}`;
-            //    let url = `https://localhost:7029/api/${setor}`;
+            let url = `${API_URL}/${setor}`;
+
 
             if (id !== null) {
                 url += `/${id}`;
