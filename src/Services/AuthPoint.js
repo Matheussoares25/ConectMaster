@@ -16,7 +16,8 @@ class Api {
                 options.body = JSON.stringify(body);
             }
 
-            let url = ` https://conectapi-a7a5grfdbpfzhhcv.westus3-01.azurewebsites.net//api/${setor}`;
+            //let url = ` https://conectapi-a7a5grfdbpfzhhcv.westus3-01.azurewebsites.net//api/${setor}`;
+                let url = `https://localhost:7029/api/${setor}`;
 
             if (id !== null) {
                 url += `/${id}`;

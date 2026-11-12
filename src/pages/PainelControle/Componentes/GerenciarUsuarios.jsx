@@ -33,18 +33,37 @@ export default function GerenciarUsuarios() {
     setCarregando(true);
 
     try {
-      const [dataPerfis, dataUsuarios] = await Promise.all([
+      const [dataPerfis, dataUsuarios, dataViews] = await Promise.all([
         Api.CallEndpoint("perfis", "GET"),
         Api.CallEndpoint("usuarios", "GET"),
+        Api.CallEndpoint("UsuarioView", "GET"),
       ]);
 
+      const listaUsuarios = Array.isArray(dataUsuarios)
+        ? dataUsuarios
+        : dataUsuarios?.usuarios || [];
+
+      const listaViews = Array.isArray(dataViews) ? dataViews : [];
+
+
+      const viewsPorUsuario = listaViews.reduce((acc, uv) => {
+        if (!acc[uv.usuarioId]) acc[uv.usuarioId] = [];
+        acc[uv.usuarioId].push({
+          id: uv.id, 
+          viewId: uv.viewId,
+          name: uv.viewNome,
+        });
+        return acc;
+      }, {});
+
       setUsuarios(
-        Array.isArray(dataUsuarios)
-          ? dataUsuarios
-          : dataUsuarios?.usuarios || [],
+        listaUsuarios.map((u) => ({
+          ...u,
+          views: viewsPorUsuario[u.id] || [],
+        })),
       );
+
       setPerfis(dataPerfis?.perfis || dataPerfis || []);
-      console.log(perfis);
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -170,7 +189,7 @@ export default function GerenciarUsuarios() {
       .map(
         (p) =>
           `<option value="${p.id}" ${
-            p.id === usuario.perfil.id ? "selected" : ""
+            p.id === usuario.views.map((v) => v.viewId).includes(p.id) ? "selected" : ""
           }>${p.name}</option>`,
       )
       .join("");
