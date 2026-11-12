@@ -42,7 +42,7 @@ class Api {
 
       if (response.status === 401) {
 
-        swal.fire({
+        Swal.fire({
           icon: "error",
           title: "Sessão expirada",
           text: "Sua sessão expirou. Faça login novamente.",

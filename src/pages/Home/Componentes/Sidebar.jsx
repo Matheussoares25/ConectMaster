@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MenuMain from "./MenuMain";
 import CotacaoMoeda from "./BuscaMoedas";
 import EstoquesMain from "./EstoquesMain";
+import Ti from "../../TI/Acessos";
 
 const sidebarItems = [
   {
@@ -28,6 +29,25 @@ const sidebarItems = [
     icon: "📦",
     content: <div><EstoquesMain /></div>,
   },
+  {
+    id: "ti",
+    title: "TI",
+    icon: "💻",
+    content: <div><Ti /></div>,
+  },
+  {
+    id: "financeiro",
+    title: "ADM",
+    icon: "💰",
+    content: <div>Financeiro</div>,
+  },
+  {
+    id: "configuracoes",
+    title: "Configurações",
+    icon: "⚙️",
+    content: <div>Configurações</div>,
+  }
+
 ];
 
 export default function Sidebar({ onLogout }) {

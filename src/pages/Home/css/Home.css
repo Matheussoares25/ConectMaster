@@ -36,22 +36,7 @@ button {
 
 /* ===== LAYOUT GERAL (sidebar + main) ===== */
 
-.home-page {
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
-  background-color: var(--bg-page);
-  background-image:
-        linear-gradient(
-            rgba(11,14,26,.85),
-            rgba(11,14,26,.95)
-        ),
-        var(--background-image);
-  background-repeat: no-repeat;
-  background-size: auto;
-  background-position: center;
-  background-attachment: fixed;
-}
+
 
 .home-main {
   flex: 1;
@@ -224,7 +209,7 @@ main.flex-grow-1 {
   max-height: 100vh;
 }
 
-.home-welcome {
+.home-welcome-ti {
   margin-bottom: 36px;
 }
 

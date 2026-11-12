@@ -412,6 +412,13 @@ export default function HistoricoChamados() {
                             >
                               ✎
                             </button>
+                            <button 
+                              className="btn btn-sm hc-btn-icon"
+                              title="Apagar chamado"
+                              onClick={() => ApagarChamado(chamado.id)}
+                            >
+                              🗑️
+                            </button>
                           </td>
                         </React.Fragment>
                       )}

@@ -50,3 +50,10 @@
         radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0);
     --dot-grid-size: 28px 28px;
 }
+
+html,
+body,
+#root {
+  min-height: 100vh;
+  background: var(--bg-page); /* troque pelo nome real da variável */
+}

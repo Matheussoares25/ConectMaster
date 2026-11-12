@@ -1,0 +1,170 @@
+@import url("../../../Themes/ThemePrincipal.css");
+.hc-wrapper {
+  box-sizing: border-box;
+  background-color: var(--bg-page);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+
+.hc-wrapper button {
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+}
+
+.hc-text-primary {
+  color: var(--text-primary) !important;
+}
+
+.hc-text-muted {
+  color: var(--text-muted) !important;
+}
+
+.hc-metric-label {
+  font-size: 12px;
+}
+
+.hc-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+}
+
+/* ===== INPUTS ===== */
+
+.hc-input {
+  background: var(--bg-glass) !important;
+  border: 1px solid var(--border-card) !important;
+  color: var(--text-primary) !important;
+  color-scheme: dark;
+}
+
+.hc-input option {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+}
+
+.hc-input::placeholder {
+  color: var(--text-disabled) !important;
+}
+
+.hc-input:focus {
+  border-color: var(--color-secondary) !important;
+  box-shadow: 0 0 0 0.2rem rgba(47, 111, 237, 0.25) !important;
+  background: var(--bg-card-hover) !important;
+}
+
+/* ===== GRÁFICO DE BARRAS ===== */
+
+.hc-bar-label {
+  width: 70px;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.hc-bar-value {
+  width: 28px;
+  text-align: right;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.hc-bar-track {
+  background: var(--bg-glass);
+  border-radius: 6px;
+  height: 10px;
+  overflow: hidden;
+}
+
+.hc-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+/* ===== TABELA ===== */
+
+.hc-table {
+  color: var(--text-secondary);
+  --bs-table-bg: transparent;
+  --bs-table-hover-bg: var(--bg-card-hover);
+  --bs-table-hover-color: var(--text-primary);
+}
+
+.hc-table thead th {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--border-card);
+  padding-bottom: 12px;
+}
+
+.hc-table tbody td {
+  border-bottom: 1px solid var(--border-card);
+  padding: 12px 8px;
+  font-size: 14px;
+}
+
+.hc-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.hc-footer-count {
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* ===== BADGES ===== */
+
+.hc-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-glass);
+  color: var(--text-secondary);
+}
+
+.hc-badge--info {
+  background: rgba(70, 171, 229, 0.15);
+  color: var(--color-primary);
+}
+
+.hc-badge--warning {
+  background: rgba(245, 166, 35, 0.15);
+  color: var(--color-warning);
+}
+
+.hc-badge--success {
+  background: rgba(34, 197, 139, 0.15);
+  color: var(--color-success);
+}
+
+.hc-badge--danger {
+  background: rgba(239, 93, 168, 0.15);
+  color: var(--color-danger);
+}
+
+.hc-badge--prioridade-1 {
+  background: rgba(34, 197, 139, 0.15);
+  color: var(--color-success);
+}
+
+.hc-badge--prioridade-2 {
+  background: rgba(70, 171, 229, 0.15);
+  color: var(--color-primary);
+}
+
+.hc-badge--prioridade-3 {
+  background: rgba(245, 166, 35, 0.15);
+  color: var(--color-warning);
+}
+
+.hc-badge--prioridade-4 {
+  background: rgba(239, 93, 168, 0.15);
+  color: var(--color-danger);
+}

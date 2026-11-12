@@ -55,6 +55,36 @@ const icons = {
       />
     </svg>
   ),
+  motoboy: (
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        fill="#000000"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M4,4 L4,3 C4,1.89543 4.89543,1 6,1 L10,1 C11.1046,1 12,1.895431 12,3 L12,4 L14,4 C15.1046,4 16,4.89543 16,6 L16,13 C16,14.1046 15.1046,15 14,15 L2,15 C0.895431,15 0,14.1046 0,13 L0,6 C0,4.89543 0.895431,4 2,4 L4,4 Z M6,3 L10,3 L10,4 L6,4 L6,3 Z M2,6 L2,8 L14,8 L14,6 L2,6 Z M2,13 L2,10 L7,10 L7,1１ L9,１１ L9,１０ L１４,１０ L１４,１３ L２,１３ Z"
+      />
+    </svg>
+  ),
+  adm: (
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        fill="#000000"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M4,4 L4,3 C4,1.89543 4.89543,1 6,1 L10,1 C11.1046,1 12,1.895431 12,3 L12,4 L14,4 C15.1046,4 16,4.89543 16,6 L16,13 C16,14.1046 15.1046,15 14,15 L2,15 C0.895431,15 0,14.1046 0,13 L0,6 C0,4.89543 0.895431,4 2,4 L4,4 Z M6,3 L10,3 L10,4 L6,4 L6,3 Z M2,6 L2,8 L14,8 L14,6 L2,6 Z M2,13 L2,10 L7,10 L7,１ L9,１１ L9,１０ L１４,１０ L１４,１３ L２,１３ Z"
+      />
+    </svg>
+  ),
+  ti: (
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        fill="#000000"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M4,4 L4,3 C4,1.89543 4.89543,1 6,1 L10,1 C11.1046,1 12,1.895431 12,3 L12,4 L14,4 C15.1046,4 16,4.89543 16,6 L16,13 C16,14.1046 15.1046,15 14,15 L2,15 C0.895431,15 0,14.1046 0,13 L0,6 C0,4.89543 0.895431,4 2,4 L4,4 Z M6,3 L10,3 L10,4 L6,4 L6,3 Z M2,6 L2,8 L14,8 L14,6 L2,6 Z M2,₁₃ L2,₁₀ L7,₁₀ L7,₁１ L9,₁１ L9,₁₀ L₁₄,₁₀ L₁₄,₁₃ L₂,₁₃ Z"
+      />
+    </svg>
+  )
 };
 
 const menuItems = [
@@ -65,14 +95,6 @@ const menuItems = [
     icon: icons.chamado,
     color: "primary",
     route: "/abrirChamado",
-  },
-  {
-    id: "ordemservico",
-    title: "Abrir Ordem de Serviço",
-    description: "Crie uma nova ordem de serviço para execução",
-    icon: icons.ordemServico,
-    color: "secondary",
-    route: "/AbrirOrdemServico",
   },
   {
     id: "historicochamados",
@@ -107,21 +129,15 @@ const menuItems = [
     route: "/uber",
   },
   {
-    id: "portaria",
-    title: "Portaria",
-    description: "Registros uso Portaria",
-    icon: icons.portaria,
-    color: "primary",
-    route: "/portaria",
-  },
-  {
     id: "formularios",
     title: "Formulários",
     description: "Acesse os formulários disponíveis para preenchimento",
     icon: icons.servicos,
     color: "primary",
     route: "/formularios",
-  }
+  },
+
+
 ];
 
 export default function MenuMain() {

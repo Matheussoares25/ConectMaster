@@ -12,7 +12,8 @@ import AbrirServico from "./pages/AbrirServico/AbrirServico";
 import HistoricoChamados from "./pages/HistoricoChamados/HistoricoChamados";
 import Api from "./Services/EndPoint";
 import Estoque from "./pages/Estoques/Estoque";
-import HistoricoServicos from "./pages/HistoricoServico/HistoricoServico";
+import HistoricoServiços from "./pages/HistoricoServiços/HistoricoServiços";
+
 
 function AppContent() {
   const location = useLocation();
@@ -89,7 +90,7 @@ function AppContent() {
         path="/HistoricoOrdemServico"
         element={
           <PrivateRoute>
-            <HistoricoServicos />
+            <HistoricoServiços />
           </PrivateRoute>
         }
       />

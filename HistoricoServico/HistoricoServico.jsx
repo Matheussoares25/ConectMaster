@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import Swal from "sweetalert2";
-import APi from "../../Services/EndPoint";
+import APi from "../src/Services/EndPoint";
 import { useNavigate } from "react-router-dom";
 import "./css/historicoOS.css";
 

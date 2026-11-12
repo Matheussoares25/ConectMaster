@@ -81,7 +81,7 @@ class Api {
             if(error.message === 'Failed to fetch') {
                 throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão com a internet ou tente novamente mais tarde.');
             }
-            throw new Error('Erro ao conectar com o servidor: ');
+            throw new Error(error.message);
         }
     }
 
