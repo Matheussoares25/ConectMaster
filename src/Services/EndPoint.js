@@ -23,7 +23,6 @@ class Api {
       url += `/${id}`;
     }
 
-    console.log(import.meta.env.VITE_API_URL);
 
     try {
       window.dispatchEvent(new Event("loading:start"));
@@ -42,9 +41,6 @@ class Api {
       }
 
       if (response.status === 401) {
-        localStorage.clear();
-        sessionStorage.clear();
-        window.dispatchEvent(new Event("auth:expired"));
 
         swal.fire({
           icon: "error",
@@ -52,7 +48,10 @@ class Api {
           text: "Sua sessão expirou. Faça login novamente.",
           timeout: 5000,
         });
+        localStorage.clear();
+        sessionStorage.clear();
 
+        window.dispatchEvent(new Event("auth:expired"));
         const err = new Error("Sessão expirada. Faça login novamente.");
         err.status = 401;
         throw err;

@@ -96,6 +96,35 @@ export default function HistoricoChamados() {
     }
   };
 
+  const ApagarChamado = async (id) => {
+    Swal.fire({
+      icon: "question",
+      title: "Apagar Chamado",
+      text: "Tem certeza que deseja apagar este chamado?",
+      showCancelButton: true,
+      confirmButtonText: "Sim, apagar",
+      cancelButtonText: "Cancelar",
+      background: "#141826",
+      color: "#fff",
+      confirmButtonColor: "#ef5da8",
+      cancelButtonColor: "#2a2f45",
+    }).then(async (result) => {
+      if (!result.isConfirmed) {
+        return;
+      }
+
+      await Api.CallEndpoint(`Chamados/${id}`, "DELETE");
+      await carregarChamados();
+      Swal.fire({
+        icon: "success",
+        title: "Chamado apagado com sucesso!",
+        background: "#141826",
+        color: "#fff",
+        confirmButtonColor: "#2f6fed",
+      });
+    });
+  };
+
   const statusDisponiveis = [
     ...new Set(chamados.map((c) => c.status).filter(Boolean)),
   ];

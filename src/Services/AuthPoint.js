@@ -78,11 +78,13 @@ class Api {
 
             return await response.json();
         } catch (error) {
-            throw new Error(' ocorreu um erro interno. Erro ao conectar ao servidor.');
+            if(error.message === 'Failed to fetch') {
+                throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão com a internet ou tente novamente mais tarde.');
+            }
+            throw new Error('Erro ao conectar com o servidor: ');
         }
     }
 
 }
-
 
 export default Api;

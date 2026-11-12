@@ -37,20 +37,9 @@ export default function Login() {
         senha,
       });
 
-      const lembrarDeMim = document.getElementById("lembrarDeMim").checked;
-      console.log("lembrarDeMim:", lembrarDeMim);
-
-      const storage = lembrarDeMim ? localStorage : sessionStorage;
-
-      if (lembrarDeMim) {
-        localStorage.setItem("lembrarDeMim", "true");
-      } else {
-        localStorage.removeItem("lembrarDeMim");
-      } 
-
-      localStorage.setItem("views",  JSON.stringify(resposta.user.views));
-      storage.setItem("token", resposta.token); 
-      storage.setItem("user", JSON.stringify(resposta.user));
+      localStorage.setItem("views", JSON.stringify(resposta.user.views));
+      sessionStorage.setItem("token", resposta.token);
+      sessionStorage.setItem("user", JSON.stringify(resposta.user));
 
       Swal.fire({
         icon: "success",
@@ -75,22 +64,20 @@ export default function Login() {
     }
   };
 
-        useEffect(() => {
-        const lembrarDeMim = localStorage.getItem("lembrarDeMim");
-        if (lembrarDeMim) {
-          document.getElementById("lembrarDeMim").checked = true;
-          const email = JSON.parse(localStorage.getItem("user")).email;
-          setEmail(email);
-        }
-      }, []);
+  useEffect(() => {
+    const lembrarDeMim = localStorage.getItem("lembrarDeMim");
+    if (lembrarDeMim) {
+      document.getElementById("lembrarDeMim").checked = true;
+      const email = JSON.parse(localStorage.getItem("user")).email;
+      setEmail(email);
+    }
+  }, []);
 
   return (
- <div className="auth-page-simples">
+    <div className="auth-page-simples">
       <div className="auth-card-simples">
         <div className="auth-logo-simples">
-          <div className="auth-logo-mark-simples">
-            Web
-          </div>
+          <div className="auth-logo-mark-simples">Web</div>
         </div>
 
         <h2 className="auth-form-title">Acessar conta</h2>
@@ -128,7 +115,7 @@ export default function Login() {
             <div className="password-wrapper">
               <input
                 className="auth-input"
-                type={mostrarSenha ? 'text' : 'password'}
+                type={mostrarSenha ? "text" : "password"}
                 placeholder="••••••••"
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
@@ -139,15 +126,10 @@ export default function Login() {
                 className="toggle-password"
                 onClick={() => setMostrarSenha(!mostrarSenha)}
               >
-                {mostrarSenha ? 'Ocultar' : 'Mostrar'}
+                {mostrarSenha ? "Ocultar" : "Mostrar"}
               </button>
             </div>
           </div>
-
-          <label className="checkbox-wrapper">
-            <input type="checkbox" id="lembrarDeMim" />
-            <span>Manter-me conectado por 30 dias</span>
-          </label>
 
           <button type="submit" className="auth-button">
             Entrar
@@ -155,7 +137,7 @@ export default function Login() {
         </form>
 
         <p className="signup-text">
-          Não tem uma conta?{' '}
+          Não tem uma conta?{" "}
           <a
             href="#"
             className="signup-link"
