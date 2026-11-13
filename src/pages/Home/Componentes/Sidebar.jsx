@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import MenuMain from "./MenuMain";
 import CotacaoMoeda from "./BuscaMoedas";
 import EstoquesMain from "./EstoquesMain";
-import Ti from "../../TI/Acessos";
+import Ti from "../../Componentes_TI/Acessos_TI";
+import Adm from "../../Componentes_Adm/Acessos_adm";
+import Config from "./Config";
+import Compras from "../../Componentes_Compras/Acessos_Compras";
 
 const sidebarItems = [
   {
     id: "inicio",
     title: "Início",
+    roles: "all",
     icon: "🏠",
     content: <MenuMain />,
   },
@@ -18,51 +22,102 @@ const sidebarItems = [
     content: <div>Em breve</div>,
   },
   {
-    id: "BuscarMoedas",
+    id: "buscarMoedas",
+    roles: "all",
     title: "Buscar valor Moedas",
     icon: "🪙",
-    content: <div><CotacaoMoeda /></div>,
+    content: (
+      <div>
+        <CotacaoMoeda />
+      </div>
+    ),
   },
   {
-    id: "Estoques",
+    id: "estoque",
     title: "Estoques",
     icon: "📦",
-    content: <div><EstoquesMain /></div>,
+    content: (
+      <div>
+        <EstoquesMain />
+      </div>
+    ),
   },
   {
     id: "ti",
     title: "TI",
     icon: "💻",
-    content: <div><Ti /></div>,
+    content: (
+      <div>
+        <Ti />
+      </div>
+    ),
   },
   {
-    id: "financeiro",
+    id: "adm",
     title: "ADM",
     icon: "💰",
-    content: <div>Financeiro</div>,
+    content: (
+      <div>
+        <Adm />
+      </div>
+    ),
   },
   {
     id: "configuracoes",
     title: "Configurações",
     icon: "⚙️",
-    content: <div>Configurações</div>,
-  }
-
+    content: <Config />,
+  },
+  {
+    id: "compras",
+    title: "Compras",
+    icon: "🛒",
+    content: <Compras />,
+  },
 ];
+const ultimaView = "ultimasViews";
 
 export default function Sidebar({ onLogout }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeId, setActiveId] = useState(sidebarItems[0].id);
+  const [activeId, setActiveId] = useState(() => {
+    const salvo = localStorage.getItem(ultimaView);
+    const valido = sidebarItems.some((item) => item.id === salvo);
+    return valido ? salvo : sidebarItems[0].id;
+  });
   const [user, setUser] = useState({});
+  const [visibleItems, setVisibleItems] = useState([]);
 
   useEffect(() => {
     const storedUser =
       JSON.parse(localStorage.getItem("user")) ||
       JSON.parse(sessionStorage.getItem("user"));
-    setUser(storedUser || {});  
+    setUser(storedUser || {});
   }, []);
 
-  const activeItem = sidebarItems.find((item) => item.id === activeId);
+  useEffect(() => {
+    localStorage.setItem(ultimaView, activeId);
+  }, [activeId]);
+
+  const handclick = (id) => {
+    setActiveId(id);
+  };
+
+  const views = JSON.parse(localStorage.getItem("views")) || [];
+  const viewsLimpa = views.map((v) => v.replace("visual.", ""));
+
+  const itens = sidebarItems.filter((item) => {
+    if (item.roles === "all") return true;
+
+    const permitidoPorView = viewsLimpa.includes(item.id);
+
+    const permitidoPorRole =
+      !item.roles || item.roles.includes(storedUser?.perfil);
+
+    return permitidoPorView && permitidoPorRole;
+  });
+
+  const activeItem =
+    sidebarItems.find((item) => item.id === activeId) || sidebarItems[0];
 
   return (
     <div className="d-flex" style={{ minHeight: "100vh" }}>
@@ -76,13 +131,13 @@ export default function Sidebar({ onLogout }) {
         </div>
 
         <nav className="home-sidebar-nav">
-          {sidebarItems.map((item) => (
+          {itens.map((item) => (
             <button
               key={item.id}
               className={`home-sidebar-link ${
                 activeId === item.id ? "home-sidebar-link--active" : ""
               }`}
-              onClick={() => setActiveId(item.id)}
+              onClick={() => handclick(item.id)}
             >
               <span className="home-sidebar-icon">{item.icon}</span>
               <span className="home-sidebar-label">{item.title}</span>
@@ -114,7 +169,7 @@ export default function Sidebar({ onLogout }) {
           </div>
         </header>
 
-        {activeItem ? (
+        {activeItem || ultimasViews.length > 0 ? (
           activeItem.content
         ) : (
           <p className="text-muted">Nenhum item disponível.</p>

@@ -1,0 +1,149 @@
+/*@import url("../../../Themes/ThemePrincipal.css");*/
+
+/* Prefixo "ti-" para não conflitar com o CSS de layout (home-*) */
+
+/* ===== BOAS-VINDAS ===== */
+
+.ti-welcome {
+  margin-bottom: 36px;
+}
+
+.ti-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 6px 0;
+}
+
+.ti-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ===== GRID DE CARDS ===== */
+
+.ti-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 15px;
+  max-width: 950px;
+  margin: 0 auto;
+  padding-top: 80px;
+}
+
+/* ===== CARD (é um <button>, então reseta o estilo padrão) ===== */
+
+.ti-card {
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  font: inherit;
+  color: inherit;
+
+  position: relative;
+  text-align: left;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  cursor: pointer;
+  transition: var(--transition-card);
+  overflow: hidden;
+}
+
+.ti-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-soft);
+  background: var(--bg-card-hover);
+}
+
+.ti-card:focus-visible {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(70, 171, 229, 0.35);
+}
+
+/* ===== ÍCONE ===== */
+
+.ti-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.ti-card-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.ti-card-icon--primary {
+  background: rgba(70, 171, 229, 0.15);
+  color: var(--color-primary);
+}
+
+.ti-card-icon--secondary {
+  background: rgba(47, 111, 237, 0.15);
+  color: var(--color-secondary);
+}
+
+.ti-card-icon--success {
+  background: rgba(34, 197, 139, 0.15);
+  color: var(--color-success);
+}
+
+.ti-card-icon--warning {
+  background: rgba(245, 166, 35, 0.15);
+  color: var(--color-warning);
+}
+
+.ti-card-icon--danger {
+  background: rgba(239, 93, 168, 0.15);
+  color: var(--color-danger);
+}
+
+/* ===== TEXTO DO CARD ===== */
+
+.ti-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 6px 0;
+}
+
+.ti-card-description {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+  padding-right: 20px;
+}
+
+.ti-card-arrow {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 16px;
+  color: var(--text-disabled);
+  transition: var(--transition-fast);
+}
+
+.ti-card:hover .ti-card-arrow {
+  color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+/* ===== RESPONSIVO ===== */
+
+@media (max-width: 600px) {
+  .ti-grid {
+    padding-top: 24px;
+  }
+
+  .ti-card {
+    padding: 20px;
+  }
+}

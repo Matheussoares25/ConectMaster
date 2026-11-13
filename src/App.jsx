@@ -5,14 +5,14 @@ import Swal from "sweetalert2";
 import { useEffect } from "react";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
-import PainelControle from "./pages/PainelControle/PainelControle";
+import PainelControle from "./pages/Componentes_Adm/Componentes/PainelControle/PainelControle";
 import PrivateRoute from "./Services/PrivateRoute";
-import AbrirChamado from "./pages/AbrirChamado/AberturaDeChamado";
-import AbrirServico from "./pages/AbrirServico/AbrirServico";
-import HistoricoChamados from "./pages/HistoricoChamados/HistoricoChamados";
+import AbrirChamado from "./pages/Componentes_TI/componentes/AbrirChamado/AberturaDeChamado";
+import AbrirServico from "./pages/Componentes_Adm/Componentes/AbrirServico/AbrirServico";
+import HistoricoChamados from "./pages/Componentes_TI/componentes/HistoricoChamados/HistoricoChamados";
 import Api from "./Services/EndPoint";
 import Estoque from "./pages/Estoques/Estoque";
-import HistoricoServiços from "./pages/HistoricoServiços/HistoricoServiços";
+import HistoricoServiços from "./pages/Componentes_Adm/Componentes/HistoricoServiços/HistoricoServiços";
 
 
 function AppContent() {

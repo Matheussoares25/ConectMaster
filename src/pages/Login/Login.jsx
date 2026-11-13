@@ -13,7 +13,6 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
-  const [lembrarlogin, setlembrarlogin] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -95,7 +94,7 @@ export default function Login() {
               placeholder="nome@empresa.com"
               autoCapitalize="none"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value.toLowerCase())}
             />
           </div>
 

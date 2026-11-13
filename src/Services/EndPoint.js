@@ -46,8 +46,8 @@ class Api {
           icon: "error",
           title: "Sessão expirada",
           text: "Sua sessão expirou. Faça login novamente.",
-          timeout: 5000,
         });
+        window.dispatchEvent(new Event("auth:expired"));
         localStorage.clear();
         sessionStorage.clear();
 
