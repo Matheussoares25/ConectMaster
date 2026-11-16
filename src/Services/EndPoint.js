@@ -48,11 +48,13 @@ class Api {
           text: "Sua sessão expirou. Faça login novamente.",
         });
         window.dispatchEvent(new Event("auth:expired"));
+
         localStorage.clear();
         sessionStorage.clear();
 
         window.dispatchEvent(new Event("auth:expired"));
         const err = new Error("Sessão expirada. Faça login novamente.");
+        location.reload();
         err.status = 401;
         throw err;
       }

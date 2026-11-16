@@ -9,7 +9,7 @@ export default function FormularioChamado() {
   const [categoria, setCategoria] = useState("");
   const [prioridade, setPrioridade] = useState(1);
   const [descricao, setDescricao] = useState("");
-  const [setor, setSetor] = useState(JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user"))?.setor || "");
+  const [setor, setSetor] = useState(JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user"))?.departamentoNome || "");
   const [email, setEmail] = useState(
     JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user"))
       ?.email || "",
@@ -93,7 +93,9 @@ export default function FormularioChamado() {
                   type="text"
                   value={setor}
                   onChange={(e) => setSetor(e.target.value)}
+                
                 />
+
               </div>
             </div>
 

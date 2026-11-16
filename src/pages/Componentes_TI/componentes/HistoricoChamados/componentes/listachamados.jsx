@@ -25,6 +25,7 @@ export default function HistoricoChamados() {
   const [filtroPrioridade, setFiltroPrioridade] = useState("");
   const [filtroTexto, setFiltroTexto] = useState("");
   const [chamadoEditando, setChamadoEditando] = useState(null);
+  const [graficoAberto, setGraficoAberto] = useState(null);
 
   useEffect(() => {
     carregarChamados();
@@ -49,8 +50,8 @@ export default function HistoricoChamados() {
       }
 
       console.log(chamadoEditando, status);
-      if(status === "Concluído") {
-        await Api.CallEndpoint(`Chamados/${id}/fechar`, "PUT", {status});
+      if (status === "Concluído") {
+        await Api.CallEndpoint(`Chamados/${id}/fechar`, "PUT", { status });
         await carregarChamados();
         Swal.fire({
           icon: "success",
@@ -168,12 +169,7 @@ export default function HistoricoChamados() {
     },
   ];
 
-  const optionstatus = [
-    "Aberto",
-    "Em andamento",
-    "Concluído",
-    "Cancelado",
-  ]
+  const optionstatus = ["Aberto", "Em andamento", "Concluído", "Cancelado"];
 
   const classeStatus = (status) => {
     switch (status?.toLowerCase()) {
@@ -260,27 +256,35 @@ export default function HistoricoChamados() {
 
       {/* ===== GRÁFICO POR PRIORIDADE ===== */}
       <div className="hc-card p-4 mb-4">
-        <h3 className="h6 fw-semibold mb-3 hc-text-primary">
-          Chamados por prioridade
-        </h3>
+        <div
+          className="d-flex justify-content-between align-items-center"
+          style={{ cursor: "pointer" }}
+          onClick={() => setGraficoAberto(!graficoAberto)}
+        >
+          <h3 className="h6 fw-semibold mb-0 hc-text-primary">
+            Grafico chamados
+          </h3>
 
-        <div className="hc-card p-3">
-          <h5 className="hc-text-primary">Chamados por status</h5>
-
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={dadosStatus}>
-              <CartesianGrid strokeDasharray="3 3" />
-
-              <XAxis dataKey="nome" />
-
-              <YAxis />
-
-              <Tooltip />
-
-              <Bar dataKey="total" fill="#46abe5" radius={[2, 2, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+          <span className="chamado-button">{graficoAberto ? "Recolher Grafico" : "Expandir Grafico"}</span>
         </div>
+
+        {graficoAberto && (
+          <div className="mt-3">
+            <div className="hc-card p-3">
+              <h5 className="hc-text-primary">Chamados por status</h5>
+
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart data={dadosStatus}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="nome" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="total" fill="#46abe5" radius={[2, 2, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ===== LISTA DE CHAMADOS ===== */}
@@ -361,12 +365,11 @@ export default function HistoricoChamados() {
                       <td>{chamado.id}</td>
                       <td>{chamado.titulo}</td>
                       <td>{chamado.usuario.nome}</td>
-                      <td>{chamado.usuario.setor}</td>
+                      <td>{chamado.usuario.departamentoNome}</td>
                       <td>{chamado.categoria}</td>
-                      
-                    
+
                       <td>
-                        <span className={classePrioridade(chamado.prioridade)} >
+                        <span className={classePrioridade(chamado.prioridade)}>
                           {prioridadeLabel[chamado.prioridade] || "N/A"}
                         </span>
                       </td>
@@ -400,7 +403,11 @@ export default function HistoricoChamados() {
                       ) : (
                         <React.Fragment>
                           <td>
-                            <span className={classeStatus(chamado.status)} onClick={() => setChamadoEditando(chamado)} style={{ cursor: 'pointer' }}>
+                            <span
+                              className={classeStatus(chamado.status)}
+                              onClick={() => setChamadoEditando(chamado)}
+                              style={{ cursor: "pointer" }}
+                            >
                               {chamado.status}
                             </span>
                           </td>
@@ -412,7 +419,7 @@ export default function HistoricoChamados() {
                             >
                               ✎
                             </button>
-                            <button 
+                            <button
                               className="btn btn-sm hc-btn-icon"
                               title="Apagar chamado"
                               onClick={() => ApagarChamado(chamado.id)}

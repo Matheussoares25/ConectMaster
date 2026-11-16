@@ -23,6 +23,7 @@ export default function HistoricoServicos() {
   const [filtroPrioridade, setFiltroPrioridade] = useState("");
   const [filtroTexto, setFiltroTexto] = useState("");
   const [servicoEditando, setServicoEditando] = useState(null);
+  const [graficoAberto, setGraficoAberto] = useState(null);
 
   useEffect(() => {
     carregarServicos();
@@ -126,23 +127,26 @@ export default function HistoricoServicos() {
   };
 
   const DetalhesServico = async (id) => {
-  const response = await Api.CallEndpoint(`Servicos/${id}`, "GET");
-  const s = response; // se a API devolver { data: {...} }, use response.data
+    const response = await Api.CallEndpoint(`Servicos/${id}`, "GET");
+    const s = response; // se a API devolver { data: {...} }, use response.data
 
-  const esc = (x) =>
-    String(x)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-  const v = (x) => (x === null || x === undefined || x === "" ? "—" : esc(x));
-  const d = (x) => (x ? new Date(x).toLocaleString("pt-BR") : "—");
-  const m = (x) =>
-    x == null
-      ? "—"
-      : Number(x).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-  const linha = (label, valor) =>
-    `<p style="margin:4px 0"><b>${label}:</b> ${valor}</p>`;
+    const esc = (x) =>
+      String(x)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    const v = (x) => (x === null || x === undefined || x === "" ? "—" : esc(x));
+    const d = (x) => (x ? new Date(x).toLocaleString("pt-BR") : "—");
+    const m = (x) =>
+      x == null
+        ? "—"
+        : Number(x).toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          });
+    const linha = (label, valor) =>
+      `<p style="margin:4px 0"><b>${label}:</b> ${valor}</p>`;
 
     Swal.fire({
       icon: "info",
@@ -327,27 +331,35 @@ export default function HistoricoServicos() {
 
       {/* ===== GRÁFICO POR PRIORIDADE ===== */}
       <div className="hc-card p-4 mb-4">
-        <h3 className="h6 fw-semibold mb-3 hc-text-primary">
-          Chamados por prioridade
-        </h3>
+        <div
+          className="d-flex justify-content-between align-items-center"
+          style={{ cursor: "pointer" }}
+          onClick={() => setGraficoAberto(!graficoAberto)}
+        >
+          <h3 className="h6 fw-semibold mb-0 hc-text-primary">
+            Chamados por prioridade
+          </h3>
 
-        <div className="hc-card p-3">
-          <h5 className="hc-text-primary">Chamados por status</h5>
-
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={dadosStatus}>
-              <CartesianGrid strokeDasharray="3 3" />
-
-              <XAxis dataKey="nome" />
-
-              <YAxis />
-
-              <Tooltip />
-
-              <Bar dataKey="total" fill="#59e546" radius={[2, 2, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+          <span className="chamado-button">{graficoAberto ? "Recolher grafico" : "Expandir Grafico"}</span>
         </div>
+
+        {graficoAberto && (
+          <div className="mt-3">
+            <div className="hc-card p-3">
+              <h5 className="hc-text-primary">Chamados por status</h5>
+
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart data={dadosStatus}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="nome" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="total" fill="#59e546" radius={[2, 2, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ===== LISTA DE SERVIÇOS ===== */}

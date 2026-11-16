@@ -1,43 +1,59 @@
 // src/pages/PainelControle/sections/GerenciarUsuarios.jsx
 import React, { useEffect, useState } from "react";
-import Api from '../../../../../Services/EndPoint';
+import Api from "../../../../../Services/EndPoint";
 import Swal from "sweetalert2";
 import "../css/GerenciarUsuario.css";
+
+const swalBase = {
+  background: "#141826",
+  color: "#fff",
+  confirmButtonColor: "#2f6fed",
+  cancelButtonColor: "#2a2f45",
+};
+
+const escapeHtml = (texto = "") =>
+  String(texto)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+
+const formInicial = {
+  nome: "",
+  email: "",
+  senha: "",
+  ramal: "",
+  telefone: "",
+  departamentoId: "",
+  perfilId: "",
+};
 
 export default function GerenciarUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
   const [perfis, setPerfis] = useState([]);
+  const [departamentos, setDepartamentos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [salvando, setSalvando] = useState(false);
   const [filtroTexto, setFiltroTexto] = useState("");
   const [filtroPerfil, setFiltroPerfil] = useState("");
   const [usuarioAberto, setUsuarioAberto] = useState(null);
+  const [form, setForm] = useState(formInicial);
 
-  const toggleViews = (id) => {
-    setUsuarioAberto(usuarioAberto === id ? null : id);
-  };
-  const [form, setForm] = useState({
-    nome: "",
-    email: "",
-    senha: "",
-    ramal: "",
-    telefone: "",
-    setor: "",
-    perfilId: "",
-  });
-  // ===== CARREGA USUÁRIOS E PERFIS =====
   useEffect(() => {
     carregarDados();
   }, []);
+
+  // ===== CARREGAR =====
   const carregarDados = async () => {
     setCarregando(true);
-
     try {
-      const [dataPerfis, dataUsuarios, dataViews] = await Promise.all([
-        Api.CallEndpoint("perfis", "GET"),
-        Api.CallEndpoint("usuarios", "GET"),
-        Api.CallEndpoint("UsuarioView", "GET"),
-      ]);
+      const [dataPerfis, dataUsuarios, dataViews, dataDepartamentos] =
+        await Promise.all([
+          Api.CallEndpoint("perfis", "GET"),
+          Api.CallEndpoint("usuarios", "GET"),
+          Api.CallEndpoint("UsuarioView", "GET"),
+          Api.CallEndpoint("departamentos", "GET"),
+        ]);
 
       const listaUsuarios = Array.isArray(dataUsuarios)
         ? dataUsuarios
@@ -45,11 +61,10 @@ export default function GerenciarUsuarios() {
 
       const listaViews = Array.isArray(dataViews) ? dataViews : [];
 
-
+      // agrupa as views de cada usuário
       const viewsPorUsuario = listaViews.reduce((acc, uv) => {
-        if (!acc[uv.usuarioId]) acc[uv.usuarioId] = [];
-        acc[uv.usuarioId].push({
-          id: uv.id, 
+        (acc[uv.usuarioId] ||= []).push({
+          id: uv.id,
           viewId: uv.viewId,
           name: uv.viewNome,
         });
@@ -62,144 +77,96 @@ export default function GerenciarUsuarios() {
           views: viewsPorUsuario[u.id] || [],
         })),
       );
-
       setPerfis(dataPerfis?.perfis || dataPerfis || []);
+      setDepartamentos(
+        dataDepartamentos?.departamentos || dataDepartamentos || [],
+      );
     } catch (error) {
       Swal.fire({
+        ...swalBase,
         icon: "error",
         title: "Erro",
-        text: error.message + " " + "Visualizar usuarios",
-        background: "#141826",
-        color: "#fff",
-        confirmButtonColor: "#2f6fed",
+        text: error.message || "Não foi possível carregar os dados.",
       });
     } finally {
       setCarregando(false);
     }
   };
+
   // ===== FORM DE NOVO USUÁRIO =====
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const limparForm = () => {
-    setForm({
-      nome: "",
-      email: "",
-      senha: "",
-      ramal: "",
-      telefone: "",
-      setor: "",
-      perfilId: "",
-    });
-  };
-  // ========= CADASTRAR NOVO USUÁRIO ========
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.nome || !form.email || !form.senha || !form.perfilId) {
       Swal.fire({
+        ...swalBase,
         icon: "warning",
         title: "Campos obrigatórios",
         text: "Preencha nome, e-mail, senha e perfil antes de continuar.",
-        background: "#141826",
-        color: "#fff",
-        confirmButtonColor: "#2f6fed",
       });
       return;
     }
 
     setSalvando(true);
     try {
-      await Api.CallEndpoint("usuarios", "POST", form);
+      await Api.CallEndpoint("usuarios", "POST", {
+        ...form,
+        perfilId: Number(form.perfilId),
+        departamentoId: form.departamentoId
+          ? Number(form.departamentoId)
+          : null,
+      });
 
       Swal.fire({
+        ...swalBase,
         icon: "success",
         title: "Usuário cadastrado!",
-        background: "#141826",
-        color: "#fff",
-        confirmButtonColor: "#2f6fed",
         timer: 1800,
         showConfirmButton: false,
       });
 
-      limparForm();
+      setForm(formInicial);
       carregarDados();
     } catch (error) {
-      console.error(error);
       Swal.fire({
+        ...swalBase,
         icon: "error",
         title: "Erro",
-        text: "Não foi possível cadastrar o usuário.",
-        background: "#141826",
-        color: "#fff",
-        confirmButtonColor: "#2f6fed",
+        text: error.message || "Não foi possível cadastrar o usuário.",
       });
     } finally {
       setSalvando(false);
     }
   };
-  // ===== EXCLUIR USUÁRIO =====
-  const handleExcluir = async (usuario) => {
-    const confirmacao = await Swal.fire({
-      icon: "warning",
-      title: "Excluir usuário?",
-      text: `Tem certeza que deseja excluir "${usuario.nome}"? Essa ação não pode ser desfeita.`,
-      showCancelButton: true,
-      confirmButtonText: "Sim, excluir",
-      cancelButtonText: "Cancelar",
-      background: "#141826",
-      color: "#fff",
-      confirmButtonColor: "#ef5da8",
-      cancelButtonColor: "#2a2f45",
-    });
 
-    if (!confirmacao.isConfirmed) return;
-
-    try {
-      await Api.CallEndpoint(`usuarios/${usuario.id}`, "DELETE");
-
-      Swal.fire({
-        icon: "success",
-        title: "Usuário excluído!",
-        background: "#141826",
-        color: "#fff",
-        confirmButtonColor: "#2f6fed",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-
-      setUsuarios((prev) => prev.filter((u) => u?.id !== usuario.id));
-    } catch (error) {
-      console.error(error);
-      Swal.fire({
-        icon: "error",
-        title: "Erro",
-        text: "Não foi possível excluir o usuário.",
-        background: "#141826",
-        color: "#fff",
-        confirmButtonColor: "#2f6fed",
-      });
-    }
-  };
-  // ===== EDITAR USUÁRIO (SWAL COM FORMULÁRIO) =====
+  // ===== EDITAR USUÁRIO =====
   const handleEditar = async (usuario) => {
     const opcoesPerfis = perfis
       .map(
         (p) =>
           `<option value="${p.id}" ${
-            p.id === usuario.views.map((v) => v.viewId).includes(p.id) ? "selected" : ""
-          }>${p.name}</option>`,
+            p.id === usuario.perfilId ? "selected" : ""
+          }>${escapeHtml(p.name)}</option>`,
+      )
+      .join("");
+
+    const opcoesDepartamentos = departamentos
+      .map(
+        (d) =>
+          `<option value="${d.id}" ${
+            d.id === usuario.departamentoId ? "selected" : ""
+          }>${escapeHtml(d.nome)}</option>`,
       )
       .join("");
 
     const { value: formValues } = await Swal.fire({
+      ...swalBase,
       title: "Editar usuário",
-      background: "#141826",
-      color: "#fff",
-      confirmButtonColor: "#2f6fed",
-      cancelButtonColor: "#2a2f45",
       showCancelButton: true,
       confirmButtonText: "Salvar alterações",
       cancelButtonText: "Cancelar",
@@ -207,34 +174,30 @@ export default function GerenciarUsuarios() {
       html: `
         <div class="swal-form">
           <label class="swal-label">Nome</label>
-          <input id="swal-nome" class="swal2-input swal-input" value="${
-            usuario.nome || ""
-          }" placeholder="Nome completo">
+          <input id="swal-nome" class="swal2-input swal-input"
+            value="${escapeHtml(usuario.nome)}" placeholder="Nome completo">
 
           <label class="swal-label">E-mail</label>
-          <input id="swal-email" class="swal2-input swal-input" value="${
-            usuario.email || ""
-          }" placeholder="E-mail">
+          <input id="swal-email" class="swal2-input swal-input"
+            value="${escapeHtml(usuario.email)}" placeholder="E-mail">
 
           <label class="swal-label">Nova senha (deixe em branco para manter)</label>
-          <input id="swal-senha" type="password" class="swal2-input swal-input" value="${
-            usuario.senha || ""
-          }" placeholder="Nova senha">
+          <input id="swal-senha" type="password" class="swal2-input swal-input"
+            placeholder="Nova senha">
 
           <label class="swal-label">Ramal</label>
-          <input id="swal-ramal" class="swal2-input swal-input" value="${
-            usuario.ramal || ""
-          }" placeholder="Ramal">
+          <input id="swal-ramal" class="swal2-input swal-input"
+            value="${escapeHtml(usuario.ramal)}" placeholder="Ramal">
 
           <label class="swal-label">Telefone</label>
-          <input id="swal-telefone" class="swal2-input swal-input" value="${
-            usuario.telefone || ""
-          }" placeholder="Telefone">
+          <input id="swal-telefone" class="swal2-input swal-input"
+            value="${escapeHtml(usuario.telefone)}" placeholder="Telefone">
 
-          <label class="swal-label">Setor</label>
-          <input id="swal-setor" class="swal2-input swal-input" value="${
-            usuario.setor || ""
-          }" placeholder="Setor">
+          <label class="swal-label">Departamento</label>
+          <select id="swal-departamento" class="form-select">
+            <option value="">Nenhum</option>
+            ${opcoesDepartamentos}
+          </select>
 
           <label class="swal-label">Permissão</label>
           <select id="swal-perfil" class="form-select">
@@ -248,7 +211,8 @@ export default function GerenciarUsuarios() {
         const senha = document.getElementById("swal-senha").value;
         const ramal = document.getElementById("swal-ramal").value.trim();
         const telefone = document.getElementById("swal-telefone").value.trim();
-        const setor = document.getElementById("swal-setor").value.trim();
+        const departamentoId =
+          document.getElementById("swal-departamento").value;
         const perfilId = document.getElementById("swal-perfil").value;
 
         if (!nome || !email || !perfilId) {
@@ -258,141 +222,185 @@ export default function GerenciarUsuarios() {
           return false;
         }
 
-        return { nome, email, senha, ramal, telefone, setor, perfilId };
+        return {
+          nome,
+          email,
+          senha: senha || undefined, // undefined não vai no JSON
+          ramal: ramal || null,
+          telefone: telefone || null,
+          departamentoId: departamentoId ? Number(departamentoId) : null,
+          perfilId: Number(perfilId),
+        };
       },
     });
 
     if (!formValues) return;
 
     try {
-      const payload = { ...formValues };
-      if (!payload.senha) delete payload.senha;
-      await Api.CallEndpoint(`usuarios`, "PUT", payload, usuario.id);
+      await Api.CallEndpoint("usuarios", "PUT", formValues, usuario.id);
 
       Swal.fire({
+        ...swalBase,
         icon: "success",
         title: "Usuário atualizado!",
-        background: "#141826",
-        color: "#fff",
-        confirmButtonColor: "#2f6fed",
         timer: 1500,
         showConfirmButton: false,
       });
 
       carregarDados();
     } catch (error) {
-      console.error(error);
       Swal.fire({
+        ...swalBase,
         icon: "error",
         title: "Erro",
-        text: error.message,
-        background: "#141826",
-        color: "#fff",
-        confirmButtonColor: "#2f6fed",
+        text: error.message || "Não foi possível atualizar o usuário.",
       });
     }
   };
-  const nomePerfil = (perfilId) => {
-    const perfil = perfis.find((p) => p.id === perfilId);
-    return perfil?.nome || "—";
+
+  // ===== EXCLUIR USUÁRIO =====
+  const handleExcluir = async (usuario) => {
+    const confirmacao = await Swal.fire({
+      ...swalBase,
+      icon: "warning",
+      title: "Excluir usuário?",
+      text: `Tem certeza que deseja excluir "${usuario.nome}"? Essa ação não pode ser desfeita.`,
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#ef5da8",
+    });
+
+    if (!confirmacao.isConfirmed) return;
+
+    try {
+      await Api.CallEndpoint("usuarios", "DELETE", null, usuario.id);
+
+      Swal.fire({
+        ...swalBase,
+        icon: "success",
+        title: "Usuário excluído!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
+      setUsuarios((prev) => prev.filter((u) => u.id !== usuario.id));
+    } catch (error) {
+      Swal.fire({
+        ...swalBase,
+        icon: "error",
+        title: "Erro",
+        text: error.message || "Não foi possível excluir o usuário.",
+      });
+    }
   };
-  //Filtro//
+
+  // ===== VIEWS DO USUÁRIO =====
+  const toggleViews = (id) => {
+    setUsuarioAberto((atual) => (atual === id ? null : id));
+  };
+
+  const addPermissao = async () => {
+    const todasViews = await Api.CallEndpoint("views", "GET");
+    const usuario = usuarios.find((u) => u.id === usuarioAberto);
+    const jaVinculadas = (usuario?.views || []).map((v) => v.viewId);
+
+    const disponiveis = todasViews.filter((v) => !jaVinculadas.includes(v.id));
+
+    if (disponiveis.length === 0) {
+      Swal.fire({
+        ...swalBase,
+        icon: "info",
+        title: "Nenhuma página disponível.",
+      });
+      return;
+    }
+
+    const { value: viewId } = await Swal.fire({
+      ...swalBase,
+      icon: "question",
+      title: "Selecione uma página",
+      showCancelButton: true,
+      html: `
+        <select id="swal-view" class="form-select">
+          ${disponiveis
+            .map(
+              (v) => `<option value="${v.id}">${escapeHtml(v.name)}</option>`,
+            )
+            .join("")}
+        </select>
+      `,
+      preConfirm: () => document.getElementById("swal-view").value,
+    });
+
+    if (!viewId) return;
+
+    try {
+      await Api.CallEndpoint("usuarioview", "POST", {
+        usuarioId: usuarioAberto,
+        viewId: Number(viewId),
+      });
+
+      Swal.fire({
+        ...swalBase,
+        icon: "success",
+        title: "Página liberada!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
+      carregarDados();
+    } catch (error) {
+      Swal.fire({
+        ...swalBase,
+        icon: "error",
+        title: "Erro ao vincular página",
+        text: error.message,
+      });
+    }
+  };
+
+  const removeView = async (id) => {
+    Swal.fire({
+      icon: "warning",
+      title: "Excluir permissão?",
+      text: `Tem certeza que deseja desvincular essa permissão?.`,
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir",
+      cancelButtonText: "Cancelar",
+      background: "#141826",
+      color: "#fff",
+      confirmButtonColor: "#ef5da8",
+      cancelButtonColor: "#2a2f45",
+    }).then(async (result) => {
+      if (result.isConfirmed)
+        try {
+          await Api.CallEndpoint("usuarioview", "DELETE", null, id);
+          carregarDados();
+        } catch (error) {
+          Swal.fire({
+            ...swalBase,
+            icon: "error",
+            title: "Erro ao remover página",
+            text: error.message,
+          });
+        }
+    });
+  };
+
+  // ===== FILTRO =====
   const usuariosFiltrados = usuarios.filter((usuario) => {
+    const busca = filtroTexto.toLowerCase();
     const bateTexto =
       !filtroTexto ||
-      usuario.nome?.toLowerCase().includes(filtroTexto.toLowerCase()) ||
-      usuario.email?.toLowerCase().includes(filtroTexto.toLowerCase()) ||
-      usuario.setor?.toLowerCase().includes(filtroTexto.toLowerCase());
+      usuario.nome?.toLowerCase().includes(busca) ||
+      usuario.email?.toLowerCase().includes(busca) ||
+      usuario.departamentoNome?.toLowerCase().includes(busca);
 
     const batePerfil = !filtroPerfil || usuario.perfil?.name === filtroPerfil;
 
     return bateTexto && batePerfil;
   });
-  // ===== ADICIONAR PERMISSÃO AO USUARIO =========
-  const addpermissao = async () => {
-    const permissoes = await Api.CallEndpoint(`views`, "GET");
-
-    const usuario = usuariosFiltrados.find((u) => u.id === usuarioAberto);
-
-    const viewsAssociadas = usuario?.views || [];
-
-    const viewsNaoAssociadas = permissoes.filter(
-      (p) => !viewsAssociadas.some((v) => v.viewId === p.id),
-    );
-
-    Swal.fire({
-      icon: "question",
-      title: "Selecione uma permissão",
-      background: "#141826",
-      color: "#fff",
-      confirmButtonColor: "#2f6fed",
-      showCancelButton: true,
-      showConfirmButton: true,
-      html: `
-    <select class="form-select" id="permissao">
-      ${viewsNaoAssociadas
-        .map(
-          (p) => `
-            <option value="${p?.id}">
-              ${p?.name}
-            </option>
-          `,
-        )
-        .join("")}
-    </select>
-  `,
-      preConfirm: () => {
-        return document.getElementById("permissao").value;
-      },
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await Api.CallEndpoint("usuarioview", "POST", {
-            UsuarioId: usuarioAberto,
-            ViewId: Number(result.value),
-          });
-          Swal.fire({
-            icon: "success",
-            title: "Permissão vinculada!",
-            background: "#141826",
-            color: "#fff",
-            confirmButtonColor: "#2f6fed",
-            timer: 1500,
-            showConfirmButton: false,
-          });
-          carregarDados();
-        } catch (error) {
-          Swal.fire({
-            icon: "error",
-            title: "Erro ao vincular permissão",
-            background: "#141826",
-            color: "#fff",
-            confirmButtonColor: "#2f6fed",
-            text: error.message,
-          });
-        }
-      }
-    });
-  };
-  const removeView = async (id) => {
-    console.log(id, usuarioAberto);
-    try {
-      console.log(id, usuarioAberto);
-      if (usuarioAberto === null) return;
-      await Api.CallEndpoint("usuarioview", "DELETE", usuarioAberto, id);
-
-      carregarDados();
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Erro ao remover view",
-        background: "#141826",
-        color: "#fff",
-        confirmButtonColor: "#2f6fed",
-        text: error.message,
-      });
-    }
-  };
 
   return (
     <div className="gerenciar-usuarios">
@@ -401,7 +409,7 @@ export default function GerenciarUsuarios() {
         Cadastre, edite ou remova usuários do sistema.
       </p>
 
-      {/* ===== FORMULÁRIO DE NOVO USUÁRIO ===== */}
+      {/* ===== FORMULÁRIO ===== */}
       <form className="gu-card p-4 mb-4" onSubmit={handleSubmit}>
         <h3 className="h6 fw-semibold mb-3 gu-text-primary">Novo usuário</h3>
 
@@ -444,26 +452,21 @@ export default function GerenciarUsuarios() {
 
           <div className="col-12 col-md-6">
             <label className="form-label gu-label">Permissão</label>
-            <div className="d-flex gap-2">
-              <select
-                name="perfilId"
-                className="form-select gu-input"
-                value={form.perfilId}
-                onChange={handleChange}
-              >
-                <option value="">Selecione um perfil</option>
-                {perfis.map((perfil) => (
-                  <option
-                    key={perfil.id}
-                    value={perfil.id}
-                    className="text-black"
-                  >
-                    {perfil.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <select
+              name="perfilId"
+              className="form-select gu-input"
+              value={form.perfilId}
+              onChange={handleChange}
+            >
+              <option value="">Selecione um perfil</option>
+              {perfis.map((perfil) => (
+                <option key={perfil.id} value={perfil.id}>
+                  {perfil.name}
+                </option>
+              ))}
+            </select>
           </div>
+
           <div className="col-12 col-md-4">
             <label className="form-label gu-label">Ramal</label>
             <input
@@ -489,15 +492,20 @@ export default function GerenciarUsuarios() {
           </div>
 
           <div className="col-12 col-md-4">
-            <label className="form-label gu-label">Setor</label>
-            <input
-              type="text"
-              name="setor"
-              className="form-control gu-input"
-              placeholder="Ex: Suporte"
-              value={form.setor}
+            <label className="form-label gu-label">Departamento</label>
+            <select
+              name="departamentoId"
+              className="form-select gu-input"
+              value={form.departamentoId}
               onChange={handleChange}
-            />
+            >
+              <option value="">Selecione um departamento</option>
+              {departamentos.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.nome}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -512,24 +520,22 @@ export default function GerenciarUsuarios() {
         </div>
       </form>
 
-      {/* ===== LISTA DE USUÁRIOS ===== */}
+      {/* ===== LISTA ===== */}
       <div className="gu-card p-4">
         <h3 className="h6 fw-semibold mb-3 gu-text-primary">
           Usuários cadastrados
         </h3>
 
-        {/* ===== FILTROS ===== */}
         <div className="row g-2 mb-3">
           <div className="col-12 col-md-8">
             <input
               type="text"
               className="form-control gu-input"
-              placeholder="Buscar por nome, e-mail ou setor..."
+              placeholder="Buscar por nome, e-mail ou departamento..."
               value={filtroTexto}
               onChange={(e) => setFiltroTexto(e.target.value)}
             />
           </div>
-
           <div className="col-12 col-md-4">
             <select
               className="form-select gu-input"
@@ -557,9 +563,9 @@ export default function GerenciarUsuarios() {
                 <tr>
                   <th>Nome</th>
                   <th>E-mail</th>
-                  <th>Setor</th>
+                  <th>Departamento</th>
                   <th>Ramal</th>
-                  <th>Permissão (Visualizar) </th>
+                  <th>Permissão</th>
                   <th className="text-end">Ações</th>
                 </tr>
               </thead>
@@ -567,21 +573,21 @@ export default function GerenciarUsuarios() {
                 {usuariosFiltrados.map((usuario) => (
                   <React.Fragment key={usuario.id}>
                     <tr>
-                      <td>{usuario?.nome}</td>
-                      <td>{usuario?.email}</td>
-                      <td>{usuario?.setor || "—"}</td>
-                      <td>{usuario?.ramal || "—"}</td>
+                      <td>{usuario.nome}</td>
+                      <td>{usuario.email}</td>
+                      <td>{usuario.departamentoNome || "—"}</td>
+                      <td>{usuario.ramal || "—"}</td>
                       <td>
                         <span className="gu-badge">
-                          {usuario?.perfil?.name}
+                          {usuario.perfil?.name || "—"}
                         </span>
                       </td>
                       <td className="text-end">
                         <div className="d-flex gap-2 justify-content-end">
                           <button
                             className="btn btn-sm gu-btn-icon"
-                            title="Ver permissões de visualização"
-                            onClick={() => toggleViews(usuario?.id)}
+                            title="Ver páginas visíveis"
+                            onClick={() => toggleViews(usuario.id)}
                           >
                             👁
                           </button>
@@ -603,7 +609,6 @@ export default function GerenciarUsuarios() {
                       </td>
                     </tr>
 
-                    {/* ===== LINHA EXPANSÍVEL COM AS VIEWS ===== */}
                     <tr>
                       <td colSpan="6" className="p-0 border-0">
                         <div
@@ -619,36 +624,32 @@ export default function GerenciarUsuarios() {
                               Páginas visíveis para{" "}
                               <strong>{usuario.nome}</strong>
                             </h6>
-                            {usuario?.views?.length > 0 ? (
-                              <div className="d-flex flex-wrap gap-2">
-                                {usuario.views.map((view, index) => (
+
+                            {usuario.views.length > 0 ? (
+                              <div className="d-flex flex-wrap gap-2 mb-2">
+                                {usuario.views.map((view) => (
                                   <span
-                                    key={index}
+                                    key={view.id}
                                     className="badge text-bg-primary"
-                                    onDoubleClick={() => {
-                                      console.log(view.viewId),
-                                        removeView(view.viewId);
-                                    }}
+                                    title="Duplo clique para remover"
+                                    onDoubleClick={() => removeView(view.id)}
                                   >
-                                    {view.name || view}
+                                    {view.name}
                                   </span>
                                 ))}
                               </div>
                             ) : (
-                              <span className="gu-text-muted">
-                                Nenhuma página vinculada ao perfil deste
-                                usuário.
+                              <span className="gu-text-muted d-block mb-2">
+                                Nenhuma página liberada para este usuário.
                               </span>
                             )}
-                            <span className="text-muted">
-                              Nenhuma permissão vinculada.
-                              <button
-                                className="btn btn-sm btn-dark"
-                                onClick={() => addpermissao()}
-                              >
-                                + Permitir visualizar novas paginas
-                              </button>
-                            </span>
+
+                            <button
+                              className="btn btn-sm btn-dark"
+                              onClick={addPermissao}
+                            >
+                              + Liberar página
+                            </button>
                           </div>
                         </div>
                       </td>

@@ -9,7 +9,7 @@ export default function OrdemServicoFrete() {
     JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user"))
       ?.email || "",
   );
-  const [setor, setSetor] = useState("");
+  const [setor, setSetor] = useState(JSON.parse(localStorage.getItem("user") || sessionStorage.getItem("user"))?.departamentoNome || "",);
   const [categoria, setCategoria] = useState("");
   const [prioridade, setPrioridade] = useState(1);
 
