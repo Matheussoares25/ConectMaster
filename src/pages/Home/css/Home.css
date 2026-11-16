@@ -1,4 +1,4 @@
-@import url("../../../Themes/ThemePrincipal.css");
+/*@import url("../../../Themes/ThemePrincipal.css");*/
 
 * {
   box-sizing: border-box;
@@ -50,7 +50,7 @@ button {
 .home-sidebar {
   width: 240px;
   flex-shrink: 0;
-  background: rgba(11, 14, 26, 0.7);
+  background: var(--bg-sidebar);
   backdrop-filter: blur(var(--blur-glass));
   -webkit-backdrop-filter: blur(var(--blur-glass));
   border-right: 1px solid var(--border-card);
@@ -99,7 +99,7 @@ button {
 }
 
 .home-sidebar-link--active {
-  background: var(--bg-card);
+  background: var(--bg-selector);
   border: 1px solid var(--border-card);
   color: var(--text-primary);
 }
@@ -123,12 +123,14 @@ button {
   justify-content: space-between;
   padding: 18px 40px;
   border-bottom: 1px solid var(--border-card);
-  background: rgba(11, 14, 26, 0.7);
+  background: var(--bg-sidebar);
   backdrop-filter: blur(var(--blur-glass));
   -webkit-backdrop-filter: blur(var(--blur-glass));
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 15;
+  border-radius: 20px 0px 30px 30px;
+  margin-bottom: 20px;
 }
 
 .home-header-left {

@@ -1,7 +1,6 @@
 // src/pages/PainelControle/Componentes/CotacaoMoeda.jsx
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-import "../css/buscaMoedas.css";
 
 const moedas = [
   { codigo: "USD", nome: "Dólar Americano" },

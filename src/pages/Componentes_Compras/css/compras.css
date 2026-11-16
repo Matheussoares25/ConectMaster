@@ -1,0 +1,149 @@
+/*@import url("../../../Themes/ThemePrincipal.css");*/
+
+/* Prefixo "ti-" para não conflitar com o CSS de layout (home-*) */
+
+/* ===== BOAS-VINDAS ===== */
+
+.Compras-welcome {
+  margin-bottom: 36px;
+}
+
+.Compras-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 6px 0;
+}
+
+.Compras-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ===== GRID DE CARDS ===== */
+
+.Compras-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 15px;
+  max-width: 950px;
+  margin: 0 auto;
+  padding-top: 80px;
+}
+
+/* ===== CARD (é um <button>, então reseta o estilo padrão) ===== */
+
+.Compras-card {
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  font: inherit;
+  color: inherit;
+
+  position: relative;
+  text-align: left;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  cursor: pointer;
+  transition: var(--transition-card);
+  overflow: hidden;
+}
+
+.Compras-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-soft);
+  background: var(--bg-card-hover);
+}
+
+.Compras-card:focus-visible {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(70, 171, 229, 0.35);
+}
+
+/* ===== ÍCONE ===== */
+
+.Compras-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.Compras-card-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.Compras-card-icon--primary {
+  background: rgba(70, 171, 229, 0.15);
+  color: var(--color-primary);
+}
+
+.Compras-card-icon--secondary {
+  background: rgba(47, 111, 237, 0.15);
+  color: var(--color-secondary);
+}
+
+.Compras-card-icon--success {
+  background: rgba(34, 197, 139, 0.15);
+  color: var(--color-success);
+}
+
+.Compras-card-icon--warning {
+  background: rgba(245, 166, 35, 0.15);
+  color: var(--color-warning);
+}
+
+.Compras-card-icon--danger {
+  background: rgba(239, 93, 168, 0.15);
+  color: var(--color-danger);
+}
+
+/* ===== TEXTO DO CARD ===== */
+
+.Compras-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 6px 0;
+}
+
+.Compras-card-description {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+  padding-right: 20px;
+}
+
+.Compras-card-arrow {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 16px;
+  color: var(--text-disabled);
+  transition: var(--transition-fast);
+}
+
+.Compras-card:hover .Compras-card-arrow {
+  color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+/* ===== RESPONSIVO ===== */
+
+@media (max-width: 600px) {
+  .Compras-grid {
+    padding-top: 24px;
+  }
+
+  .Compras-card {
+    padding: 20px;
+  }
+}

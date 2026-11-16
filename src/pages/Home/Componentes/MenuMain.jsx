@@ -30,11 +30,7 @@ const icons = {
       />
     </svg>
   ),
-  paineldecontrole: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-      <path d="M3 9l9-7 9 7M9 18V9M21 15V9" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  ),
+
   uber: (
     <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.0">
       <path
@@ -44,17 +40,7 @@ const icons = {
         fill="#000000"
       />
     </svg>
-  ),
-  servicos: (
-    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        fill="#000000"
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M4,4 L4,3 C4,1.89543 4.89543,1 6,1 L10,1 C11.1046,1 12,1.895431 12,3 L12,4 L14,4 C15.1046,4 16,4.89543 16,6 L16,13 C16,14.1046 15.1046,15 14,15 L2,15 C0.895431,15 0,14.1046 0,13 L0,6 C0,4.89543 0.895431,4 2,4 L4,4 Z M6,3 L10,3 L10,4 L6,4 L6,3 Z M2,6 L2,8 L14,8 L14,6 L2,6 Z M2,13 L2,10 L7,10 L7,11 L9,11 L9,10 L14,10 L14,13 L2,13 Z"
-      />
-    </svg>
-  ),
+  ),  
   motoboy: (
     <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -88,38 +74,8 @@ const icons = {
 };
 
 const menuItems = [
-  {
-    id: "abrirchamado",
-    title: "Abrir Chamado",
-    description: "Registre um novo chamado de suporte técnico",
-    icon: icons.chamado,
-    color: "primary",
-    route: "/abrirChamado",
-  },
-  {
-    id: "historicochamados",
-    title: "Histórico de Chamados",
-    description: "Consulte chamados abertos, em andamento ou finalizados",
-    icon: icons.historico,
-    color: "success",
-    route: "/historicochamados",
-  },
-  {
-    id: "servicosgeral",
-    title: "Histórico de Ordens de Servico",
-    description: "Consulte ordens de serviço abertas, em andamento ou finalizadas",
-    icon: icons.servicos,
-    color: "success",
-    route: "/HistoricoOrdemServico",
-  },
-  {
-    id: "painelcontrole",
-    title: "Painel de controle",
-    description: "Acesse o painel de controle para gerenciar seus chamados",
-    icon: icons.paineldecontrole,
-    color: "success",
-    route: "/painelControle",
-  },
+
+
   {
     id: "abriruber",
     title: "Uber",
@@ -144,6 +100,7 @@ export default function MenuMain() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [visibleItems, setVisibleItems] = useState([]);
+
 
   useEffect(() => {
     const storedUser =

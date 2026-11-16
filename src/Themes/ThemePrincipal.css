@@ -1,59 +1,112 @@
-/* src/styles/theme.css */
+/* ThemePrincipal.css */
 :root {
-    --color-primary: #46abe5;
-    --color-secondary: #2f6fed;
-    --color-success: #22c58b;
-    --color-warning: #f5a623;
-    --color-danger: #ef5da8;
-    --color-slate: #94a3c4;
-
-    --bg-page: #0b0e1a;
-    --bg-card: rgba(255, 255, 255, 0.035);
-    --bg-card-hover: rgba(92, 83, 83, 0.329);
-    --bg-glass: rgba(255, 255, 255, 0);
+  /* ---- fixos (valem para todos os temas) ---- */
+  --color-primary: #46abe5;
+  --color-secondary: #2f6fed;
+  --color-success: #22c58b;
+  --color-warning: #f5a623;
+  --color-danger: #ef5da8;
 
 
-    --background-image: url("../../src/assets/logo1.ico");
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
 
-    --border-card: rgba(255, 255, 255, 0.08);
-    --border-soft: rgba(255, 255, 255, 0.12);
-    --border-strong: rgba(255, 255, 255, 0.16);
+  --transition-fast: .2s ease;
+  --transition-normal: .3s ease;
 
-    --text-primary: #ffffff;
-    --text-secondary: rgb(255, 255, 255);
-    --text-muted: rgb(245, 247, 245);
-    --text-disabled: rgba(255, 255, 255, 0.712);
+  --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  --blur-glass: 14px;
+  --container-width: 1180px;
 
-    --shadow-primary: 0 10px 24px rgba(47, 111, 237, 0.35);
+  /* ---- cores do tema CLARO (padrão) ---- */
+  --bg-page: #f4f6fb;
+  --bg-card: #ffffff;
+  --bg-card-hover: #eef2f9;
+  --bg-glass: rgba(255, 255, 255, 0.6);
 
-    --radius-sm: 10px;
-    --radius-md: 16px;
-    --radius-lg: 18px;
-    --radius-pill: 999px;
+  --border-card: rgba(0, 0, 0, 0.08);
+  --border-soft: rgba(0, 0, 0, 0.12);
+  --border-strong: rgba(0, 0, 0, 0.16);
 
-    --transition-fast: .2s ease;
-    --transition-normal: .3s ease;
-    --transition-card:
-        transform .3s cubic-bezier(.2,.8,.2,1),
-        border-color .3s ease,
-        background .3s ease;
+  --text-primary: #1f2937;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+  --text-disabled: rgba(0, 0, 0, 0.4);
 
-    --gradient-primary:
-        linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-    --gradient-primary-vertical:
-        linear-gradient(180deg, var(--color-primary), var(--color-secondary));
-
-    --blur-glass: 14px;
-    --container-width: 1180px;
-
-    --dot-grid:
-        radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0);
-    --dot-grid-size: 28px 28px;
+  --shadow-primary: 0 10px 24px rgba(47, 111, 237, 0.2);
+  --dot-grid: radial-gradient(circle at 1px 1px, rgba(0,0,0,.05) 1px, transparent 0);
+  --dot-grid-size: 28px 28px;
 }
 
-html,
-body,
-#root {
+html, body, #root {
   min-height: 100vh;
-  background: var(--bg-page); /* troque pelo nome real da variável */
+  background: var(--bg-page);
+  color: var(--text-primary);
+}
+
+/* ThemeEscuro.css: só o que muda */
+[data-theme="escuro"] {
+  --bg-page:  #0f1220;
+  --bg-card: rgba(255, 255, 255, 0.035);
+  --bg-selector: rgba(23, 27, 27, 0.705);
+  --bg-card-hover: rgba(255, 255, 255, 0.08);
+  --bg-glass: rgba(255, 255, 255, 0);
+  --bg-sidebar: rgba(50, 55, 61, 0.411);
+
+  --border-card: rgba(255, 255, 255, 0.08);
+  --border-soft: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --text-primary: #ffffff;
+  --text-secondary: #e5e7eb;
+  --text-muted: #cbd5e1;
+  --text-disabled: rgba(255, 255, 255, 0.7);
+  
+
+  --shadow-primary: 0 10px 24px rgba(47, 111, 237, 0.35);
+  --dot-grid: radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0);
+}
+
+[data-theme="Master"] {
+  --bg-page: #13152eda;
+  --bg-card: rgba(255, 255, 255, 0.035);
+  --bg-selector: rgba(13, 147, 170, 0.644);
+  --bg-card-hover: rgba(255, 255, 255, 0.08);
+  --bg-glass: rgba(255, 255, 255, 0);
+  --bg-sidebar: rgba(0, 110, 255, 0.411);
+
+  --border-card: rgba(255, 255, 255, 0.08);
+  --border-soft: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --text-primary: #ffffff;
+  --text-secondary: #e5e7eb;
+  --text-muted: #cbd5e1;
+  --text-disabled: rgba(255, 255, 255, 0.7);
+
+  --shadow-primary: 0 10px 24px rgba(47, 111, 237, 0.35);
+  --dot-grid: radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0);
+}
+
+[data-theme="principal"] {
+  --bg-page: #232a4bec;
+  --bg-card: rgba(255, 255, 255, 0.035);
+  --bg-selector: rgba(13, 147, 170, 0.644);
+  --bg-card-hover: rgba(255, 255, 255, 0.08);
+  --bg-glass: rgba(255, 255, 255, 0);
+  --bg-sidebar: rgba(0, 110, 255, 0.411);
+
+  --border-card: rgba(255, 255, 255, 0.08);
+  --border-soft: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --text-primary: #ffffff;
+  --text-secondary: #e5e7eb;
+  --text-muted: #cbd5e1;
+  --text-disabled: rgba(255, 255, 255, 0.7);
+
+  --shadow-primary: 0 10px 24px rgba(47, 111, 237, 0.35);
+  --dot-grid: radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0);
 }
