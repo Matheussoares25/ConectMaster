@@ -54,20 +54,20 @@ const icons = {
 
 const menuItems = [
   {
-    id: "solicitarcompra",
-    title: "Solicitar Compra",
-    description: "Registre uma nova solicitação de compra",
+    id: "abrirchamadocompras",
+    title: "Abrir chamado de Compras",
+    description: "Registre uma nova solicitação para a equipe de Compras",
     icon: icons.compras,
     color: "primary",
-    route: "/solicitarcompra",
+    route: "/abrirchamadocompras",
   },
   {
     id: "historicochamados",
-    title: "Histórico de Chamados",
-    description: "Consulte chamados abertos, em andamento ou finalizados",
+    title: "Histórico de chamados de Compras",
+    description: "Consulte as solicitações enviadas para a equipe de Compras",
     icon: icons.historico,
     color: "success",
-    route: "/historicochamados",
+    route: "/historicochamadoscompras",
   },
 ];
 

@@ -76,7 +76,16 @@ const menuItems = [
     icon: icons.paineldecontrole,
     color: "success",
     route: "/painelControle",
-  }
+  },
+  {
+    id: "historicochamadocompras",
+    title: "Chamados de Compras em standby",
+    description: "Consulte chamados de Compras aguardando atendimento",
+    icon: icons.chamado,
+    color: "primary",
+    route: "/chamadoscomprasstandby",
+  },
+
 ];
 
 export default function Acessos() {

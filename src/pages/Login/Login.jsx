@@ -55,7 +55,7 @@ export default function Login() {
       Swal.fire({
         icon: "error",
         title: "Erro ao fazer login.",
-        text: error.message,
+        text: error.error || "Verifique suas credenciais e tente novamente.",
         background: "#141826",
         color: "#fff",
         confirmButtonColor: "#2f6fed",

@@ -52,6 +52,12 @@ const sidebarItems = [
       </div>
     ),
   },
+    {
+    id: "compras",
+    title: "Compras",
+    icon: "🛒",
+    content: <Compras />,
+  },
   {
     id: "adm",
     title: "ADM",
@@ -68,12 +74,7 @@ const sidebarItems = [
     icon: "⚙️",
     content: <Config />,
   },
-  {
-    id: "compras",
-    title: "Compras",
-    icon: "🛒",
-    content: <Compras />,
-  },
+
 ];
 const ultimaView = "ultimasViews";
 

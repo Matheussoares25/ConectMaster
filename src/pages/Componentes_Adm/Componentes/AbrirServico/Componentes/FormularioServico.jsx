@@ -60,7 +60,7 @@ export default function OrdemServicoFrete() {
       setor,
       categoria,
       prioridade,
-
+      tipoChamadoId: 2,
       cliente: {
         nome: clienteNome,
         documento: clienteDocumento,
