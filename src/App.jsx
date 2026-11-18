@@ -13,6 +13,9 @@ import HistoricoChamados from "./pages/Componentes_TI/componentes/HistoricoChama
 import Api from "./Services/EndPoint";
 import Estoque from "./pages/Estoques/Estoque";
 import HistoricoServiços from "./pages/Componentes_Adm/Componentes/HistoricoServiços/HistoricoServiços";
+import AbrirChamadoCompras from "./pages/Componentes_Compras/Componentes/AbrirChamadoCompras";
+import HistoricoChamadosCompras from "./pages/Componentes_Compras/Componentes/HistoricoChamados/HistoricoChamadosCompras";
+import ChamadosComprasStandby from "./pages/Componentes_Adm/Componentes/PainelControle/Componentes/ChamadosComprasStandby";
 
 
 function AppContent() {
@@ -66,6 +69,14 @@ function AppContent() {
           </PrivateRoute>
         }
       />
+      <Route
+        path="/chamadoscomprasstandby"
+        element={
+          <PrivateRoute>
+            <ChamadosComprasStandby />
+          </PrivateRoute>
+        }
+      />
 
       <Route
         path="/abrirChamado"
@@ -76,6 +87,22 @@ function AppContent() {
         }
       />
       <Route path="/historicochamados" element={<HistoricoChamados />} />
+      <Route
+        path="/abrirchamadocompras"
+        element={
+          <PrivateRoute>
+            <AbrirChamadoCompras />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/historicochamadoscompras"
+        element={
+          <PrivateRoute>
+            <HistoricoChamadosCompras />
+          </PrivateRoute>
+        }
+      />
 
       <Route
         path="/AbrirOrdemServico"

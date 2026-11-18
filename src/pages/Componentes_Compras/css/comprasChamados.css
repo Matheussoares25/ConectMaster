@@ -1,0 +1,48 @@
+@import "../../Componentes_TI/componentes/AbrirChamado/css/AbrirChamado.css";
+@import "../../Componentes_TI/componentes/HistoricoChamados/css/historico.css";
+@import "../../Componentes_Adm/Componentes/PainelControle/css/PainelControle.css";
+@import "../../Componentes_Adm/Componentes/PainelControle/css/GerenciarUsuario.css";
+
+.compras-chamados {
+  min-height: 100vh;
+  padding: 28px;
+  background: var(--bg-page);
+}
+
+.compras-chamados__header {
+  margin-bottom: 24px;
+}
+
+.compras-chamados__header h1 {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.compras-chamados__header p {
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+.compras-chamados .chamado-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.compras-chamados__filters {
+  display: grid;
+  grid-template-columns: minmax(220px, 2fr) repeat(2, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .compras-chamados {
+    padding: 20px 14px;
+  }
+
+  .compras-chamados__filters {
+    grid-template-columns: 1fr;
+  }
+}

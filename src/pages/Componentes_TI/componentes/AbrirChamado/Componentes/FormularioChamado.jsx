@@ -36,6 +36,7 @@ export default function FormularioChamado() {
         setor,
         email,
         status: "Aberto",
+        tipoChamadoId: 2
       });
 
       Swal.fire({
