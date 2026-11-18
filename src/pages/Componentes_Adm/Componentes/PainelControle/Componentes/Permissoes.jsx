@@ -296,9 +296,9 @@ export default function Permissoes() {
         {/* ... resto do seu componente (form de novo perfil, lista de perfis, etc.) ... */}
 
         {/* ===== TABELA DE PERMISSÕES ===== */}
-        <div className="gu-card p-4 mt-4">
+        <div className="gu-card p-4 mt-4 permissoes-grup">
           <div className="d-flex align-items-center justify-content-between mb-3">
-            <h3 className="h6 fw-semibold mb-0 gu-text-primary">
+            <h3 className="h6 fw-semibold mb-0 panel-text-primary">
               Permissões cadastradas
             </h3>
             <button
@@ -311,12 +311,12 @@ export default function Permissoes() {
 
           {mostrarPermissoes &&
             (permissoes.length === 0 ? (
-              <p className="gu-text-muted mb-0">
+              <p className="gu-label mb-0">
                 Nenhuma permissão cadastrada.
               </p>
             ) : (
               <div className="table-responsive">
-                <table className="table gu-table align-middle mb-0">
+                <table className="table gu-label align-middle mb-0 ">
                   <thead>
                     <tr>
                       <th>ID</th>

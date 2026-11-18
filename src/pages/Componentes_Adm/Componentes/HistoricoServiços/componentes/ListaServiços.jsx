@@ -14,8 +14,6 @@ import {
   Cell,
   Legend,
 } from "recharts";
-import "../css/historico.css";
-
 export default function HistoricoServicos() {
   const [servicos, setServicos] = useState([]);
   const [carregando, setCarregando] = useState(true);
@@ -274,7 +272,7 @@ export default function HistoricoServicos() {
   };
 
   return (
-    <div className="hc-wrapper">
+    <div className="hc-wrapper adm-services-history">
       <div className="mb-4">
         <h2 className="h4 fw-bold mb-1 hc-text-primary">
           Histórico de Serviços

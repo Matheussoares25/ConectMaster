@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Api from "../../../../../Services/EndPoint";
 import Swal from "sweetalert2";
 import {
@@ -25,9 +25,13 @@ export default function ListaChamadosCompras() {
   const [filtroPrioridade, setFiltroPrioridade] = useState("");
   const [filtroTexto, setFiltroTexto] = useState("");
   const [chamadoEditando, setChamadoEditando] = useState(null);
+  const [chamadoSelecionadoUpload, setChamadoSelecionadoUpload] =
+    useState(null);
+  const [chamadoEnviandoAnexo, setChamadoEnviandoAnexo] = useState(null);
   const [graficoAberto, setGraficoAberto] = useState(null);
   const [chamadoSolicitandoAprovacao, setChamadoSolicitandoAprovacao] =
     useState(null);
+  const arquivoInputRef = useRef(null);
 
   useEffect(() => {
     carregarChamados();
@@ -133,6 +137,7 @@ export default function ListaChamadosCompras() {
       await Api.CallEndpoint(
         `ChamadosCompras/${chamado.id}/standby`,
         "PATCH",
+        "standby"
       );
       setChamados((anteriores) =>
         anteriores.map((item) =>
@@ -158,6 +163,70 @@ export default function ListaChamadosCompras() {
       });
     } finally {
       setChamadoSolicitandoAprovacao(null);
+    }
+  };
+
+  const enviarAnexo = async (event) => {
+    const arquivo = event.target.files?.[0];
+    const chamadoId = chamadoSelecionadoUpload;
+    event.target.value = "";
+    setChamadoSelecionadoUpload(null);
+
+    if (!arquivo || !chamadoId) return;
+
+    if (!/\.(xlsx|xls)$/i.test(arquivo.name)) {
+      Swal.fire({
+        icon: "error",
+        title: "Arquivo inválido",
+        text: "Somente arquivos com extensão .xls ou .xlsx são permitidos.",
+        background: "#141826",
+        color: "#fff",
+        confirmButtonColor: "#2f6fed",
+      });
+      return;
+    }
+
+    if (arquivo.size > 10 * 1024 * 1024) {
+      Swal.fire({
+        icon: "error",
+        title: "Arquivo muito grande",
+        text: "O arquivo não pode exceder 10 MB.",
+        background: "#141826",
+        color: "#fff",
+        confirmButtonColor: "#2f6fed",
+      });
+      return;
+    }
+
+    const dados = new FormData();
+    dados.append("arquivo", arquivo);
+
+    setChamadoEnviandoAnexo(chamadoId);
+    try {
+      const resultado = await Api.CallEndpoint(
+        `ChamadosCompras/${chamadoId}/upload`,
+        "POST",
+        dados,
+      );
+      Swal.fire({
+        icon: "success",
+        title: "Anexo enviado",
+        text: resultado?.nomeOriginal || arquivo.name,
+        background: "#141826",
+        color: "#fff",
+        confirmButtonColor: "#2f6fed",
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Erro ao anexar arquivo",
+        text: error?.message || "Não foi possível enviar o arquivo.",
+        background: "#141826",
+        color: "#fff",
+        confirmButtonColor: "#2f6fed",
+      });
+    } finally {
+      setChamadoEnviandoAnexo(null);
     }
   };
 
@@ -263,29 +332,37 @@ export default function ListaChamadosCompras() {
   };
 
   return (
-    <div className="hc-wrapper">
-      <div className="mb-4">
-        <h2 className="h4 fw-bold mb-1 hc-text-primary">
-          Histórico de Chamados de Compras
-        </h2>
-        <p className="hc-text-muted mb-0">
-          Consulte chamados abertos, em andamento ou finalizados.
-        </p>
+    <>
+      <div className="hc-wrapper hc-compras-history">
+      <div className="hc-page-header mb-4">
+        <div>
+          <span className="hc-page-eyebrow">Painel de compras</span>
+          <h2 className="h3 fw-bold mb-1 hc-text-primary">
+            Histórico de Chamados de Compras
+          </h2>
+          <p className="hc-text-muted mb-0">
+            Acompanhe solicitações, prioridades e andamento dos chamados.
+          </p>
+        </div>
+        <span className="hc-live-indicator">
+          <span aria-hidden="true" />
+          Visão geral
+        </span>
       </div>
 
       {/* ===== CARDS DE MÉTRICAS ===== */}
       <div className="row g-3 mb-4">
         <div className="col-6 col-md-3">
-          <div className="hc-card p-3">
-            <p className="hc-text-muted mb-1 hc-metric-label">
+          <div className="hc-card hc-metric-card hc-metric-card--total p-3">
+            <p className="hc-text-muted mb-2 hc-metric-label">
               Total de chamados
             </p>
             <h3 className="hc-text-primary fw-bold mb-0">{total}</h3>
           </div>
         </div>
         <div className="col-6 col-md-3">
-          <div className="hc-card p-3">
-            <p className="hc-text-muted mb-1 hc-metric-label">Abertos</p>
+          <div className="hc-card hc-metric-card hc-metric-card--open p-3">
+            <p className="hc-text-muted mb-2 hc-metric-label">Abertos</p>
             <h3
               className="fw-bold mb-0"
               style={{ color: "var(--color-primary)" }}
@@ -295,8 +372,8 @@ export default function ListaChamadosCompras() {
           </div>
         </div>
         <div className="col-6 col-md-3">
-          <div className="hc-card p-3">
-            <p className="hc-text-muted mb-1 hc-metric-label">Em andamento</p>
+          <div className="hc-card hc-metric-card hc-metric-card--progress p-3">
+            <p className="hc-text-muted mb-2 hc-metric-label">Em andamento</p>
             <h3
               className="fw-bold mb-0"
               style={{ color: "var(--color-warning)" }}
@@ -306,8 +383,8 @@ export default function ListaChamadosCompras() {
           </div>
         </div>
         <div className="col-6 col-md-3">
-          <div className="hc-card p-3">
-            <p className="hc-text-muted mb-1 hc-metric-label">Concluídos</p>
+          <div className="hc-card hc-metric-card hc-metric-card--done p-3">
+            <p className="hc-text-muted mb-2 hc-metric-label">Concluídos</p>
             <h3
               className="fw-bold mb-0"
               style={{ color: "var(--color-success)" }}
@@ -319,32 +396,44 @@ export default function ListaChamadosCompras() {
       </div>
 
       {/* ===== GRÁFICO POR PRIORIDADE ===== */}
-      <div className="hc-card p-4 mb-4">
-        <div
-          className="d-flex justify-content-between align-items-center"
-          style={{ cursor: "pointer" }}
-          onClick={() => setGraficoAberto(!graficoAberto)}
-        >
-          <h3 className="h6 fw-semibold mb-0 hc-text-primary">
-            Grafico chamados
-          </h3>
-
-          <span className="chamado-button">
-            {graficoAberto ? "Recolher Grafico" : "Expandir Grafico"}
-          </span>
+      <div className="hc-card hc-chart-section p-4 mb-4">
+        <div className="hc-chart-header">
+          <div>
+            <span className="hc-section-eyebrow">Indicadores</span>
+            <h3 className="h5 fw-semibold mb-0 hc-text-primary">
+              Chamados por status
+            </h3>
+          </div>
+          <button
+            type="button"
+            className="hc-chart-toggle"
+            aria-expanded={Boolean(graficoAberto)}
+            onClick={() => setGraficoAberto(!graficoAberto)}
+          >
+            {graficoAberto ? "Recolher gráfico" : "Expandir gráfico"}
+            <span aria-hidden="true">{graficoAberto ? "−" : "+"}</span>
+          </button>
         </div>
 
         {graficoAberto && (
-          <div className="mt-3">
-            <div className="hc-card p-3">
-              <h5 className="hc-text-primary">Chamados por status</h5>
-
+          <div className="hc-chart-content mt-3" id="hc-status-chart">
+            <div className="hc-chart-frame p-3">
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={dadosStatus}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="nome" />
-                  <YAxis />
-                  <Tooltip />
+                  <CartesianGrid
+                    stroke="var(--border-card)"
+                    strokeDasharray="4 4"
+                  />
+                  <XAxis dataKey="nome" tick={{ fill: "var(--text-muted)" }} />
+                  <YAxis tick={{ fill: "var(--text-muted)" }} />
+                  <Tooltip
+                    contentStyle={{
+                      background: "var(--bg-card)",
+                      borderColor: "var(--border-card)",
+                      borderRadius: "10px",
+                      color: "var(--text-primary)",
+                    }}
+                  />
                   <Bar dataKey="total" fill="#46abe5" radius={[2, 2, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -354,12 +443,30 @@ export default function ListaChamadosCompras() {
       </div>
 
       {/* ===== LISTA DE CHAMADOS ===== */}
-      <div className="hc-card p-4">
-        <h3 className="h6 fw-semibold mb-3 hc-text-primary">
-          Chamados de Compras registrados
-        </h3>
+      <div className="hc-card hc-list-section p-4">
+        <input
+          ref={arquivoInputRef}
+          type="file"
+          accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          className="d-none"
+          onChange={enviarAnexo}
+        />
+        <div className="hc-list-header">
+          <div>
+            <span className="hc-section-eyebrow">Gerenciamento</span>
+            <h3 className="h5 fw-semibold mb-1 hc-text-primary">
+              Chamados registrados
+            </h3>
+            <p className="hc-text-muted mb-0">
+              Pesquise e filtre os chamados para encontrar uma solicitação.
+            </p>
+          </div>
+          <span className="hc-result-count">
+            {chamadosFiltrados.length} <span>/ {chamados.length}</span>
+          </span>
+        </div>
 
-        <div className="row g-2 mb-3">
+        <div className="row g-2 mb-3 hc-filters">
           <div className="col-12 col-md-6">
             <input
               type="text"
@@ -401,11 +508,15 @@ export default function ListaChamadosCompras() {
         </div>
 
         {carregando ? (
-          <p className="hc-text-muted mb-0">Carregando chamados...</p>
+          <p className="hc-text-muted mb-0 hc-empty-state">
+            Carregando chamados...
+          </p>
         ) : chamadosFiltrados.length === 0 ? (
-          <p className="hc-text-muted mb-0">Nenhum chamado encontrado.</p>
+          <p className="hc-text-muted mb-0 hc-empty-state">
+            Nenhum chamado encontrado.
+          </p>
         ) : (
-          <div className="table-responsive">
+          <div className="table-responsive hc-table-viewport">
             <table className="table hc-table align-middle mb-0">
               <thead>
                 <tr>
@@ -560,6 +671,19 @@ export default function ListaChamadosCompras() {
                             </button>
                             <button
                               type="button"
+                              className="btn btn-sm btn-outline-info ms-2"
+                              disabled={chamadoEnviandoAnexo === chamado.id}
+                              onClick={() => {
+                                setChamadoSelecionadoUpload(chamado.id);
+                                arquivoInputRef.current?.click();
+                              }}
+                            >
+                              {chamadoEnviandoAnexo === chamado.id
+                                ? "Enviando..."
+                                : "Anexar XLS"}
+                            </button>
+                            <button
+                              type="button"
                               className="btn btn-sm btn-outline-primary ms-2"
                               disabled={
                                 chamado.aprovado ||
@@ -597,5 +721,6 @@ export default function ListaChamadosCompras() {
         </p>
       </div>
     </div>
+    </>
   );
 }

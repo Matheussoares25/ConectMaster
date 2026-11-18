@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
 import "./css/adm.css";
+
 const icons = {
   chamado: (
     <svg
@@ -66,7 +66,7 @@ const menuItems = [
     description:
       "Consulte ordens de serviço abertas, em andamento ou finalizadas",
     icon: icons.servicos,
-    color: "success",
+    color: "secondary",
     route: "/HistoricoOrdemServico",
   },
   {
@@ -82,7 +82,7 @@ const menuItems = [
     title: "Chamados de Compras em standby",
     description: "Consulte chamados de Compras aguardando atendimento",
     icon: icons.chamado,
-    color: "primary",
+    color: "secondary",
     route: "/chamadoscomprasstandby",
   },
 

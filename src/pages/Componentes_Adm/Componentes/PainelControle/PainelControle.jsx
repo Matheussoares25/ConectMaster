@@ -6,8 +6,6 @@ import Permissoes from './Componentes/Permissoes.jsx';
 import LogsSistema from './Componentes/LogsSistema.jsx';
 import Departamentos from './Componentes/Departamentos.jsx';
 
-import './css/PainelControle.css'; // só os ajustes que o Bootstrap não cobre
-
 // ===== ÍCONES =====
 const icons = {
   usuarios: (
@@ -140,7 +138,7 @@ export default function PainelControle() {
     <div className="panel-wrapper" data-bs-theme="dark">
       <div className="d-flex" style={{ minHeight: '100vh' }}>
         {/* ===== SIDEBAR ===== */}
-        <aside className="panel-sidebar d-flex flex-column justify-content-between p-3">
+        <aside className="home-sidebar">
           <div>
             <div className="d-flex align-items-center gap-2 mb-4 px-1">
               <button

@@ -15,7 +15,7 @@ import Estoque from "./pages/Estoques/Estoque";
 import HistoricoServiços from "./pages/Componentes_Adm/Componentes/HistoricoServiços/HistoricoServiços";
 import AbrirChamadoCompras from "./pages/Componentes_Compras/Componentes/AbrirChamadoCompras";
 import HistoricoChamadosCompras from "./pages/Componentes_Compras/Componentes/HistoricoChamados/HistoricoChamadosCompras";
-import ChamadosComprasStandby from "./pages/Componentes_Adm/Componentes/PainelControle/Componentes/ChamadosComprasStandby";
+import ChamadosComprasStandby from "./pages/Componentes_Adm/Componentes/ChamadosComprasStandby";
 
 
 function AppContent() {

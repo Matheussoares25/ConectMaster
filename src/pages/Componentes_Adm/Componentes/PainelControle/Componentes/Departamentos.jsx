@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Api from "../../../../../Services/EndPoint";
 import Swal from "sweetalert2";
-import "../css/GerenciarUsuario.css";
-
 const swalBase = {
   background: "#141826",
   color: "#fff",

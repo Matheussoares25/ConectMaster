@@ -1,0 +1,200 @@
+/*@import url("../../../Themes/ThemePrincipal.css");*/
+
+/* Escopo: adicione a classe "compras-standby" na div raiz do componente.
+   As regras ficam dentro de .compras-standby para não afetar outras telas que usam gu-*. */
+
+/* ===== WRAPPER ===== */
+
+.compras-standby {
+  box-sizing: border-box;
+  max-width: 1760px;
+  min-height: calc(100vh - 40px);
+  margin: 0 auto;
+  padding: clamp(16px, 2vw, 32px);
+}
+
+/* ===== CABEÇALHO ===== */
+
+.compras-standby > h2 {
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
+  letter-spacing: -0.035em;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.compras-standby > p {
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+/* ===== CARD DA TABELA ===== */
+
+.compras-standby .gu-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  box-shadow: 0 8px 26px rgba(15, 23, 42, 0.05);
+}
+
+.compras-standby .gu-text-primary {
+  color: var(--text-primary) !important;
+}
+
+.compras-standby .gu-text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* ===== TABELA ===== */
+
+.compras-standby .table-responsive {
+  max-height: min(68vh, 760px);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  scrollbar-width: thin;
+}
+
+.compras-standby .gu-table {
+  min-width: 1500px;
+  margin-bottom: 0;
+  color: var(--text-secondary);
+  --bs-table-bg: transparent;
+  --bs-table-hover-bg: var(--bg-card-hover);
+}
+
+.compras-standby .gu-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 14px 10px;
+  background: var(--bg-card);
+  color: var(--text-muted) !important;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--border-card);
+  white-space: nowrap;
+}
+
+.compras-standby .gu-table tbody td {
+  padding: 13px 10px;
+  line-height: 1.45;
+  font-size: 14px;
+  color: var(--text-secondary) !important;
+  border-bottom: 1px solid var(--border-card);
+  vertical-align: middle;
+}
+
+.compras-standby .gu-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.compras-standby .gu-table tbody tr:hover td {
+  background: var(--bg-card-hover);
+}
+
+.compras-standby .gu-table th:first-child,
+.compras-standby .gu-table td:first-child {
+  width: 70px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.compras-standby .gu-table th:nth-child(2),
+.compras-standby .gu-table td:nth-child(2) {
+  min-width: 180px;
+  font-weight: 600;
+}
+
+.compras-standby .gu-table th:nth-child(3),
+.compras-standby .gu-table td:nth-child(3) {
+  min-width: 240px;
+  max-width: 340px;
+}
+
+/* Coluna Cotações */
+.compras-standby .gu-table th:nth-child(12),
+.compras-standby .gu-table td:nth-child(12) {
+  min-width: 200px;
+}
+
+/* Coluna Ações */
+.compras-standby .gu-table th:nth-child(13),
+.compras-standby .gu-table td:nth-child(13) {
+  min-width: 120px;
+}
+
+/* ===== BADGES ===== */
+
+.compras-standby .gu-badge {
+  display: inline-block;
+  background: rgba(70, 171, 229, 0.15);
+  color: var(--color-primary) !important;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+/* ===== BOTÕES ===== */
+
+/* Download das cotações */
+.compras-standby .btn-outline-primary {
+  color: var(--color-primary);
+  border: 1px solid rgba(70, 171, 229, 0.45);
+  background: rgba(70, 171, 229, 0.08);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.compras-standby .btn-outline-primary:hover:not(:disabled) {
+  color: #fff;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.compras-standby .btn-outline-primary:disabled {
+  opacity: 0.6;
+}
+
+/* Aprovar */
+.compras-standby .btn-success {
+  color: var(--color-success);
+  border: 1px solid rgba(34, 197, 139, 0.45);
+  background: rgba(34, 197, 139, 0.12);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.compras-standby .btn-success:hover:not(:disabled) {
+  color: #fff;
+  background: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.compras-standby .btn-success:disabled {
+  opacity: 0.6;
+}
+
+/* ===== RESPONSIVO ===== */
+
+@media (max-width: 767.98px) {
+  .compras-standby {
+    min-height: 100vh;
+    padding: 14px;
+  }
+
+  .compras-standby .gu-card {
+    padding: 16px !important;
+  }
+
+  .compras-standby .table-responsive {
+    max-height: 65vh;
+  }
+}

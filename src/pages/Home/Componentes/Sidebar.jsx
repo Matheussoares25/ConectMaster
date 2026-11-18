@@ -52,7 +52,7 @@ const sidebarItems = [
       </div>
     ),
   },
-    {
+  {
     id: "compras",
     title: "Compras",
     icon: "🛒",
@@ -74,7 +74,6 @@ const sidebarItems = [
     icon: "⚙️",
     content: <Config />,
   },
-
 ];
 const ultimaView = "ultimasViews";
 
@@ -87,7 +86,7 @@ export default function Sidebar({ onLogout }) {
   });
   const [user, setUser] = useState({});
   const [visibleItems, setVisibleItems] = useState([]);
-
+  
   useEffect(() => {
     const storedUser =
       JSON.parse(localStorage.getItem("user")) ||
@@ -99,8 +98,18 @@ export default function Sidebar({ onLogout }) {
     localStorage.setItem(ultimaView, activeId);
   }, [activeId]);
 
+
+    const fecharMenu = () => setSidebarOpen(false);
+
   const handclick = (id) => {
     setActiveId(id);
+     setSidebarOpen(false);
+  };
+
+
+  const handleLogout = () => {
+    setSidebarOpen(false);
+    onLogout();
   };
 
   const views = JSON.parse(localStorage.getItem("views")) || [];
@@ -147,17 +156,30 @@ export default function Sidebar({ onLogout }) {
         </nav>
 
         <div className="home-sidebar-footer">
-          <button className="home-sidebar-link" onClick={onLogout}>
+          <button className="home-sidebar-link" onClick={handleLogout}>
             <span className="home-sidebar-icon">⏻</span>
             <span className="home-sidebar-label">Sair</span>
           </button>
         </div>
       </aside>
 
+      {/* ===== OVERLAY (fecha a gaveta ao tocar fora) ===== */}
+      {sidebarOpen && (
+        <div className="home-sidebar-overlay" onClick={fecharMenu} />
+      )}
+
       {/* ===== CONTEÚDO ===== */}
       <main className="flex-grow-1 p-4">
         <header className="home-header">
-          <div className="home-header-left" />
+          <div className="home-header-left">
+            <button
+              className="home-menu-toggle"
+              aria-label="Abrir menu"
+              onClick={() => setSidebarOpen(true)}
+            >
+              ☰
+            </button>
+          </div>
 
           <div className="home-user">
             <div className="home-user-avatar">
@@ -170,9 +192,11 @@ export default function Sidebar({ onLogout }) {
           </div>
         </header>
 
-        {activeItem || ultimasViews.length > 0 ? (
+        {activeItem ? (
           activeItem.content
-        ) : (
+        ) : ultimasViews.length >
+          0 ? // SEU CÓDIGO: o que mostrar quando há ultimasViews mas nenhum item ativo
+        null : (
           <p className="text-muted">Nenhum item disponível.</p>
         )}
       </main>

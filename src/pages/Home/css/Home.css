@@ -17,12 +17,16 @@ button {
   cursor: pointer;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 /* ===== UTILITÁRIOS (usados no Sidebar) ===== */
-/* NOVO: necessários pois o Sidebar.jsx usa essas classes e elas não existiam */
 
 .d-flex {
   display: flex;
-  width: 100%;        /* NOVO: corrige o encolhimento dentro do .home-page (flex pai) */
+  width: 100%;
 }
 
 .flex-grow-1 {
@@ -36,8 +40,6 @@ button {
 
 /* ===== LAYOUT GERAL (sidebar + main) ===== */
 
-
-
 .home-main {
   flex: 1;
   display: flex;
@@ -48,7 +50,7 @@ button {
 /* ===== SIDEBAR ===== */
 
 .home-sidebar {
-  width: 240px;
+  width: 300px;
   flex-shrink: 0;
   background: var(--bg-sidebar);
   backdrop-filter: blur(var(--blur-glass));
@@ -83,13 +85,13 @@ button {
 .home-sidebar-link {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   padding: 10px 12px;
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--text-muted);
   text-align: left;
-  font-size: 14px;
+  font-size: 16px;
   transition: var(--transition-fast);
 }
 
@@ -113,6 +115,11 @@ button {
 .home-menu-toggle {
   display: none;
   font-size: 20px;
+}
+
+/* Fundo escurecido atrás da gaveta (precisa de um <div className="home-sidebar-overlay"> no JSX) */
+.home-sidebar-overlay {
+  display: none;
 }
 
 /* ===== HEADER ===== */
@@ -148,14 +155,14 @@ button {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text-primary-contrast);
   font-size: 14px;
 }
 
 .home-logo-text {
   font-size: 15px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--text-primary-contrast);
 }
 
 .home-user {
@@ -187,12 +194,12 @@ button {
 .home-user-name {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--text-primary-contrast);
 }
 
 .home-user-role {
   font-size: 11px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 /* ===== CONTEÚDO ===== */
@@ -204,8 +211,6 @@ button {
   width: 100%;
 }
 
-/* NOVO: como o <main> do Sidebar usa .flex-grow-1.p-4 (sem .home-content),
-   garante que ele também tenha rolagem própria dentro da viewport */
 main.flex-grow-1 {
   overflow-y: auto;
   max-height: 100vh;
@@ -234,8 +239,8 @@ main.flex-grow-1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 15px;
-  max-width: 950px;   /* NOVO: limita a largura do grid */
-  margin: 0 auto; 
+  max-width: 950px;
+  margin: 0 auto;
   padding-top: 80px;
 }
 
@@ -327,26 +332,7 @@ main.flex-grow-1 {
   transform: translateX(4px);
 }
 
-/* ===== RESPONSIVO ===== */
-
-@media (max-width: 900px) {
-  .home-sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    z-index: 50;
-    transform: translateX(-100%);
-  }
-
-  .home-sidebar--open {
-    transform: translateX(0);
-  }
-
-  .home-menu-toggle {
-    display: block;
-  }
-}
+/* Botões de tema padrão */
 .btn-primary {
   background: var(--gradient-primary);
   color: #fff;
@@ -366,20 +352,179 @@ main.flex-grow-1 {
 .btn-primary:disabled {
   opacity: 0.6;
 }
-@media (max-width: 600px) {
+
+/* ===== RESPONSIVO — TABLET (até 900px) ===== */
+
+@media (max-width: 900px) {
+  /* Sidebar vira gaveta, escondida por padrão */
+  .home-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: min(300px, 85vw);
+    z-index: 50;
+    transform: translateX(-100%);
+    overflow-y: auto;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .home-sidebar--open {
+    transform: translateX(0);
+  }
+
+  .home-sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.87);
+    z-index: 40;
+  }
+
+  /* Botão de abrir o menu (hambúrguer) */
+  .home-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-card);
+    background: var(--bg-card);
+    color: var(--text-primary);
+  }
+
+  /* Alvos de toque mais confortáveis */
+  .home-sidebar-link {
+    min-height: 44px;
+  }
+
   .home-header {
     padding: 14px 20px;
+    margin-bottom: 16px;
+    border-radius: 0 0 20px 20px;
   }
 
   .home-content {
     padding: 32px 20px;
   }
 
-  .p-4 {
-    padding: 16px;
+  .home-grid {
+    padding-top: 40px;
+  }
+
+  /* Telas de painel (admin, histórico): o menu vira uma faixa horizontal no topo,
+     sem depender do botão de gaveta */
+  .panel-wrapper > .d-flex {
+    flex-direction: column;
+  }
+
+  .panel-wrapper .home-sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    transform: none;
+    overflow: visible;
+    box-shadow: none;
+    border-right: none;
+    border-bottom: 1px solid var(--border-card);
+    padding: 12px 16px;
+  }
+
+  .panel-wrapper .home-sidebar .nav.flex-column {
+    flex-direction: row !important;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 6px !important;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .panel-wrapper .home-sidebar .nav-item {
+    flex-shrink: 0;
+  }
+
+  .panel-wrapper .panel-nav-link {
+    min-height: 44px;
+    white-space: nowrap;
+    padding: 8px 14px;
+  }
+
+  .panel-wrapper .panel-nav-link.active::before {
+    display: none;
+  }
+
+  .panel-wrapper .home-sidebar-footer {
+    display: none;
+  }
+
+  .panel-wrapper .panel-content {
+    max-height: none;
+    overflow: visible;
+    padding: 16px !important;
+  }
+
+  .panel-wrapper main.flex-grow-1 {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+/* ===== RESPONSIVO — CELULAR (até 600px) ===== */
+
+@media (max-width: 600px) {
+  .home-header {
+    padding: 12px 16px;
+  }
+
+  .home-logo-text {
+    font-size: 14px;
   }
 
   .home-user-info {
     display: none;
+  }
+
+  .home-content {
+    padding: 24px 16px;
+  }
+
+  .home-welcome-ti {
+    margin-bottom: 24px;
+  }
+
+  .home-title {
+    font-size: 20px;
+  }
+
+  .home-subtitle {
+    font-size: 13px;
+  }
+
+  /* Um card por linha */
+  .home-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding-top: 24px;
+  }
+
+  .home-card {
+    padding: 20px;
+  }
+
+  .p-4 {
+    padding: 16px;
+  }
+}
+
+/* ===== TOQUE: sem efeito de hover preso após o toque ===== */
+
+@media (hover: none) {
+  .home-card:hover {
+    transform: none;
+  }
+
+  .home-card:hover .home-card-arrow {
+    transform: none;
   }
 }

@@ -15,6 +15,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  min-width: 0;
 }
 
 .chamado-group label {
@@ -23,7 +24,6 @@
   margin-bottom: 8px;
   font-weight: 500;
 }
-
 
 .chamado-group input,
 .chamado-group select,
@@ -73,9 +73,11 @@
 .chamado-button {
   background: var(--gradient-primary);
   color: white;
+  border: none;
   border-radius: var(--radius-sm);
   padding: 12px 24px;
   font-weight: 600;
+  cursor: pointer;
   transition: var(--transition-fast);
 }
 
@@ -83,8 +85,60 @@
   transform: translateY(-2px);
 }
 
+/* ===== RESPONSIVO — TABLET (até 768px) ===== */
+
 @media (max-width: 768px) {
   .chamado-row {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ===== RESPONSIVO — CELULAR (até 600px) ===== */
+
+@media (max-width: 600px) {
+  .chamado-card {
+    padding: 16px;
+    border-radius: var(--radius-md, 12px);
+  }
+
+  .chamado-row {
+    gap: 12px;
+  }
+
+  .chamado-group {
+    margin-bottom: 16px;
+  }
+
+  .chamado-group label {
+    font-size: 14px;
+  }
+
+  /* 16px evita o zoom automático do iOS ao focar no campo */
+  .chamado-group input,
+  .chamado-group select,
+  .chamado-group textarea {
+    font-size: 16px;
+    padding: 12px;
+    min-height: 44px;
+  }
+
+  .chamado-group textarea {
+    min-height: 120px;
+  }
+
+  /* Botão ocupa a largura toda, com área de toque confortável */
+  .chamado-button {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+}
+
+/* ===== TOQUE: sem efeito de hover preso após o toque ===== */
+
+@media (hover: none) {
+  .chamado-button:hover {
+    transform: none;
   }
 }

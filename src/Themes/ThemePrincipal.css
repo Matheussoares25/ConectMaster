@@ -1,43 +1,56 @@
-/* ThemePrincipal.css */
 :root {
-  /* ---- fixos (valem para todos os temas) ---- */
-  --color-primary: #46abe5;
-  --color-secondary: #2f6fed;
-  --color-success: #22c58b;
-  --color-warning: #f5a623;
-  --color-danger: #ef5da8;
+  /* ---- cores de ação (uma só cor de destaque) ---- */
+  --color-primary: #1f5fae;
+  --color-secondary: #184b8a;   /* hover / variação do primário */
+  --color-success: #2e7d32;
+  --color-warning: #b26a00;
+  --color-danger:  #c62828;
 
-
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 18px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
   --radius-pill: 999px;
 
-  --transition-fast: .2s ease;
-  --transition-normal: .3s ease;
 
-  --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  --blur-glass: 14px;
+  --card-primary: #2e7d32;
+  --card-secondary: #b26a00;
+  --card-tertiary: #c62828;
+
+
+  --transition-fast: .15s ease;
+  --transition-normal: .2s ease;
+
+  /* sem gradiente: cor sólida */
+  --gradient-primary: var(--color-primary);
+  --blur-glass: 0px;
   --container-width: 1180px;
 
-  /* ---- cores do tema CLARO (padrão) ---- */
-  --bg-page: #f4f6fb;
+  /* ---- tema CLARO (padrão) ---- */
+  --bg-page: #f4f5f7;
   --bg-card: #ffffff;
-  --bg-card-hover: #eef2f9;
-  --bg-glass: rgba(255, 255, 255, 0.6);
+  --bg-card-hover: #f0f3f7;
+  --bg-glass: #ffffff;
+  --bg-sidebar: #ffffff;
+  --bg-selector: #eef3fa;       /* item ativo do menu */
 
-  --border-card: rgba(0, 0, 0, 0.08);
-  --border-soft: rgba(0, 0, 0, 0.12);
-  --border-strong: rgba(0, 0, 0, 0.16);
+  --border-card: #d9dde3;
+  --border-soft: #d9dde3;
+  --border-strong: #b8c0cc;
 
-  --text-primary: #1f2937;
-  --text-secondary: #374151;
-  --text-muted: #6b7280;
-  --text-disabled: rgba(0, 0, 0, 0.4);
+  --text-primary: #1f2933;
+  --text-secondary: #3e4c59;
+  --text-muted: #5f6b7a;
+  --text-disabled: #9aa5b1;
 
-  --shadow-primary: 0 10px 24px rgba(47, 111, 237, 0.2);
-  --dot-grid: radial-gradient(circle at 1px 1px, rgba(0,0,0,.05) 1px, transparent 0);
-  --dot-grid-size: 28px 28px;
+  --shadow-primary: 0 1px 2px rgba(0, 0, 0, 0.08);
+  --dot-grid: none;
+  --dot-grid-size: 0 0;
+}
+
+html, body, #root {
+  min-height: 100vh;
+  background: var(--bg-page);
+  color: var(--text-primary);
 }
 
 html, body, #root {
@@ -70,24 +83,25 @@ html, body, #root {
 }
 
 [data-theme="Master"] {
-  --bg-page: #13152eda;
-  --bg-card: rgba(255, 255, 255, 0.035);
-  --bg-selector: rgba(13, 147, 170, 0.644);
-  --bg-card-hover: rgba(255, 255, 255, 0.08);
-  --bg-glass: rgba(255, 255, 255, 0);
-  --bg-sidebar: rgba(0, 110, 255, 0.411);
+  --bg-page: #f4f6f9;
+  --bg-card: #ffffff;
+  --bg-selector: #ffffff;
+  --bg-card-hover: #f6f9fe;
+  --bg-glass: transparent;
+  --bg-sidebar: #0f1b2d; /* menu lateral azul-marinho, como no mockup */
 
-  --border-card: rgba(255, 255, 255, 0.08);
-  --border-soft: rgba(255, 255, 255, 0.12);
-  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-card: #dde3ec;
+  --border-soft: #e8edf4;
+  --border-strong: #c5cedb;
 
-  --text-primary: #ffffff;
-  --text-secondary: #e5e7eb;
-  --text-muted: #cbd5e1;
-  --text-disabled: rgba(255, 255, 255, 0.7);
+  --text-primary-contrast: #ffffff;
+  --text-primary: #1b2635;
+  --text-secondary: #c3ccc2;
+  --text-muted: #96a1b1;
+  --text-disabled: #9aa5b4;
 
-  --shadow-primary: 0 10px 24px rgba(47, 111, 237, 0.35);
-  --dot-grid: radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0);
+  --shadow-primary: 0 1px 2px rgba(15, 27, 45, 0.08);
+  --dot-grid: none; /* sem pontilhado, mais corporativo */
 }
 
 [data-theme="principal"] {

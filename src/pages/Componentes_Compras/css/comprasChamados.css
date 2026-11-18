@@ -1,7 +1,4 @@
-@import "../../Componentes_TI/componentes/AbrirChamado/css/AbrirChamado.css";
-@import "../../Componentes_TI/componentes/HistoricoChamados/css/historico.css";
-@import "../../Componentes_Adm/Componentes/PainelControle/css/PainelControle.css";
-@import "../../Componentes_Adm/Componentes/PainelControle/css/GerenciarUsuario.css";
+
 
 .compras-chamados {
   min-height: 100vh;

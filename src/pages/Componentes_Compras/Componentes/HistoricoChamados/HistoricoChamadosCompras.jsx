@@ -78,7 +78,7 @@ export default function HistoricoChamadosCompras() {
     <div className="panel-wrapper" data-bs-theme="dark">
       <div className="d-flex" style={{ minHeight: "100vh" }}>
         {/* ===== SIDEBAR ===== */}
-        <aside className="panel-sidebar d-flex flex-column justify-content-between p-3">
+        <aside className="home-sidebar">
           <div>
             <div className="d-flex align-items-center gap-2 mb-4 px-1">
               <button

@@ -340,7 +340,7 @@ export default function HistoricoChamados() {
           <p className="hc-text-muted mb-0">Nenhum chamado encontrado.</p>
         ) : (
           <div className="table-responsive">
-            <table className="table hc-table align-middle mb-0">
+            <table className="table hc-table align-middle mb-0 table-g" >
               <thead>
                 <tr>
                   <th>ID</th>

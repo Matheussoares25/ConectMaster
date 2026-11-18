@@ -2,20 +2,27 @@ import Swal from "sweetalert2";
 const API_URL = import.meta.env.VITE_API_URL;
 
 class Api {
-  static async CallEndpoint(setor, method, body = null, id = null) {
+  static async CallEndpoint(
+    setor,
+    method,
+    body = null,
+    id = null,
+    responseType = "json"
+  ) {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
+    const isFormData = body instanceof FormData;
 
     const options = {
       method,
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
       },
     };
 
     if (body !== null) {
-      options.body = JSON.stringify(body);
+      options.body = isFormData ? body : JSON.stringify(body);
     }
 
     let url = `${API_URL}/${setor}`;
@@ -34,10 +41,14 @@ class Api {
       }
 
       let data = null;
-      try {
-        data = await response.json();
-      } catch {
-        data = null;
+      if (responseType === "blob" && response.ok) {
+        data = await response.blob();
+      } else {
+        try {
+          data = await response.json();
+        } catch {
+          data = null;
+        }
       }
 
       if (response.status === 401) {

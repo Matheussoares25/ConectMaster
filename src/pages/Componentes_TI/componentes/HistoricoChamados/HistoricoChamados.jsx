@@ -4,6 +4,7 @@ import APi from "../../../../Services/EndPoint";
 import { useNavigate } from "react-router-dom";
 import Listachamados from "./componentes/listachamados";
 
+import "./css/historico.css"
 const icons = {
   relatorios: (
     <svg
@@ -78,7 +79,7 @@ export default function HistoricoChamados() {
     <div className="panel-wrapper" data-bs-theme="dark">
       <div className="d-flex" style={{ minHeight: "100vh" }}>
         {/* ===== SIDEBAR ===== */}
-        <aside className="panel-sidebar d-flex flex-column justify-content-between p-3">
+        <aside className="home-sidebar">
           <div>
             <div className="d-flex align-items-center gap-2 mb-4 px-1">
               <button
@@ -110,7 +111,7 @@ export default function HistoricoChamados() {
             </ul>
           </div>
 
-          <div className="d-flex align-items-center gap-2 pt-3 border-top border-secondary-subtle">
+          <div className="home-sidebar-footer">
             <div className="panel-user-avatar d-flex align-items-center justify-content-center fw-semibold">
               {user?.nome?.[0]}
             </div>
