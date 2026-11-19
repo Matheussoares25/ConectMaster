@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
-import Api from "../../../../../Services/EndPoint";
+import Api from "../../../../../../Services/EndPoint";
 
 export default function OrdemServicoFrete() {
   // Identificação

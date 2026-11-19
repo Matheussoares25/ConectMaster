@@ -8,22 +8,24 @@ import Home from "./pages/Home/Home";
 import PainelControle from "./pages/Componentes_Adm/Componentes/PainelControle/PainelControle";
 import PrivateRoute from "./Services/PrivateRoute";
 import AbrirChamado from "./pages/Componentes_TI/componentes/AbrirChamado/AberturaDeChamado";
-import AbrirServico from "./pages/Componentes_Adm/Componentes/AbrirServico/AbrirServico";
+import AbrirServico from "./pages/Componentes_Adm/Componentes/Servicos/AbrirServico/AbrirServico";
 import HistoricoChamados from "./pages/Componentes_TI/componentes/HistoricoChamados/HistoricoChamados";
 import Api from "./Services/EndPoint";
 import Estoque from "./pages/Estoques/Estoque";
-import HistoricoServiços from "./pages/Componentes_Adm/Componentes/HistoricoServiços/HistoricoServiços";
+import HistoricoServiços from "./pages/Componentes_Adm/Componentes/Servicos/HistoricoServiços/HistoricoServiços";
 import AbrirChamadoCompras from "./pages/Componentes_Compras/Componentes/AbrirChamadoCompras";
 import HistoricoChamadosCompras from "./pages/Componentes_Compras/Componentes/HistoricoChamados/HistoricoChamadosCompras";
-import ChamadosComprasStandby from "./pages/Componentes_Adm/Componentes/ChamadosComprasStandby";
-
+import ChamadosComprasStandby from "./pages/Componentes_Adm/Componentes/Standby/Standby";
+import ControlePortaria from "./pages/Portaria/ControlePortaria";
+import FormularioP from "./pages/Portaria/FormularioP";
 
 function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
+  const rotasPublicas = ["/", "/FormularioP"];
 
   useEffect(() => {
-    if (location.pathname === "/") return;
+      if (rotasPublicas.includes(location.pathname)) return;
 
     const carregarViews = async () => {
       try {
@@ -32,7 +34,6 @@ function AppContent() {
         ]);
 
         localStorage.setItem("views", JSON.stringify(response));
-
       } catch (error) {
         console.error("Erro ao carregar permissões:", error);
       }
@@ -46,7 +47,6 @@ function AppContent() {
 
     return () => clearInterval(intervalo);
   }, [location.pathname]);
-
 
   return (
     <Routes>
@@ -129,6 +129,15 @@ function AppContent() {
           </PrivateRoute>
         }
       />
+      <Route
+        path="/ControlePortaria"
+        element={
+          <PrivateRoute>
+            <ControlePortaria />
+          </PrivateRoute>
+        }
+      />
+      <Route path="/FormularioP" element={<FormularioP />} />
     </Routes>
   );
 }

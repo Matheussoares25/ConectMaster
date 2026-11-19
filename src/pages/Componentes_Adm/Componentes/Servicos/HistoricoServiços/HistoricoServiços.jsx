@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import APi from "../../../../Services/EndPoint";
 import { useNavigate } from "react-router-dom";
-import Listachamados from "./componentes/ListaServiços";
+import Lista from "./componentes/ListaServiços";
 
 const icons = {
   relatorios: (
@@ -40,7 +39,7 @@ const panelItems = [
     id: "ListaServicos",
     title: "Serviços",
     icon: icons.relatorios,
-    content: <Listachamados />,
+    content: <Lista />,
   },
 
 ];

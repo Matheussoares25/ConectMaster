@@ -50,7 +50,7 @@ img {
 /* ===== SIDEBAR ===== */
 
 .home-sidebar {
-  width: 300px;
+  width: 250px;
   flex-shrink: 0;
   background: var(--bg-sidebar);
   backdrop-filter: blur(var(--blur-glass));
@@ -98,6 +98,11 @@ img {
 .home-sidebar-link:hover {
   background: var(--bg-card-hover);
   color: var(--text-primary);
+  font-weight: 500;
+  transform: translateY(-9px);
+  transform: translateX(10px);
+  border-color: var(--border-soft);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
 }
 
 .home-sidebar-link--active {

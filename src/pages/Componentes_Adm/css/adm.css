@@ -174,7 +174,68 @@
   color: var(--color-primary);
   transform: translateX(4px);
 }
+/* ===== Chamados de Compras em standby ===== */
+.gerenciar-usuarios {
+  color: var(--text-primary);
+}
 
+.gu-text-primary {
+  color: var(--text-primary) !important;
+}
+
+.gu-text-muted {
+  color: var(--text-muted) !important;
+}
+
+.gu-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 6px;
+}
+
+.gu-table {
+  --bs-table-bg: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.gu-table thead th {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.gu-table td {
+  border-color: var(--border-soft);
+  vertical-align: middle;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.gu-table tbody tr:hover {
+  background: var(--bg-card-hover);
+}
+
+.gu-table td.text-break {
+  max-width: 280px;
+}
+
+.gu-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  background: rgba(47, 111, 237, 0.15);
+  color: #7fb0ff;
+}
 /* ===== RESPONSIVO ===== */
 
 @media (max-width: 600px) {

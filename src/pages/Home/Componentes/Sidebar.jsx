@@ -1,31 +1,27 @@
 import React, { useEffect, useState } from "react";
-import MenuMain from "./MenuMain";
 import CotacaoMoeda from "./BuscaMoedas";
-import EstoquesMain from "./EstoquesMain";
-import Ti from "../../Componentes_TI/Acessos_TI";
-import Adm from "../../Componentes_Adm/Acessos_adm";
 import Config from "./Config";
-import Compras from "../../Componentes_Compras/Acessos_Compras";
+import AcessosGeral from "../../Acessos/Acessos_geral";
 
 const sidebarItems = [
   {
     id: "inicio",
     title: "Início",
     roles: "all",
-    icon: "🏠",
-    content: <MenuMain />,
+    icon: "> ",
+    content:<AcessosGeral idContent={4} />,
   },
   {
     id: "outrosServicos",
     title: "Minha Agenda",
-    icon: "👥",
+    icon: "> ",
     content: <div>Em breve</div>,
   },
   {
     id: "buscarMoedas",
     roles: "all",
     title: "Buscar valor Moedas",
-    icon: "🪙",
+    icon: "> ",
     content: (
       <div>
         <CotacaoMoeda />
@@ -35,45 +31,42 @@ const sidebarItems = [
   {
     id: "estoque",
     title: "Estoques",
-    icon: "📦",
-    content: (
-      <div>
-        <EstoquesMain />
-      </div>
-    ),
+    icon: "> ",
+    content: <AcessosGeral idContent={5} />,
   },
   {
     id: "ti",
     title: "TI",
-    icon: "💻",
-    content: (
-      <div>
-        <Ti />
-      </div>
-    ),
+    icon: "> ",
+    content: <AcessosGeral idContent={3} />,
+    idContent: 3,
   },
   {
     id: "compras",
     title: "Compras",
-    icon: "🛒",
-    content: <Compras />,
+    icon: "> ",
+    content: <AcessosGeral idContent={2} />,
+    idContent: 2,
   },
   {
     id: "adm",
     title: "ADM",
-    icon: "💰",
-    content: (
-      <div>
-        <Adm />
-      </div>
-    ),
+    icon: "> ",
+    content: <AcessosGeral idContent={1} />,
+    idContent: 1,
   },
   {
     id: "configuracoes",
     title: "Configurações",
-    icon: "⚙️",
+    icon: "> ",
     content: <Config />,
   },
+  {
+    id: "portaria",
+    title: "Portaria",
+    icon: "> ",
+    content: <AcessosGeral idContent={6} />,
+  }
 ];
 const ultimaView = "ultimasViews";
 
@@ -86,7 +79,7 @@ export default function Sidebar({ onLogout }) {
   });
   const [user, setUser] = useState({});
   const [visibleItems, setVisibleItems] = useState([]);
-  
+
   useEffect(() => {
     const storedUser =
       JSON.parse(localStorage.getItem("user")) ||
@@ -98,14 +91,12 @@ export default function Sidebar({ onLogout }) {
     localStorage.setItem(ultimaView, activeId);
   }, [activeId]);
 
-
-    const fecharMenu = () => setSidebarOpen(false);
+  const fecharMenu = () => setSidebarOpen(false);
 
   const handclick = (id) => {
     setActiveId(id);
-     setSidebarOpen(false);
+    setSidebarOpen(false);
   };
-
 
   const handleLogout = () => {
     setSidebarOpen(false);
@@ -194,9 +185,7 @@ export default function Sidebar({ onLogout }) {
 
         {activeItem ? (
           activeItem.content
-        ) : ultimasViews.length >
-          0 ? // SEU CÓDIGO: o que mostrar quando há ultimasViews mas nenhum item ativo
-        null : (
+        ) : (
           <p className="text-muted">Nenhum item disponível.</p>
         )}
       </main>
