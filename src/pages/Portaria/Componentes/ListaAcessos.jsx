@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Api from "../../../Services/EndPoint";
+import { swalBase } from "../../../Services/EndPoint";
 
 
 const prioridadeLabel = { 1: "Baixa", 2: "Média", 3: "Alta", 4: "Crítica" };
 
-const swalTema = {
-  background: "#141826",
-  color: "#fff",
-  confirmButtonColor: "#2f6fed",
-};
 
 const formatarData = (data) => {
   if (!data) return "—";
@@ -59,7 +55,7 @@ export default function ListaAcesso() {
           text:
             error.message ||
             "Não foi possível carregar os chamados de Compras em standby.",
-          ...swalTema,
+          ...swalBase,
         });
       } finally {
         if (ativo) setCarregando(false);

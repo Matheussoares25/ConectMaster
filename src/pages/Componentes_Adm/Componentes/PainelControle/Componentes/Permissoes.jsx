@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Api from '../../../../../Services/EndPoint';
+import { swalBase } from "../../../../../Services/EndPoint";
 
 export default function Permissoes() {
   const [perfis, setPerfis] = useState([]);
@@ -34,6 +35,7 @@ export default function Permissoes() {
   const salvarEdicao = async (perfil) => {
     if (!nomeEditado.trim()) {
       Swal.fire({
+        ...swalBase,
         icon: "warning",
         title: "Nome obrigatório",
         text: "O nome do perfil não pode ficar vazio.",
@@ -158,11 +160,9 @@ export default function Permissoes() {
     );
 
     Swal.fire({
+      ...swalBase,
       icon: "question",
       title: "Selecione uma permissão",
-      background: "#141826",
-      color: "#fff",
-      confirmButtonColor: "#2f6fed",
       showCancelButton: true,
       showConfirmButton: true,
       html: `
@@ -218,19 +218,16 @@ export default function Permissoes() {
 
   const novoPerfil = async () => {
     Swal.fire({
+      ...swalBase,
       icon: "question",
       title: "Novo perfil",
-      background: "#141826",
-      color: "#fff",
-      confirmButtonColor: "#2f6fed",
-      cancelButtonColor: "#2a2f45",
       showCancelButton: true,
       showConfirmButton: true,
       confirmButtonText: "Criar",
       cancelButtonText: "Cancelar",
       html: `
       <div class="container-fluid">
-        <input type="text" class="form-control swal-input" id="nome-perfil" placeholder="Nome do Perfil">
+        <input type="text" class="swal2-input swal-input" id="nome-perfil" placeholder="Nome do Perfil">
       </div>
     `,
       preConfirm: () => {
@@ -414,7 +411,9 @@ export default function Permissoes() {
                               Permissões
                             </button>
 
-                            <button className="btn btn-sm btn-outline-danger">
+                            <button className="btn btn-sm btn-outline-danger"
+                              
+                            >
                               Excluir
                             </button>
                           </div>

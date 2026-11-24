@@ -107,4 +107,11 @@ class Api {
   }
 }
 
+export const swalBase = {
+  background: "#141826",
+  color: "#fff",
+  confirmButtonColor: "#2f6fed",
+  cancelButtonColor: "#2a2f45",
+};
+
 export default Api;

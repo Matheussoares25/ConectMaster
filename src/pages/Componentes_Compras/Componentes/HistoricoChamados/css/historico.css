@@ -263,6 +263,36 @@
           text-align: center;
         }
 
+        .hc-row-details > td {
+  background: var(--bg-card);
+  border-top: 0;
+  padding: 1rem 1.25rem;
+}
+
+.hc-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.9rem 1.5rem;
+}
+
+.hc-details-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  align-items: flex-start;
+}
+
+.hc-details-item--full {
+  grid-column: 1 / -1;
+}
+
+.hc-details-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
         @media (max-width: 767.98px) {
           .hc-compras-history {
             min-height: 100vh;

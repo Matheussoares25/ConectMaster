@@ -220,7 +220,7 @@
   padding: 14px 10px;
   background: var(--bg-card);
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: var(--font-tables-thead);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.4px;
@@ -231,7 +231,7 @@
 .hc-table tbody td {
   padding: 13px 10px;
   line-height: 1.45;
-  font-size: 14px;
+  font-size: var(--font-tables);
   border-bottom: 1px solid var(--border-card);
 }
 

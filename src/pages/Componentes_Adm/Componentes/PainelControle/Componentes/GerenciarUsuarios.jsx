@@ -2,12 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Api from "../../../../../Services/EndPoint";
 import Swal from "sweetalert2";
-const swalBase = {
-  background: "#141826",
-  color: "#fff",
-  confirmButtonColor: "#2f6fed",
-  cancelButtonColor: "#2a2f45",
-};
+import { swalBase } from "../../../../../Services/EndPoint";
+
 
 const escapeHtml = (texto = "") =>
   String(texto)

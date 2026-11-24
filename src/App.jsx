@@ -8,6 +8,7 @@ import Home from "./pages/Home/Home";
 import PainelControle from "./pages/Componentes_Adm/Componentes/PainelControle/PainelControle";
 import PrivateRoute from "./Services/PrivateRoute";
 import AbrirChamado from "./pages/Componentes_TI/componentes/AbrirChamado/AberturaDeChamado";
+import DpMoveisPage from "./pages/Componentes_TI/componentes/DpMoveis/DpMoveisPage";
 import AbrirServico from "./pages/Componentes_Adm/Componentes/Servicos/AbrirServico/AbrirServico";
 import HistoricoChamados from "./pages/Componentes_TI/componentes/HistoricoChamados/HistoricoChamados";
 import Api from "./Services/EndPoint";
@@ -83,6 +84,14 @@ function AppContent() {
         element={
           <PrivateRoute>
             <AbrirChamado />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/dpmoveis"
+        element={
+          <PrivateRoute>
+            <DpMoveisPage />
           </PrivateRoute>
         }
       />

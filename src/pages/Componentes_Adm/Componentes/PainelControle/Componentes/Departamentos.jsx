@@ -2,12 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Api from "../../../../../Services/EndPoint";
 import Swal from "sweetalert2";
-const swalBase = {
-  background: "#141826",
-  color: "#fff",
-  confirmButtonColor: "#2f6fed",
-  cancelButtonColor: "#2a2f45",
-};
+import swalBase from "../../../../../Services/EndPoint";
+
 
 // evita quebrar o HTML do Swal se o nome tiver aspas ou < >
 const escapeHtml = (texto = "") =>

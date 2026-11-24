@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import CotacaoMoeda from "./BuscaMoedas";
 import Config from "./Config";
 import AcessosGeral from "../../Acessos/Acessos_geral";
+import { icons } from "../../../Themes/Icons";
 
 const sidebarItems = [
   {
     id: "inicio",
     title: "Início",
     roles: "all",
-    icon: "> ",
-    content:<AcessosGeral idContent={4} />,
+    icon: icons.inicio,
+    content: <AcessosGeral idContent={4} />,
   },
   {
     id: "outrosServicos",
@@ -21,7 +22,7 @@ const sidebarItems = [
     id: "buscarMoedas",
     roles: "all",
     title: "Buscar valor Moedas",
-    icon: "> ",
+    icon: icons.coins,
     content: (
       <div>
         <CotacaoMoeda />
@@ -31,42 +32,42 @@ const sidebarItems = [
   {
     id: "estoque",
     title: "Estoques",
-    icon: "> ",
+    icon: icons.estoque,
     content: <AcessosGeral idContent={5} />,
   },
   {
     id: "ti",
     title: "TI",
-    icon: "> ",
+    icon: icons.ti,
     content: <AcessosGeral idContent={3} />,
     idContent: 3,
   },
   {
     id: "compras",
     title: "Compras",
-    icon: "> ",
+    icon: icons.compras,
     content: <AcessosGeral idContent={2} />,
     idContent: 2,
   },
   {
     id: "adm",
     title: "ADM",
-    icon: "> ",
+    icon: icons.adm,
     content: <AcessosGeral idContent={1} />,
     idContent: 1,
   },
   {
     id: "configuracoes",
     title: "Configurações",
-    icon: "> ",
+    icon: icons.setings,
     content: <Config />,
   },
   {
     id: "portaria",
     title: "Portaria",
-    icon: "> ",
+    icon: icons.ordinance,
     content: <AcessosGeral idContent={6} />,
-  }
+  },
 ];
 const ultimaView = "ultimasViews";
 
