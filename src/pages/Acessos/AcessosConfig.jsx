@@ -1,4 +1,4 @@
-import { icons } from "../../Themes/Icons";
+import { icons } from "../../Themes/icons";
 
 export  const menuItems = [
     //administração 

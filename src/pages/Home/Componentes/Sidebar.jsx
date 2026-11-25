@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CotacaoMoeda from "./BuscaMoedas";
 import Config from "./Config";
 import AcessosGeral from "../../Acessos/Acessos_geral";
-import { icons } from "../../../Themes/Icons";
+import { icons } from "../../../Themes/icons";
 
 const sidebarItems = [
   {
