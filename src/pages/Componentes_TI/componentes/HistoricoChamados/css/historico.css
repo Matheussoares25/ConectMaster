@@ -15,11 +15,7 @@
   background-color: var(--bg-page);
 }
 
-.hc-wrapper button {
-  appearance: none;
-  -webkit-appearance: none;
-  font: inherit;
-}
+
 
 /* ===== CABEÇALHO ===== */
 
@@ -209,7 +205,7 @@
   margin-bottom: 0;
   color: var(--text-secondary);
   --bs-table-bg: transparent;
-  --bs-table-hover-bg: var(--bg-card-hover);
+  --bs-table-hover-bg: var(--bg-table-hover);
   --bs-table-hover-color: var(--text-primary);
 }
 
@@ -240,7 +236,7 @@
 }
 
 .hc-table tbody tr:hover td {
-  background: var(--bg-card-hover);
+  background: var(--bg-table-hover);
 }
 
 .hc-table th:first-child,
@@ -261,31 +257,7 @@
   min-width: 250px;
 }
 
-.hc-table .btn {
-  margin: 2px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 600;
-}
 
-/* Botões de ícone (editar e apagar) */
-.hc-btn-icon {
-  background: var(--bg-glass);
-  border: 1px solid var(--border-card);
-  color: var(--text-secondary) !important;
-  border-radius: var(--radius-sm);
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hc-btn-icon:hover {
-  background: var(--bg-card-hover);
-  color: var(--text-primary) !important;
-}
 
 /* ===== BADGES ===== */
 

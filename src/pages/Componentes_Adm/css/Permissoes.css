@@ -1,0 +1,189 @@
+.permissoes-page {
+  color: var(--text-primary);
+}
+
+.permissoes-page__header {
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.permissoes-page .gu-btn-primary {
+  border-radius: var(--radius-sm);
+  background: var(--gradient-primary);
+  color: var(--text-primary-contrast, #fff);
+  box-shadow: var(--shadow-primary);
+}
+
+.permissoes-page .permissoes-catalogo,
+.permissoes-page .perfis-card {
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+}
+
+.permissoes-page .permissoes-catalogo {
+  margin-bottom: 20px;
+}
+
+.permissoes-page .permissoes-catalogo__table,
+.permissoes-page .perfis-table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text-secondary);
+  --bs-table-hover-bg: var(--bg-card-hover);
+  --bs-table-hover-color: var(--text-primary);
+  color: var(--text-secondary);
+}
+
+.permissoes-page .permissoes-catalogo__table thead th,
+.permissoes-page .perfis-table thead th {
+  border-bottom: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  font-size: var(--font-tables-thead);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.permissoes-page .permissoes-catalogo__table tbody td,
+.permissoes-page .perfis-table tbody td {
+  border-color: var(--border-soft);
+  color: var(--text-secondary);
+  font-size: var(--font-tables);
+  vertical-align: middle;
+}
+
+.permissoes-page .perfis-card .card-body {
+  padding: clamp(16px, 2vw, 24px);
+}
+
+.permissoes-page .perfis-table th:last-child,
+.permissoes-page .perfis-table td:last-child {
+  min-width: 240px;
+}
+
+.permissoes-page .perfis-table td .d-flex {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.permissoes-page .permissoes-action--toggle.is-active {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.permissoes-page .permissoes-action--delete {
+  color: var(--color-danger);
+}
+
+.permissoes-page .permissoes-action--delete:hover:not(:disabled) {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.permissoes-page .permissoes-expansao-cell {
+  --bs-table-bg: var(--bg-card-hover);
+  --bs-table-accent-bg: var(--bg-card-hover);
+  padding: 12px 16px 16px !important;
+  border-bottom: 1px solid var(--border-card) !important;
+  background: var(--bg-card-hover) !important;
+}
+
+.permissoes-page .permissoes-expansao {
+  padding: 20px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-primary);
+}
+
+.permissoes-page .permissoes-expansao__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.permissoes-page .permissoes-expansao__count {
+  color: var(--text-muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.permissoes-page .permissoes-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.permissoes-page .permissao-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  background: var(--bg-selector);
+  color: var(--text-primary);
+  cursor: pointer;
+  font: inherit;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.permissoes-page .permissao-chip span {
+  color: var(--color-danger);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.permissoes-page .permissao-chip:hover {
+  border-color: var(--color-danger);
+  background: var(--bg-card-hover);
+}
+
+.permissoes-page .permissao-chip:focus-visible,
+.permissoes-page button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.permissoes-page .permissoes-expansao__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.permissoes-page .gu-input {
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 700px) {
+  .permissoes-page__header {
+    align-items: flex-start !important;
+    flex-direction: column;
+  }
+
+  .permissoes-page .permissoes-expansao-cell {
+    padding: 8px !important;
+  }
+
+  .permissoes-page .permissoes-expansao {
+    padding: 16px;
+  }
+
+  .permissoes-page .permissoes-expansao__header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .permissoes-page .perfis-table th:last-child,
+  .permissoes-page .perfis-table td:last-child {
+    min-width: 200px;
+  }
+}

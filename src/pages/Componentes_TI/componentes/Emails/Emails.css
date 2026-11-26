@@ -1,0 +1,43 @@
+@import "../DpMoveis/DpMoveis.css";
+
+.emails-page {
+  --dp-accent: #1f5fae;
+}
+
+.emails-select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  outline: none;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font: inherit;
+  font-weight: 400;
+}
+
+.emails-select:focus {
+  border-color: var(--dp-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dp-accent) 18%, transparent);
+}
+
+.emails-table {
+  min-width: 700px;
+}
+
+.emails-mail-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.emails-mail-link:hover {
+  color: var(--dp-accent);
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  .emails-form-grid {
+    grid-template-columns: 1fr;
+  }
+}

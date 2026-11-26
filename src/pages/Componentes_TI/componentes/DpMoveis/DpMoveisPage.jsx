@@ -1,31 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import GerenciarDpMoveis from "./Componentes/GerenciarDpMoveis";
+import Swal from "sweetalert2";
+import Api, { swalBase } from "../../../../Services/EndPoint";
+import CadastroDpMoveis from "./Componentes/CadastroDpMoveis";
+import ListaDpMoveis from "./Componentes/ListaDpMoveis";
 
 const panelItems = [
   {
-    id: "cadastro",
+    id: "cadastrodpmovel",
     title: "Cadastrar aparelho",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="18" height="18">
         <path d="M12 5v14M5 12h14" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
+    content: <CadastroDpMoveis />,
   },
   {
-    id: "lista",
+    id: "listadpmovel",
     title: "Aparelhos cadastrados",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="18" height="18">
         <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
+    content: <ListaDpMoveis />,
   },
 ];
 
 export default function DpMoveisPage() {
   const navigate = useNavigate();
-  const [activeId, setActiveId] = useState(panelItems[0].id);
+  const [views, setViews] = useState([]);
+  const [activeId, setActiveId] = useState(null);
+  const [carregandoViews, setCarregandoViews] = useState(true);
   const [user] = useState(() => {
     try {
       return (
@@ -38,7 +45,42 @@ export default function DpMoveisPage() {
     }
   });
 
-  const activeItem = panelItems.find((item) => item.id === activeId);
+  useEffect(() => {
+    let mounted = true;
+
+    const carregarViews = async () => {
+      try {
+        const resposta = await Api.CallEndpoint("UsuarioView/me", "GET");
+        if (!Array.isArray(resposta)) {
+          throw new Error("A API não retornou uma lista válida de views.");
+        }
+        if (!mounted) return;
+
+        const viewsNormalizadas = resposta.map((view) => view.replace(/^visual\./, ""));
+        setViews(viewsNormalizadas);
+        setActiveId(panelItems.find((item) => viewsNormalizadas.includes(item.id))?.id ?? null);
+      } catch (error) {
+        if (mounted) {
+          Swal.fire({
+            ...swalBase,
+            icon: "error",
+            title: "Erro ao carregar permissões",
+            text: error.message || "Não foi possível verificar o acesso às opções de Dp Móveis.",
+          });
+        }
+      } finally {
+        if (mounted) setCarregandoViews(false);
+      }
+    };
+
+    carregarViews();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const itensVisiveis = panelItems.filter((item) => views.includes(item.id));
+  const activeItem = itensVisiveis.find((item) => item.id === activeId);
 
   return (
     <div className="panel-wrapper" data-bs-theme="dark">
@@ -61,7 +103,7 @@ export default function DpMoveisPage() {
             </div>
 
             <ul className="nav nav-pills flex-column gap-1">
-              {panelItems.map((item) => (
+              {itensVisiveis.map((item) => (
                 <li className="nav-item" key={item.id}>
                   <button
                     className={`nav-link w-100 text-start d-flex align-items-center gap-2 panel-nav-link ${
@@ -94,8 +136,12 @@ export default function DpMoveisPage() {
         </aside>
 
         <main className="flex-grow-1 p-5 panel-content">
-          {activeItem ? (
-            <GerenciarDpMoveis secao={activeItem.id} />
+          {carregandoViews ? (
+            <p className="text-muted" role="status">Carregando permissões...</p>
+          ) : !itensVisiveis.length ? (
+            <p className="text-muted">Você não tem acesso às opções de cadastro ou listagem de Dp Móveis.</p>
+          ) : activeItem ? (
+            activeItem.content
           ) : (
             <p className="text-muted">Nenhuma opção disponível.</p>
           )}

@@ -95,6 +95,16 @@ export  const menuItems = [
     color: "success",
     route: "/dpmoveis",
   },
+  {
+    id: "ti",
+    idContent: 3,
+    title: "Gerenciar e-mails",
+    description: "Cadastre e consulte os e-mails dos departamentos e seus responsáveis",
+    icon: icons.servicos,
+    color: "primary",
+    route: "/emails",
+   
+  },
   //Menu_one
     {
     id: "abriruber",

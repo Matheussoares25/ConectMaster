@@ -1,217 +1,214 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Api from "../../Services/EndPoint";
-import { useNavigate } from "react-router-dom";
+import "./FormularioP.css";
 
-export default function FormularioChamado() {
-  const [nomemotorista, setNomemotorista] = useState("");0
-  const [transportadora, setTransportadora] = useState("");
-  const [servico, setServico] = useState("");0
-  const [cnh, setCnh] = useState("");0
-  const [contato, setContato] = useState("");0
-  const [placa, setPlaca] = useState("");0
-  const [veiculo, setVeiculo] = useState([]);
-  const [veiculoSelecionado, setVeiculoSelecionado] = useState("");0
-  const [numerodecoleta, setnumerodecoleta] = useState("");0
-  const [bauFechado, setBauFechado] = useState("false");0
-  const [volumes, setVolumes] = useState("");0
+const formularioInicial = {
+  despachante: "",
+  motorista: "",
+  cnh: "",
+  telefoneMotorista: "",
+  transportadora: "",
+  veiculo: "",
+  veiculoAberto: "false",
+  placa: "",
+  servico: "",
+  numeroNf: "",
+  quantidade: "",
+};
+
+export default function FormularioP() {
+  const [formulario, setFormulario] = useState(formularioInicial);
+  const [veiculos, setVeiculos] = useState([]);
+  const [carregandoVeiculos, setCarregandoVeiculos] = useState(true);
+  const [erroVeiculos, setErroVeiculos] = useState("");
+  const [enviando, setEnviando] = useState(false);
 
   useEffect(() => {
+    const carregarVeiculos = async () => {
+      setCarregandoVeiculos(true);
+      setErroVeiculos("");
+
+      try {
+        const resposta = await Api.CallEndpoint("Veiculos", "GET");
+        if (!Array.isArray(resposta)) {
+          throw new Error("A resposta da lista de veículos está em formato inválido.");
+        }
+        setVeiculos(resposta);
+      } catch (error) {
+        setErroVeiculos(error.message || "Não foi possível carregar os veículos.");
+        Swal.fire({
+          icon: "error",
+          title: "Erro ao carregar veículos",
+          text: error.message || "Tente novamente mais tarde.",
+        });
+      } finally {
+        setCarregandoVeiculos(false);
+      }
+    };
+
     carregarVeiculos();
   }, []);
 
-  const carregarVeiculos = async () => {
-    try {
-      const response = await Api.CallEndpoint("Veiculos", "GET");
-      setVeiculo(response);
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Erro",
-        text: "Erro ao carregar veículos.",
-      });
-    }
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormulario((atual) => ({ ...atual, [name]: value }));
   };
 
-  const abrirChamado = async (e) => {
-    e.preventDefault();
+  const enviarFormulario = async (event) => {
+    event.preventDefault();
+    setEnviando(true);
 
-    if (!nomemotorista || !servico || !categoria) {
-      Swal.fire({
-        icon: "warning",
-        title: "Campos obrigatórios",
-        text: "Preencha todos os campos.",
-      });
-      return;
-    }
+    const dados = {
+      despachante: formulario.despachante.trim(),
+      motorista: formulario.motorista.trim(),
+      cnh: formulario.cnh.trim() || null,
+      telefoneMotorista: formulario.telefoneMotorista.trim() || null,
+      transportadora: formulario.transportadora.trim() || null,
+      veiculo: formulario.veiculo ? Number(formulario.veiculo) : null,
+      veiculoAberto: formulario.veiculoAberto === "true",
+      placa: formulario.placa.trim().toUpperCase() || null,
+      servico: formulario.servico,
+      numeroNf: formulario.numeroNf.trim() || null,
+      quantidade: formulario.quantidade || null,
+      dataEntrada: new Date().toISOString(),
+      verificado: false,
+      liberado: false,
+    };
 
     try {
-      await Api.CallEndpoint("Chamados", "POST", {
-        nomemotorista,
-        servico,
-        transportadora,
-        categoria,
-        cnh,
-        contato,
-        placa,
-        numerodecoleta,
-        veiculoId: veiculoSelecionado ? Number(veiculoSelecionado) : null,
-        bauFechado: bauFechado === "true",
-        volumes: volumes ? Number(volumes) : null,
-        mensagemCheckin,
-        mensagemColeta,
-      });
-
-      Swal.fire({
+      await Api.CallEndpoint("Acessos", "POST", dados);
+      await Swal.fire({
         icon: "success",
-        title: "Chamado aberto",
-        text: "Seu chamado foi registrado com sucesso.",
+        title: "Cadastro realizado",
+        text: "Os dados foram enviados para a portaria.",
       });
-
-      setNomemotorista("");
-      setServico("");
-      setTransportadora("");
-      setCategoria("");
-      setCnh("");
-      setContato("");
-      setPlaca("");
-      setVeiculo([]);
-      setVeiculoSelecionado("");
+      setFormulario(formularioInicial);
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Erro",
-        text: error.message,
+        title: "Não foi possível enviar",
+        text: error.message || "Ocorreu um erro ao enviar os dados.",
       });
+    } finally {
+      setEnviando(false);
     }
   };
+
   return (
-    <div className="home-page">
-      <div className="home-content">
-        <div className="home-welcome">
-          <h1 className="home-title">Cadastro de coleta</h1>
-          <p className="home-subtitle">Cadastro para realizar Coleta</p>
-        </div>
+    <main className="formulario-p-page">
+      <div className="formulario-p-container">
+        <header className="formulario-p-header">
+          <span className="formulario-p-eyebrow">Portaria</span>
+          <h1>Cadastro de coleta</h1>
+          <p>Preencha os dados do motorista e da coleta para registro na portaria.</p>
+        </header>
 
-        <div className="chamado-card">
-          <h3 className="home-title">Motorista</h3>
-          <form onSubmit={abrirChamado}>
-            <div className="chamado-group">
-              <label>Nome do Motorista</label>
-              <input
-                type="text"
-                value={nomemotorista}
-                onChange={(e) => setNomemotorista(e.target.value)}
-                placeholder="Ex: João da Silva"
-              />
-            </div>
-
-            <div className="chamado-group">
-              <label>CNH</label>
-              <input
-                type="text"
-                value={cnh}
-                onChange={(e) => setCnh(e.target.value)}
-                placeholder="Ex: 7584215897"
-              />
-            </div>
-
-            <div className="chamado-row">
-              <div className="chamado-group">
-                <label>Telefone / Whatsapp (não utilize espaços)</label>
-                <input
-                  type="text"
-                  value={numerodecoleta}
-                  onChange={(e) => setnumerodecoleta(e.target.value)}
-                  placeholder="Ex: 11919392917"
-                />
+        <form className="formulario-p-card" onSubmit={enviarFormulario}>
+          <section className="formulario-p-section" aria-labelledby="formulario-p-motorista">
+            <div className="formulario-p-section-title">
+              <span className="formulario-p-step">01</span>
+              <div>
+                <h2 id="formulario-p-motorista">Motorista e responsável</h2>
+                <p>Identifique o motorista e quem está registrando a entrada.</p>
               </div>
             </div>
 
-            <h3 className="home-title">Veiculo</h3>
-            <div className="chamado-row">
-              <div className="chamado-group">
-                <label>Tipo do veículo</label>
-                <select
-                  value={veiculoSelecionado}
-                  onChange={(e) => setVeiculoSelecionado(e.target.value)}
-                >
-                  <option value="">Selecione</option>
-                  {veiculo.map((v) => (
-                    <option key={v.id} value={v.id}>
-                      {v.modelo}
-                    </option>
+            <div className="formulario-p-grid">
+              <label className="formulario-p-field">
+                <span>Despachante <b aria-hidden="true">*</b></span>
+                <input autoComplete="name" maxLength={100} name="despachante" onChange={handleChange} required value={formulario.despachante} />
+              </label>
+              <label className="formulario-p-field">
+                <span>Nome do motorista <b aria-hidden="true">*</b></span>
+                <input autoComplete="name" maxLength={150} name="motorista" onChange={handleChange} placeholder="Ex.: João da Silva" required value={formulario.motorista} />
+              </label>
+              <label className="formulario-p-field">
+                <span>CNH</span>
+                <input autoComplete="off" maxLength={30} name="cnh" onChange={handleChange} value={formulario.cnh} />
+              </label>
+              <label className="formulario-p-field">
+                <span>Telefone / WhatsApp</span>
+                <input autoComplete="tel" inputMode="tel" maxLength={30} name="telefoneMotorista" onChange={handleChange} placeholder="Ex.: (11) 99999-9999" value={formulario.telefoneMotorista} />
+              </label>
+              <label className="formulario-p-field">
+                <span>Transportadora</span>
+                <input maxLength={150} name="transportadora" onChange={handleChange} value={formulario.transportadora} />
+              </label>
+            </div>
+          </section>
+
+          <section className="formulario-p-section" aria-labelledby="formulario-p-veiculo">
+            <div className="formulario-p-section-title">
+              <span className="formulario-p-step">02</span>
+              <div>
+                <h2 id="formulario-p-veiculo">Veículo</h2>
+                <p>Informe o tipo de veículo e os dados de identificação.</p>
+              </div>
+            </div>
+
+            <div className="formulario-p-grid">
+              <label className="formulario-p-field">
+                <span>Tipo do veículo</span>
+                <select disabled={carregandoVeiculos} name="veiculo" onChange={handleChange} value={formulario.veiculo}>
+                  <option value="">{carregandoVeiculos ? "Carregando veículos..." : "Selecione"}</option>
+                  {veiculos.map((veiculo) => (
+                    <option key={veiculo.id} value={veiculo.id}>{veiculo.modelo}</option>
                   ))}
                 </select>
-              </div>
-
-              <div className="chamado-group">
-                <label>Baú / Fechado?</label>
-                <select
-                  value={bauFechado}
-                  onChange={(e) => setBauFechado(e.target.value)}
-                >
-                  <option value="true">Sim</option>
+              </label>
+              <label className="formulario-p-field">
+                <span>Veículo aberto?</span>
+                <select name="veiculoAberto" onChange={handleChange} value={formulario.veiculoAberto}>
                   <option value="false">Não</option>
+                  <option value="true">Sim</option>
                 </select>
+              </label>
+              <label className="formulario-p-field">
+                <span>Placa</span>
+                <input autoCapitalize="characters" maxLength={10} name="placa" onChange={handleChange} placeholder="Ex.: ABC1D23" value={formulario.placa} />
+              </label>
+            </div>
+            {erroVeiculos && <p className="formulario-p-error" role="alert">{erroVeiculos}</p>}
+          </section>
+
+          <section className="formulario-p-section" aria-labelledby="formulario-p-coleta">
+            <div className="formulario-p-section-title">
+              <span className="formulario-p-step">03</span>
+              <div>
+                <h2 id="formulario-p-coleta">Dados da coleta</h2>
+                <p>Complete as informações sobre o serviço e a carga.</p>
               </div>
             </div>
 
-            <div className="chamado-row">
-              <div className="chamado-group">
-                <label>Placa do veiculo</label>
-                <input
-                  type="text"
-                  value={placa}
-                  onChange={(e) => setPlaca(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <h3 className="home-title">Dados da coleta</h3>
-
-            <div className="chamado-row">
-              <div className="chamado-group">
-                <label>Irá realizar: </label>
-                <select
-                  value={servico}
-                  onChange={(e) => setServico(e.target.value)}
-                >
+            <div className="formulario-p-grid">
+              <label className="formulario-p-field">
+                <span>Serviço <b aria-hidden="true">*</b></span>
+                <select name="servico" onChange={handleChange} required value={formulario.servico}>
                   <option value="">Selecione</option>
                   <option value="Coleta">Coleta</option>
                   <option value="Retira">Retira</option>
                 </select>
-              </div>
-
-
-              <div className="chamado-row">
-                <div className="chamado-group">
-                  <label>Numero de coleta</label>
-                  <input
-                    type="text"
-                    value={numerodecoleta}
-                    onChange={(e) => setnumerodecoleta(e.target.value)}
-                    placeholder="Numero de coleta"
-                  />
-                </div>
-              </div>
+              </label>
+              <label className="formulario-p-field">
+                <span>Número da NF / coleta</span>
+                <input maxLength={100} name="numeroNf" onChange={handleChange} value={formulario.numeroNf} />
+              </label>
+              <label className="formulario-p-field">
+                <span>Quantidade de volumes</span>
+                <input min="0" name="quantidade" onChange={handleChange} type="number" value={formulario.quantidade} />
+              </label>
             </div>
-            <div className="chamado-group">
-              <label>Volumes (Caixas)</label>
-              <input
-                type="number"
-                min="0"
-                value={volumes}
-                onChange={(e) => setVolumes(e.target.value)}
-              />
-            </div>
+          </section>
 
-            <button type="submit" className="chamado-button">
-              Abrir Chamado
+          <div className="formulario-p-actions">
+            <p><b>*</b> Campos obrigatórios</p>
+            <button disabled={enviando} type="submit">
+              {enviando ? "Enviando..." : "Enviar cadastro"}
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
-    </div>
+    </main>
   );
 }

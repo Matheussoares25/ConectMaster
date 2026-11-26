@@ -9,6 +9,7 @@ import PainelControle from "./pages/Componentes_Adm/Componentes/PainelControle/P
 import PrivateRoute from "./Services/PrivateRoute";
 import AbrirChamado from "./pages/Componentes_TI/componentes/AbrirChamado/AberturaDeChamado";
 import DpMoveisPage from "./pages/Componentes_TI/componentes/DpMoveis/DpMoveisPage";
+import EmailsPage from "./pages/Componentes_TI/componentes/Emails/EmailsPage";
 import AbrirServico from "./pages/Componentes_Adm/Componentes/Servicos/AbrirServico/AbrirServico";
 import HistoricoChamados from "./pages/Componentes_TI/componentes/HistoricoChamados/HistoricoChamados";
 import Api from "./Services/EndPoint";
@@ -92,6 +93,14 @@ function AppContent() {
         element={
           <PrivateRoute>
             <DpMoveisPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/emails"
+        element={
+          <PrivateRoute>
+            <EmailsPage />
           </PrivateRoute>
         }
       />

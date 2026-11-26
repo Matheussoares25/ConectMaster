@@ -1,6 +1,36 @@
 
+.cb-wrapper,
 .cb-wrapper * {
   box-sizing: border-box;
+}
+
+.cb-wrapper {
+  width: min(100%, 1440px);
+  margin: 0 auto;
+  padding: clamp(8px, 1.5vw, 20px);
+}
+
+.cb-page-header {
+  padding: clamp(18px, 2.4vw, 30px);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--bg-card), var(--bg-card-hover));
+  box-shadow: var(--shadow-primary);
+}
+
+.cb-page-header h2 {
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
+  letter-spacing: -0.035em;
+}
+
+.cb-eyebrow {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .cb-text-primary {
@@ -21,12 +51,18 @@
   background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-primary);
 }
 
 .cb-input {
   background: var(--bg-glass) !important;
   border: 1px solid var(--border-card) !important;
   color: var(--text-primary) !important;
+  color-scheme: light;
+}
+
+[data-theme="escuro"] .cb-input,
+[data-theme="principal"] .cb-input {
   color-scheme: dark;
 }
 
@@ -40,9 +76,18 @@
 }
 
 .cb-input:focus {
-  border-color: var(--color-secondary) !important;
-  box-shadow: 0 0 0 0.2rem rgba(47, 111, 237, 0.25) !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-primary) 22%, transparent) !important;
   background: var(--bg-card-hover) !important;
+}
+
+.cb-input,
+.cb-btn-primary {
+  min-height: 44px;
+}
+
+.cb-label {
+  margin-bottom: 7px;
 }
 
 .cb-btn-primary {
@@ -56,18 +101,57 @@
   box-shadow: var(--shadow-primary);
 }
 
-.cb-btn-primary:hover {
+.cb-btn-primary:hover:not(:disabled) {
   color: #fff;
-  opacity: 0.9;
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.cb-btn-primary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
 }
 
 .cb-btn-primary:disabled {
   opacity: 0.6;
 }
 
+/* ===== RESULTADOS ===== */
+
+.cb-results-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cb-results-header .cb-eyebrow {
+  margin-bottom: 4px;
+}
+
+.cb-result-count {
+  flex: 0 0 auto;
+  padding: 6px 11px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-pill);
+  background: var(--bg-card-hover);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cb-table-viewport {
+  max-height: min(62vh, 640px);
+  overflow: auto;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  scrollbar-width: thin;
+}
+
 /* ===== TABELA ===== */
 
 .cb-table {
+  min-width: 640px;
   color: var(--text-secondary);
   --bs-table-bg: transparent;
   --bs-table-hover-bg: var(--bg-card-hover);
@@ -75,6 +159,10 @@
 }
 
 .cb-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bg-card);
   color: var(--text-muted);
   font-size: 12px;
   font-weight: 600;
@@ -86,8 +174,13 @@
 
 .cb-table tbody td {
   border-bottom: 1px solid var(--border-card);
-  padding: 12px 8px;
+  padding: 12px 14px;
   font-size: 14px;
+  vertical-align: middle;
+}
+
+.cb-table tbody tr:hover td {
+  background: var(--bg-card-hover);
 }
 
 .cb-table tbody tr:last-child td {
@@ -105,11 +198,38 @@
 }
 
 .cb-badge--success {
-  background: rgba(34, 197, 139, 0.15);
+  background: color-mix(in srgb, var(--color-success) 14%, var(--bg-card));
   color: var(--color-success);
 }
 
 .cb-badge--danger {
-  background: rgba(239, 93, 168, 0.15);
+  background: color-mix(in srgb, var(--color-danger) 14%, var(--bg-card));
   color: var(--color-danger);
+}
+
+.cb-bulletin {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+@media (max-width: 767.98px) {
+  .cb-wrapper {
+    padding: 8px 0;
+  }
+
+  .cb-card {
+    padding: 16px !important;
+  }
+
+  .cb-results-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cb-table-viewport {
+    max-height: 65vh;
+  }
 }

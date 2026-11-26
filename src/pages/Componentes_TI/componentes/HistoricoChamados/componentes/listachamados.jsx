@@ -413,18 +413,18 @@ export default function HistoricoChamados() {
                           </td>
                           <td className="text-end">
                             <button
-                              className="btn btn-sm hc-btn-icon"
+                              className="btn-edit"
                               title="Editar status"
                               onClick={() => setChamadoEditando(chamado)}
                             >
-                              ✎
+                              Editar
                             </button>
                             <button
-                              className="btn btn-sm hc-btn-icon"
+                              className="btn-delete"
                               title="Apagar chamado"
                               onClick={() => ApagarChamado(chamado.id)}
                             >
-                              🗑️
+                              Deletar
                             </button>
                           </td>
                         </React.Fragment>

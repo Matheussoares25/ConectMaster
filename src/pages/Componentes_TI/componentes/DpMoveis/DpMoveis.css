@@ -1,6 +1,9 @@
 .dp-moveis-page {
   --dp-accent: #1f5fae;
   display: grid;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   gap: 22px;
   max-width: 1280px;
   margin: 0 auto;
@@ -69,6 +72,7 @@
 }
 
 .dp-moveis-card {
+  min-width: 0;
   padding: 22px;
   border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
@@ -103,6 +107,7 @@
 }
 
 .dp-moveis-field input,
+.dp-moveis-field select,
 .dp-moveis-search input {
   width: 100%;
   min-height: 44px;
@@ -117,6 +122,7 @@
 }
 
 .dp-moveis-field input:focus,
+.dp-moveis-field select:focus,
 .dp-moveis-search input:focus {
   border-color: var(--dp-accent);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--dp-accent) 18%, transparent);
@@ -170,11 +176,16 @@
 }
 
 .dp-moveis-table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
 }
 
 .dp-moveis-table {
+  min-width: 850px;
   --bs-table-bg: transparent;
   --bs-table-color: var(--text-secondary);
   --bs-table-hover-bg: var(--bg-card-hover);
@@ -204,6 +215,54 @@
   grid-column: 1 / -1;
 }
 
+.dp-moveis-edit-form {
+    margin-bottom: 20px;
+  padding: 18px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  background: var(--bg-page);
+}
+
+.dp-moveis-edit-form h3 {
+  margin: 0 0 16px;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.dp-moveis-edit-actions,
+.dp-moveis-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dp-moveis-edit-actions {
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.dp-moveis-cancel-button {
+  min-height: 36px;
+  padding: 7px 11px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dp-moveis-cancel-button:hover:not(:disabled) {
+  border-color: var(--dp-accent);
+  color: var(--dp-accent);
+}
+
+.dp-moveis-cancel-button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
 .dp-moveis-download {
   padding: 7px 11px;
   border: 1px solid var(--border-card);
@@ -230,6 +289,15 @@
 }
 
 @media (max-width: 700px) {
+  .panel-wrapper > .d-flex > main.panel-content {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .dp-moveis-card {
+    padding: 16px;
+  }
+
   .dp-moveis-heading,
   .dp-moveis-list-heading {
     align-items: stretch;

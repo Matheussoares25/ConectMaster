@@ -20,9 +20,12 @@ export default function AcessosGeral({ idContent }) {
 
     // filtra pelo setor E pela permissão de view
     setVisibleItems(
-      menuItems.filter(
-        (item) => item.idContent === idContent && viewsLimpa.includes(item.id),
-      ),
+      menuItems.filter((item) => {
+        const viewsPermitidas = item.views
+          ? item.views.some((view) => viewsLimpa.includes(view))
+          : viewsLimpa.includes(item.id);
+        return item.idContent === idContent && viewsPermitidas;
+      }),
     );
     setActiveItem(null);
   }, [idContent]);

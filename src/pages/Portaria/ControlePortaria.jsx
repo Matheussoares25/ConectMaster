@@ -1,68 +1,60 @@
-import { useState, useEffect } from "react";
-import Swal from "sweetalert2";
-import ListaAcesso from "./Componentes/ListaAcessos";
-
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const icons = {
-  relatorios: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="18" height="18">
-      <path d="M3 3v18h18M7 15l4-4 3 3 5-6" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  ),
-};
+import ListaAcesso from "./Componentes/ListaAcessos";
+import CadastroVeiculo from "./Componentes/CadastroVeiculo";
+import "./PortariaControl.css";
 
 const panelItems = [
   {
     id: "ListaAcessos",
-    title: "Lista de Acessos",
-    icon: icons.relatorios,
-    content: (
-        <ListaAcesso />
+    title: "Acessos cadastrados",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="18" height="18" aria-hidden="true">
+        <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
     ),
-  }
+    content: <ListaAcesso />,
+  },
+  {
+    id: "CadastroVeiculo",
+    title: "Cadastrar veículo",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" width="18" height="18" aria-hidden="true">
+        <path d="M3 13l1.5-5h15L21 13v6h-2v-2H5v2H3v-6ZM5 13h14M7 17h.01M17 17h.01M7 8l1-3h8l1 3" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+    content: <CadastroVeiculo />,
+  },
 ];
 
 export default function ControlePortaria() {
-  const [titulo, setTitulo] = useState("");
-  const [categoria, setCategoria] = useState("");
-  const [prioridade, setPrioridade] = useState("Baixa");
-  const [descricao, setDescricao] = useState("");
   const navigate = useNavigate();
-  const [user, setUser] = useState({});
-  const [activeId, setActiveId] = useState(null);
-
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user')) ||  JSON.parse(sessionStorage.getItem('user'));
-    setUser(storedUser || {});
-  }, []);
-
-  const visibleItems = panelItems.filter((item) => {
-    if (!item.roles) return true;
-    return item.roles.includes(user?.perfil);
+  const [activeId, setActiveId] = useState(panelItems[0].id);
+  const [user] = useState(() => {
+    try {
+      return (
+        JSON.parse(localStorage.getItem("user")) ||
+        JSON.parse(sessionStorage.getItem("user")) ||
+        {}
+      );
+    } catch {
+      return {};
+    }
   });
 
-  useEffect(() => {
-    if (!activeId && visibleItems.length > 0) {
-      setActiveId(visibleItems[0].id);
-    }
-  }, [visibleItems, activeId]);
-
-  const activeItem = visibleItems.find((item) => item.id === activeId);
-
-
+  const activeItem = panelItems.find((item) => item.id === activeId);
 
   return (
     <div className="panel-wrapper" data-bs-theme="dark">
-      <div className="d-flex" style={{ minHeight: "100vh" }}>
-
-        {/* ===== SIDEBAR ===== */}
+      <div className="d-flex portaria-control-layout">
         <aside className="home-sidebar">
           <div>
             <div className="d-flex align-items-center gap-2 mb-4 px-1">
               <button
+                aria-label="Voltar para início"
                 className="btn btn-sm panel-back-btn d-flex align-items-center justify-content-center"
                 onClick={() => navigate("/home")}
+                type="button"
               >
                 ←
               </button>
@@ -73,13 +65,13 @@ export default function ControlePortaria() {
             </div>
 
             <ul className="nav nav-pills flex-column gap-1">
-              {visibleItems.map((item) => (
+              {panelItems.map((item) => (
                 <li className="nav-item" key={item.id}>
                   <button
-                    className={`nav-link w-100 text-start d-flex align-items-center gap-2 panel-nav-link ${
-                      activeId === item.id ? "active" : ""
-                    }`}
+                    aria-current={activeId === item.id ? "page" : undefined}
+                    className={`nav-link w-100 text-start d-flex align-items-center gap-2 panel-nav-link ${activeId === item.id ? "active" : ""}`}
                     onClick={() => setActiveId(item.id)}
+                    type="button"
                   >
                     {item.icon}
                     <span>{item.title}</span>
@@ -91,26 +83,17 @@ export default function ControlePortaria() {
 
           <div className="d-flex align-items-center gap-2 pt-3 border-top border-secondary-subtle">
             <div className="panel-user-avatar d-flex align-items-center justify-content-center fw-semibold">
-              {user?.nome?.[0]}
+              {user?.nome?.[0] || "?"}
             </div>
             <div className="d-flex flex-column overflow-hidden">
-              <span className="small fw-semibold text-truncate">
-                {user?.nome || "Usuário"}
-              </span>
-              <span className="text-muted" style={{ fontSize: "11px" }}>
-                {user?.perfil}
-              </span>
+              <span className="small fw-semibold text-truncate">{user?.nome || "Usuário"}</span>
+              <span className="text-muted" style={{ fontSize: "11px" }}>{user?.perfil || ""}</span>
             </div>
           </div>
         </aside>
 
-        {/* ===== CONTEÚDO ===== */}
         <main className="flex-grow-1 p-5 panel-content">
-          {activeItem ? (
-            activeItem.content
-          ) : (
-            <p className="text-muted">Nenhum item disponível.</p>
-          )}
+          {activeItem ? activeItem.content : <p className="text-muted">Nenhuma opção disponível.</p>}
         </main>
       </div>
     </div>

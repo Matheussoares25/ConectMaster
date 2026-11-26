@@ -1,10 +1,10 @@
 :root {
   /* ---- cores de ação (uma só cor de destaque) ---- */
-  --color-primary: #1f5fae;
-  --color-secondary: #184b8a;   /* hover / variação do primário */
-  --color-success: #2e7d32;
-  --color-warning: #b26a00;
-  --color-danger:  #c62828;
+  --color-primary: #3769a7;
+  --color-secondary: #405268;   /* hover / variação do primário */
+  --color-success: #609763;
+  --color-warning: #967545;
+  --color-danger:  #9e4848;
 
   --radius-sm: 4px;
   --radius-md: 6px;
@@ -34,6 +34,7 @@
   --bg-glass: #ffffff;
   --bg-sidebar: #ffffff;
   --bg-selector: #eef3fa;       /* item ativo do menu */
+  --bg-table-hover: var(--bg-card-hover);
 
   --border-card: #d9dde3;
   --border-soft: #d9dde3;
@@ -49,6 +50,51 @@
   --dot-grid-size: 0 0;
 }
 
+.btn-edit,
+.btn-delete {
+  min-height: 36px;
+  padding: 7px 11px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  font-size: 13px;
+  font-weight: 850;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
+  margin-left: 5px;
+}
+
+.btn-edit {
+  color: var(--color-primary);
+}
+
+.btn-edit:hover:not(:disabled) {
+  background: var(--bg-card-hover);
+  border-color: currentColor;
+}
+
+.btn-delete {
+  color: var(--color-danger);
+}
+
+.btn-delete:hover:not(:disabled) {
+  background: var(--bg-card-hover);
+ border-color: currentColor;
+}
+
+.btn-edit:focus-visible,
+.btn-delete:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.btn-edit:disabled,
+.btn-delete:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+
 html, body, #root {
   min-height: 100vh;
   background: var(--bg-page);
@@ -60,15 +106,17 @@ html, body, #root {
   background: var(--bg-page);
   color: var(--text-primary);
 }
+
 
 /* ThemeEscuro.css: só o que muda */
 [data-theme="escuro"] {
   --bg-page:  #0f1220;
   --bg-card: rgba(255, 255, 255, 0.035);
   --bg-selector: rgba(255, 255, 255, 0.08);
-  --bg-card-hover: rgba(255, 255, 255, 0.08);
+  --bg-card-hover: rgba(28, 98, 116, 0.08);
   --bg-glass: rgba(255, 255, 255, 0);
   --bg-sidebar: rgba(50, 55, 61, 0.411);
+  --bg-table-hover: #303030;
 
   --border-card: rgba(255, 255, 255, 0.08);
   --border-soft: rgba(255, 255, 255, 0.12);
@@ -88,11 +136,12 @@ html, body, #root {
   --bg-page: #f4f6f9;
   --bg-card: #ffffff;
   --bg-selector: #ffffff;
-  --bg-card-hover: #f6f9fe;
+  --bg-card-hover: #f6fef9;
   --bg-glass: transparent;
   --bg-sidebar: #0f1b2d; /* menu lateral azul-marinho, como no mockup */
+  --bg-table-hover: #28a533;
 
-  --border-card: #dde3ec;
+  --border-card: #1766dd;
   --border-soft: #e8edf4;
   --border-strong: #c5cedb;
 
@@ -113,6 +162,7 @@ html, body, #root {
   --bg-card-hover: rgba(255, 255, 255, 0.08);
   --bg-glass: rgba(255, 255, 255, 0);
   --bg-sidebar: rgba(0, 110, 255, 0.411);
+   --bg-table-hover: #3a3a3a;
 
   --border-card: rgba(255, 255, 255, 0.08);
   --border-soft: rgba(255, 255, 255, 0.12);

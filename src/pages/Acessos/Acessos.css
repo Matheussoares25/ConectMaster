@@ -219,7 +219,7 @@
 }
 
 .gu-table tbody tr:hover {
-  background: var(--bg-card-hover);
+  background: var(--bg-table-hover);
 }
 
 .gu-table td.text-break {
@@ -598,7 +598,7 @@ select.gu-input {
 .Acesso-services-history .hc-table {
   color: var(--text-secondary);
   --bs-table-bg: transparent;
-  --bs-table-hover-bg: var(--bg-card-hover);
+  --bs-table-hover-bg: var(--bg-table-hover);
   --bs-table-hover-color: var(--text-primary);
 }
 

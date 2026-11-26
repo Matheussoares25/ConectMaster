@@ -588,6 +588,8 @@ export default function ListaChamadosCompras() {
                     <th>Data de aprovação</th>
                     <th>Status</th>
                     <th className="text-end">Ações</th>
+                    <th>Manifestação</th>
+                    <th>Contestação</th>
                     <th>Data de abertura</th>
                     <th>Data de conclusão</th>
                   </tr>
@@ -780,6 +782,12 @@ export default function ListaChamadosCompras() {
                           </React.Fragment>
                         )}
 
+                        <td className="hc-text-cell">
+                          {chamado.manifestacao || "—"}
+                        </td>
+                        <td className="hc-text-cell">
+                          {chamado.contestacao || "—"}
+                        </td>
                         <td className="text-nowrap">
                           {formatarData(chamado.dataAbertura)}
                         </td>

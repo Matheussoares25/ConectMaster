@@ -61,6 +61,10 @@
   --bs-table-hover-bg: var(--bg-card-hover);
 }
 
+.compras-standby .standby-tickets-table {
+  min-width: 1800px;
+}
+
 .compras-standby .gu-table thead th {
   position: sticky;
   top: 0;
@@ -118,10 +122,19 @@
   min-width: 200px;
 }
 
-/* Coluna Ações */
+/* Colunas Manifestação e Contestação */
 .compras-standby .gu-table th:nth-child(13),
-.compras-standby .gu-table td:nth-child(13) {
-  min-width: 120px;
+.compras-standby .gu-table td:nth-child(13),
+.compras-standby .gu-table th:nth-child(14),
+.compras-standby .gu-table td:nth-child(14) {
+  min-width: 260px;
+  max-width: 420px;
+}
+
+/* Coluna Ações */
+.compras-standby .gu-table th:nth-child(15),
+.compras-standby .gu-table td:nth-child(15) {
+  min-width: 250px;
 }
 
 /* ===== BADGES ===== */
@@ -180,6 +193,23 @@
 
 .compras-standby .btn-success:disabled {
   opacity: 0.6;
+}
+
+.compras-standby .manifestation-cell {
+  min-width: 260px;
+  max-width: 420px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.compras-standby .standby-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.compras-standby .standby-actions .btn {
+  white-space: nowrap;
 }
 
 /* ===== RESPONSIVO ===== */

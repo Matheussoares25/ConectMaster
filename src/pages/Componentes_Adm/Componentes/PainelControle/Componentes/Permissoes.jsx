@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../../../../Componentes_Adm/css/Permissoes.css"
 import Swal from "sweetalert2";
 import Api from '../../../../../Services/EndPoint';
 import { swalBase } from "../../../../../Services/EndPoint";
@@ -274,8 +275,8 @@ export default function Permissoes() {
   };
 
   return (
-    <div className="container-fluid">
-      <div className="d-flex justify-content-between align-items-center mb-4">
+    <div className="container-fluid permissoes-page">
+      <div className="permissoes-page__header d-flex justify-content-between align-items-center mb-4">
         <div>
           <h2 className="h4 fw-bold mb-1 panel-text-primary">
             Perfis e Permissões
@@ -285,21 +286,21 @@ export default function Permissoes() {
           </p>
         </div>
 
-        <button className="btn btn-primary" onClick={novoPerfil}>
+        <button type="button" className="btn gu-btn-primary" onClick={novoPerfil}>
           Novo Perfil
         </button>
       </div>
       <div>
-        {/* ... resto do seu componente (form de novo perfil, lista de perfis, etc.) ... */}
-
         {/* ===== TABELA DE PERMISSÕES ===== */}
-        <div className="gu-card p-4 mt-4 permissoes-grup">
+        <div className="gu-card p-4 mt-4 permissoes-catalogo">
           <div className="d-flex align-items-center justify-content-between mb-3">
             <h3 className="h6 fw-semibold mb-0 panel-text-primary">
               Permissões cadastradas
             </h3>
             <button
-              className="btn btn-sm gu-btn-toggle"
+              type="button"
+              className="btn btn-sm gu-btn-secondary"
+              aria-expanded={mostrarPermissoes}
               onClick={() => setMostrarPermissoes((prev) => !prev)}
             >
               {mostrarPermissoes ? "Ocultar" : "Mostrar"}
@@ -308,12 +309,12 @@ export default function Permissoes() {
 
           {mostrarPermissoes &&
             (permissoes.length === 0 ? (
-              <p className="gu-label mb-0">
+              <p className="gu-text-muted mb-0">
                 Nenhuma permissão cadastrada.
               </p>
             ) : (
               <div className="table-responsive">
-                <table className="table gu-label align-middle mb-0 ">
+                <table className="table gu-table align-middle mb-0 permissoes-catalogo__table">
                   <thead>
                     <tr>
                       <th>ID</th>
@@ -333,14 +334,15 @@ export default function Permissoes() {
             ))}
         </div>
       </div>
-      <div className="card bg-dark border-secondary">
+      <div className="gu-card perfis-card">
         <div className="card-body">
           {loading ? (
-            <p>Carregando...</p>
+            <p className="gu-text-muted">Carregando...</p>
           ) : perfis.length === 0 ? (
-            <p className="text-muted">Nenhum perfil encontrado.</p>
+            <p className="gu-text-muted">Nenhum perfil encontrado.</p>
           ) : (
-            <table className="table table-dark table-hover align-middle">
+            <div className="table-responsive">
+            <table className="table gu-table table-hover align-middle mb-0 perfis-table">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -362,7 +364,7 @@ export default function Permissoes() {
                           {estaEditando ? (
                             <input
                               type="text"
-                              className="form-control form-control-sm"
+                              className="form-control form-control-sm gu-input"
                               value={nomeEditado}
                               onChange={(e) => setNomeEditado(e.target.value)}
                               autoFocus
@@ -381,14 +383,14 @@ export default function Permissoes() {
                             {estaEditando ? (
                               <>
                                 <button
-                                  className="btn btn-sm btn-outline-success me-2"
+                                  className="btn btn-sm gu-btn-primary me-2"
                                   onClick={() => salvarEdicao(perfil)}
                                   disabled={salvando}
                                 >
                                   {salvando ? "Salvando..." : "Salvar"}
                                 </button>
                                 <button
-                                  className="btn btn-sm btn-outline-secondary"
+                                  className="btn btn-sm gu-btn-secondary"
                                   onClick={cancelarEdicao}
                                   disabled={salvando}
                                 >
@@ -397,7 +399,7 @@ export default function Permissoes() {
                               </>
                             ) : (
                               <button
-                                className="btn btn-sm btn-outline-primary"
+                                className="btn btn-sm gu-btn-secondary permissoes-action--edit"
                                 onClick={() => iniciarEdicao(perfil)}
                               >
                                 Editar
@@ -405,73 +407,79 @@ export default function Permissoes() {
                             )}
 
                             <button
-                              className="btn btn-sm btn-outline-info"
+                              type="button"
+                              className={`btn btn-sm gu-btn-secondary permissoes-action--toggle ${perfilAberto === perfil.id ? "is-active" : ""}`}
+                              aria-expanded={perfilAberto === perfil.id}
                               onClick={() => togglePermissoes(perfil.id)}
                             >
                               Permissões
                             </button>
 
-                            <button className="btn btn-sm btn-outline-danger"
-                              
-                            >
+                            <button type="button" className="btn btn-sm gu-btn-secondary permissoes-action--delete">
+
                               Excluir
                             </button>
                           </div>
                         </td>
                       </tr>
-                      <tr>
-                        <td colSpan="4" className="p-0 border-0">
-                          <div
-                            className={`collapse ${
-                              perfilAberto === perfil.id ? "show" : ""
-                            }`}
-                          >
-                            <div className="p-3 bg-body-tertiary">
-                              <h6 className="mb-3">
-                                perfil: <strong>{perfil.name}</strong>
-                              </h6>
+                      {perfilAberto === perfil.id && (
+                        <tr>
+                          <td colSpan="4" className="permissoes-expansao-cell">
+                            <section className="permissoes-expansao" aria-label={`Permissões do perfil ${perfil.name}`}>
+                              <div className="permissoes-expansao__header">
+                                <div>
+                                  <h3 className="h6 fw-semibold mb-1 gu-text-primary">
+                                    Permissões de {perfil.name}
+                                  </h3>
+                                  <p className="gu-text-muted mb-0">
+                                    Permissões vinculadas a este perfil.
+                                  </p>
+                                </div>
+                                <span className="permissoes-expansao__count">
+                                  {perfil.permissoes?.length ?? 0} permissões
+                                </span>
+                              </div>
 
                               {perfil.permissoes?.length > 0 ? (
-                                <div className="d-flex flex-wrap gap-2">
+                                <div className="permissoes-chips">
                                   {perfil.permissoes.map((permissao) => (
-                                    <span
+                                    <button
+                                      type="button"
                                       key={permissao.id}
-                                      className="badge text-bg-primary"
-                                      onDoubleClick={() => {
-                                        console.log(permissao);
-                                        removepermissao(permissao);
-                                      }}
+                                      className="permissao-chip"
+                                      title="Clique para remover esta permissão"
+                                      onClick={() => removepermissao(permissao)}
                                     >
                                       {permissao.name}
-                                    </span>
+                                      <span aria-hidden="true">×</span>
+                                    </button>
                                   ))}
-                                  <button
-                                    className="btn btn-sm btn-dark"
-                                    onClick={() => addpermissao()}
-                                  >
-                                    + Adicionar Permissão
-                                  </button>
                                 </div>
                               ) : (
-                                <span className="text-muted">
+                                <p className="gu-text-muted mb-0">
                                   Nenhuma permissão vinculada.
-                                  <button
-                                    className="btn btn-sm btn-dark"
-                                    onClick={() => addpermissao()}
-                                  >
-                                    + Adicionar Permissão
-                                  </button>
-                                </span>
+                                </p>
                               )}
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
+
+                              <div className="permissoes-expansao__actions">
+                                <button
+                                  type="button"
+                                  className="btn gu-btn-primary"
+                                  onClick={() => addpermissao()}
+                                >
+                                  + Adicionar permissão
+                                </button>
+                              </div>
+                            </section>
+                          </td>
+                        </tr>
+                      )}
                     </React.Fragment>
                   );
                 })}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       </div>
