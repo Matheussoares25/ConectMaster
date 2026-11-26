@@ -1,6 +1,7 @@
 // src/pages/PainelControle/Componentes/CotacaoMoeda.jsx
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import "../css/buscaMoedas.css";
 
 const moedas = [
   { codigo: "USD", nome: "Dólar Americano" },
@@ -124,23 +125,31 @@ export default function CotacaoMoeda() {
     return new Date(timestamp.replace(" ", "T")).toLocaleString("pt-BR");
   };
 
+  const formatarValor = (valor) =>
+    Number(valor).toLocaleString("pt-BR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 4,
+    });
+
   const moedaSelecionada = moedas.find((m) => m.codigo === moeda);
   return (
     <div className="cb-wrapper">
-      <div className="mb-4">
+      <header className="cb-page-header mb-4">
+        <span className="cb-eyebrow">Câmbio</span>
         <h2 className="h4 fw-bold mb-1 cb-text-primary">Cotação de Moedas</h2>
         <p className="cb-text-muted mb-0">
           Consulte o histórico de compra e venda de moedas por período.
         </p>
-      </div>
+      </header>
 
       {/* ===== FILTROS DE BUSCA ===== */}
       <div className="cb-card p-4 mb-4">
         <form onSubmit={buscarCotacoes}>
           <div className="row g-3 align-items-end">
-            <div className="col-12 col-md-4">
-              <label className="form-label cb-label">Moeda</label>
+            <div className="col-12 col-md-3">
+              <label className="form-label cb-label" htmlFor="cb-moeda">Moeda</label>
               <select
+                id="cb-moeda"
                 className="form-select cb-input"
                 value={moeda}
                 onChange={(e) => setMoeda(e.target.value)}
@@ -153,9 +162,10 @@ export default function CotacaoMoeda() {
               </select>
             </div>
 
-            <div className="col-6 col-md-3">
-              <label className="form-label cb-label">Data inicial</label>
+            <div className="col-6 col-md-2">
+              <label className="form-label cb-label" htmlFor="cb-data-inicio">Data inicial</label>
               <input
+                id="cb-data-inicio"
                 type="date"
                 className="form-control cb-input"
                 value={dataInicio}
@@ -163,9 +173,10 @@ export default function CotacaoMoeda() {
               />
             </div>
 
-            <div className="col-6 col-md-3">
-              <label className="form-label cb-label">Data final</label>
+            <div className="col-6 col-md-2">
+              <label className="form-label cb-label" htmlFor="cb-data-fim">Data final</label>
               <input
+                id="cb-data-fim"
                 type="date"
                 className="form-control cb-input"
                 value={dataFim}
@@ -173,9 +184,10 @@ export default function CotacaoMoeda() {
               />
             </div>
 
-            <div className="col-12 col-md-4">
-              <label className="form-label cb-label">Periodos</label>
-              <select onChange={handlePeriodoChange}>
+            <div className="col-12 col-md-2">
+              <label className="form-label cb-label" htmlFor="cb-periodo">Período rápido</label>
+              <select id="cb-periodo" className="form-select cb-input" onChange={handlePeriodoChange} defaultValue="">
+                <option value="" disabled>Selecione</option>
                 {periodos.map((p) => (
                   <option key={p.id} value={p.dias}>
                     {p.nome}
@@ -184,7 +196,7 @@ export default function CotacaoMoeda() {
               </select>
             </div>
 
-            <div className="col-12 col-md-2">
+            <div className="col-12 col-md-3">
               <button
                 type="submit"
                 className="btn cb-btn-primary w-100"
@@ -198,12 +210,22 @@ export default function CotacaoMoeda() {
       </div>
 
       {/* ===== RESULTADO ===== */}
-      <div className="cb-card p-4">
-        <h3 className="h6 fw-semibold mb-3 cb-text-primary">
-          {moedaSelecionada
-            ? `${moedaSelecionada.nome} (${moedaSelecionada.codigo}/BRL)`
-            : "Resultado"}
-        </h3>
+      <div className="cb-card cb-results-card p-4">
+        <div className="cb-results-header mb-3">
+          <div>
+            <span className="cb-eyebrow">Resultado da consulta</span>
+            <h3 className="h6 fw-semibold mb-0 cb-text-primary">
+              {moedaSelecionada
+                ? `${moedaSelecionada.nome} (${moedaSelecionada.codigo}/BRL)`
+                : "Resultado"}
+            </h3>
+          </div>
+          {buscou && !buscando && cotacoes.length > 0 && (
+            <span className="cb-result-count">
+              {cotacoes.length} {cotacoes.length === 1 ? "cotação" : "cotações"}
+            </span>
+          )}
+        </div>
 
         {!buscou ? (
           <p className="cb-text-muted mb-0">
@@ -216,9 +238,9 @@ export default function CotacaoMoeda() {
             Nenhuma cotação encontrada para o período selecionado.
           </p>
         ) : (
-          <div className="table-responsive cb-wrapper">
-            <table className="table mb-0">
-              <thead cla>
+          <div className="table-responsive cb-table-viewport">
+            <table className="table cb-table align-middle mb-0">
+              <thead>
                 <tr>
                   <th>Data</th>
                   <th>Compra</th>
@@ -230,16 +252,19 @@ export default function CotacaoMoeda() {
                 {cotacoes.map((cot, index) => {
                   const variacao = Number(cot.pctChange);
                   return (
-                    <tr key={index}>
+                    <tr key={`${cot.dataHoraCotacao}-${index}`}>
                       <td>{formatarDataExibicao(cot.dataHoraCotacao)}</td>
-                      <td>R$ {cot.cotacaoCompra}</td>
-                      <td>R$ {cot.cotacaoVenda}</td>
+                      <td>R$ {formatarValor(cot.cotacaoCompra)}</td>
+                      <td>R$ {formatarValor(cot.cotacaoVenda)}</td>
                       <td>
-                        {" "}
-                        Tipo de Variação:{" "}
-                        <span className="cb-badge--success">
-                          {cot.tipoBoletim}
+                        <span
+                          className={`cb-badge ${variacao >= 0 ? "cb-badge--success" : "cb-badge--danger"}`}
+                        >
+                          {Number.isFinite(variacao)
+                            ? `${variacao > 0 ? "+" : ""}${variacao.toLocaleString("pt-BR", { maximumFractionDigits: 2 })}%`
+                            : "—"}
                         </span>
+                        <span className="cb-bulletin">{cot.tipoBoletim}</span>
                       </td>
                     </tr>
                   );
