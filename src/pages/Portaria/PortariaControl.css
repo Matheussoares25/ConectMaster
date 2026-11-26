@@ -1,0 +1,343 @@
+.portaria-control-layout {
+  min-height: 100vh;
+}
+
+.portaria-page {
+  width: min(100%, 1600px);
+  min-width: 0;
+  margin: 0 auto;
+  color: var(--text-primary);
+}
+
+.portaria-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--bg-card), var(--bg-card-hover));
+  box-shadow: var(--shadow-primary);
+}
+
+.portaria-eyebrow {
+  display: inline-block;
+  margin-bottom: 7px;
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.portaria-page-header h1 {
+  margin: 0 0 6px;
+  color: var(--text-primary);
+  font-size: clamp(1.45rem, 2.4vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.portaria-page-header p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.portaria-list-card,
+.portaria-form-card {
+  min-width: 0;
+  padding: clamp(16px, 2.5vw, 24px);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-primary);
+}
+
+.portaria-list-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.portaria-list-toolbar p {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.portaria-list-toolbar h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.portaria-search input,
+.portaria-field input {
+  min-height: 44px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font: inherit;
+}
+
+.portaria-search input {
+  width: min(360px, 38vw);
+  padding: 9px 12px;
+}
+
+.portaria-field input {
+  width: 100%;
+  padding: 10px 12px;
+}
+
+.portaria-search input:focus,
+.portaria-field input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.portaria-search input::placeholder {
+  color: var(--text-muted);
+}
+
+.portaria-refresh,
+.portaria-primary-button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 14px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.portaria-primary-button {
+  min-height: 46px;
+  padding: 11px 20px;
+  border: 0;
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-primary);
+  color: #fff;
+}
+
+.portaria-refresh:hover:not(:disabled),
+.portaria-primary-button:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.portaria-refresh:focus-visible,
+.portaria-primary-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.portaria-refresh:disabled,
+.portaria-primary-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.portaria-table-viewport {
+  max-height: min(70vh, 760px);
+  overflow: auto;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  scrollbar-width: thin;
+}
+
+.portaria-table {
+  min-width: 1250px;
+  color: var(--text-secondary);
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text-secondary);
+  --bs-table-hover-bg: var(--bg-card-hover);
+}
+
+.portaria-table thead th {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  border-bottom: 1px solid var(--border-card);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.portaria-table tbody td {
+  border-bottom: 1px solid var(--border-card);
+  color: var(--text-secondary);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.portaria-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.portaria-message,
+.portaria-error {
+  margin: 0;
+  padding: 18px;
+  border: 1px dashed var(--border-card);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.portaria-error p {
+  margin: 0 0 12px;
+  color: var(--color-danger);
+}
+
+.portaria-form-card {
+  margin-bottom: 22px;
+}
+
+.portaria-field {
+  display: flex;
+  max-width: 620px;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.portaria-field b,
+.portaria-form-actions p b {
+  color: var(--color-danger);
+}
+
+.portaria-error-message {
+  margin: 12px 0 0;
+  color: var(--color-danger);
+  font-size: 13px;
+}
+
+.portaria-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-card);
+}
+
+.portaria-form-actions p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.portaria-vehicles-card .portaria-table {
+  min-width: 520px;
+}
+
+.portaria-row-actions,
+.portaria-edit-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.portaria-edit-cell {
+  padding: 14px !important;
+  background: var(--bg-card-hover) !important;
+}
+
+.portaria-vehicle-edit {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+
+.portaria-vehicle-edit .portaria-field {
+  flex: 1;
+}
+
+@media (max-width: 900px) {
+  .portaria-control-layout > .home-sidebar {
+    width: 220px;
+  }
+
+  .portaria-control-layout .panel-content {
+    padding: 24px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .portaria-control-layout {
+    flex-direction: column;
+  }
+
+  .portaria-control-layout > .home-sidebar {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .portaria-control-layout > .home-sidebar > div:first-child {
+    width: 100%;
+  }
+
+  .portaria-control-layout > .home-sidebar .nav {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+  }
+
+  .portaria-control-layout .panel-content {
+    padding: 16px !important;
+  }
+
+  .portaria-page-header,
+  .portaria-list-toolbar,
+  .portaria-form-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .portaria-search input {
+    width: 100%;
+  }
+
+  .portaria-refresh,
+  .portaria-primary-button {
+    width: 100%;
+  }
+
+  .portaria-row-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .portaria-vehicle-edit {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .portaria-edit-actions {
+    flex-direction: column;
+  }
+}

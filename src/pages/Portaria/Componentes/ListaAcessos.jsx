@@ -1,197 +1,145 @@
-import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import { useCallback, useEffect, useState } from "react";
 import Api from "../../../Services/EndPoint";
-import { swalBase } from "../../../Services/EndPoint";
 
-
-const prioridadeLabel = { 1: "Baixa", 2: "Média", 3: "Alta", 4: "Crítica" };
-
+const lerCampo = (registro, ...nomes) => {
+  for (const nome of nomes) {
+    if (registro?.[nome] !== undefined && registro[nome] !== null) {
+      return registro[nome];
+    }
+  }
+  return null;
+};
 
 const formatarData = (data) => {
   if (!data) return "—";
-
-  const dataFormatada = new Date(data);
-  if (Number.isNaN(dataFormatada.getTime())) return "—";
-
-  return dataFormatada.toLocaleString("pt-BR");
+  const valor = new Date(data);
+  return Number.isNaN(valor.getTime()) ? "—" : valor.toLocaleString("pt-BR");
 };
 
+const formatarSimNao = (valor) => valor === true ? "Sim" : valor === false ? "Não" : "—";
+
 export default function ListaAcesso() {
-  const [chamados, setChamados] = useState([]);
+  const [acessos, setAcessos] = useState([]);
   const [carregando, setCarregando] = useState(true);
-  const [aprovandoId, setAprovandoId] = useState(null);
-  const [baixandoArquivoId, setBaixandoArquivoId] = useState(null);
-  const [user, setUser] = useState({});
-  useEffect(() => {
-    const storedUser =
-      JSON.parse(localStorage.getItem("user")) ||
-      JSON.parse(sessionStorage.getItem("user"));
-    setUser(storedUser || {});
-  }, []);
-  useEffect(() => {
-    let ativo = true;
+  const [erro, setErro] = useState("");
+  const [filtro, setFiltro] = useState("");
 
-    const carregarChamados = async () => {
-      try {
-        const response = await Api.CallEndpoint(
-          "Acessos",
-          "GET",
-        );
-        const lista = response?.chamados || response;
-
-        if (!Array.isArray(lista)) {
-          throw new Error(
-            "A resposta da API não contém uma lista de chamados.",
-          );
-        }
-
-        if (ativo) {
-          setChamados(lista.filter((chamado) => chamado.standby === true));
-        }
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Erro",
-          text:
-            error.message ||
-            "Não foi possível carregar os chamados de Compras em standby.",
-          ...swalBase,
-        });
-      } finally {
-        if (ativo) setCarregando(false);
+  const carregarAcessos = useCallback(async () => {
+    setCarregando(true);
+    setErro("");
+    try {
+      const resposta = await Api.CallEndpoint("Acessos", "GET");
+      const lista = resposta?.acessos || resposta;
+      if (!Array.isArray(lista)) {
+        throw new Error("A API não retornou uma lista válida de acessos.");
       }
-    };
-
-    carregarChamados();
-
-    return () => {
-      ativo = false;
-    };
+      setAcessos(lista);
+    } catch (error) {
+      setErro(error.message || "Não foi possível carregar os acessos cadastrados.");
+    } finally {
+      setCarregando(false);
+    }
   }, []);
 
+  useEffect(() => {
+    carregarAcessos();
+  }, [carregarAcessos]);
+
+  const termo = filtro.trim().toLocaleLowerCase("pt-BR");
+  const acessosFiltrados = acessos.filter((acesso) => {
+    if (!termo) return true;
+    const campos = [
+      acesso.id,
+      lerCampo(acesso, "motorista", "Motorista"),
+      lerCampo(acesso, "despachante", "Despachante"),
+      lerCampo(acesso, "transportadora", "Transportadora"),
+      lerCampo(acesso, "placa", "Placa"),
+      lerCampo(acesso, "numero_nf", "numeroNf", "Numero_nf"),
+    ];
+    return campos.some((campo) => String(campo ?? "").toLocaleLowerCase("pt-BR").includes(termo));
+  });
 
   return (
-    <div className="d-flex" style={{ minHeight: "100vh" }}>
-
-      <div className="flex-grow-1 p-5 panel-content">
-        <div className="flex-grow-1 p-5 panel-content">
-          <h2 className="h4 fw-bold mb-1 gu-text-primary">
-            Acessos Portaria Formulario
-          </h2>
-          <p className="gu-text-muted mb-4">
-            Formulário de acessos pendentes de aprovação pela portaria.
-          </p>
-
-          <div className="gu-card p-4">
-            {carregando ? (
-              <p className="gu-text-muted mb-0">Carregando chamados...</p>
-            ) : chamados.length === 0 ? (
-              <p className="gu-text-muted mb-0">
-                Nenhum formulario de acesso pendente de aprovação.
-              </p>
-            ) : (
-              <div className="table-responsive">
-                <table className="table gu-table align-middle mb-0">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Título</th>
-                      <th>Descrição</th>
-                      <th>Solicitante</th>
-                      <th>Setor</th>
-                      <th>E-mail</th>
-                      <th>Categoria</th>
-                      <th>Prioridade</th>
-                      <th>Status</th>
-                      <th>Aprovado</th>
-                      <th>Data de abertura</th>
-                      <th>Cotações</th>
-                      <th>Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {chamados.map((chamado) => (
-                      <tr key={chamado.id}>
-                        <td>{chamado.id}</td>
-                        <td>{chamado.titulo || "—"}</td>
-                        <td className="text-break">
-                          {chamado.descricao || "—"}
-                        </td>
-                        <td>{chamado.usuario?.nome || "—"}</td>
-                        <td>
-                          {chamado.setor ||
-                            chamado.usuario?.departamentoNome ||
-                            "—"}
-                        </td>
-                        <td>
-                          {chamado.email || chamado.usuario?.email || "—"}
-                        </td>
-                        <td>{chamado.categoria || "—"}</td>
-                        <td>{prioridadeLabel[chamado.prioridade] || "N/A"}</td>
-                        <td>{chamado.status || "—"}</td>
-                        <td>
-                          {chamado.aprovado ? (
-                            <span className="gu-badge">
-                              Aprovado pela gestão
-                            </span>
-                          ) : (
-                            "Não"
-                          )}
-                        </td>
-                        <td className="text-nowrap">
-                          {formatarData(chamado.dataAbertura)}
-                        </td>
-                        <td>
-                          {(chamado.arquivos || chamado.Arquivos || [])
-                            .length === 0 ? (
-                            "—"
-                          ) : (
-                            <div className="d-flex flex-column align-items-start gap-1">
-                              {(chamado.arquivos || chamado.Arquivos || []).map(
-                                (arquivo) => {
-                                  const arquivoId = arquivo.id ?? arquivo.Id;
-                                  const nomeOriginal =
-                                    arquivo.nomeOriginal ||
-                                    arquivo.NomeOriginal ||
-                                    "Baixar cotação";
-
-                                  return (
-                                    <button
-                                      key={arquivoId}
-                                      type="button"
-                                      className="btn btn-outline-primary btn-sm"
-                                    >
-                                      {baixandoArquivoId === arquivoId
-                                        ? "Baixando..."
-                                        : `Baixar ${nomeOriginal}`}
-                                    </button>
-                                  );
-                                },
-                              )}
-                            </div>
-                          )}
-                        </td>
-                        <td className="text-nowrap">
-                          {chamado.aprovado ? (
-                            "—"
-                          ) : (
-                            <button
-                              type="button"
-                              className="btn btn-success btn-sm"
-                            >
-                              Aprovar
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
+    <section className="portaria-page">
+      <header className="portaria-page-header">
+        <div>
+          <span className="portaria-eyebrow">Portaria</span>
+          <h1>Acessos cadastrados</h1>
+          <p>Consulte os cadastros de entrada enviados para a portaria.</p>
         </div>
+        <button className="portaria-refresh" disabled={carregando} onClick={carregarAcessos} type="button">
+          {carregando ? "Atualizando..." : "Atualizar lista"}
+        </button>
+      </header>
+
+      <div className="portaria-list-card">
+        <div className="portaria-list-toolbar">
+          <p>{acessos.length} {acessos.length === 1 ? "cadastro" : "cadastros"}</p>
+          <label className="portaria-search">
+            <span className="visually-hidden">Buscar cadastro</span>
+            <input onChange={(event) => setFiltro(event.target.value)} placeholder="Buscar motorista, placa ou NF" type="search" value={filtro} />
+          </label>
+        </div>
+
+        {carregando ? (
+          <p className="portaria-message" role="status">Carregando cadastros...</p>
+        ) : erro ? (
+          <div className="portaria-error" role="alert">
+            <p>{erro}</p>
+            <button className="portaria-refresh" onClick={carregarAcessos} type="button">Tentar novamente</button>
+          </div>
+        ) : acessosFiltrados.length === 0 ? (
+          <p className="portaria-message">{acessos.length ? "Nenhum cadastro corresponde à busca." : "Ainda não há acessos cadastrados."}</p>
+        ) : (
+          <div className="table-responsive portaria-table-viewport">
+            <table className="table portaria-table align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Entrada</th>
+                  <th>Motorista</th>
+                  <th>CNH</th>
+                  <th>Telefone</th>
+                  <th>Transportadora</th>
+                  <th>Serviço</th>
+                  <th>Veículo</th>
+                  <th>Placa</th>
+                  <th>Veículo aberto</th>
+                  <th>NF / coleta</th>
+                  <th>Volumes</th>
+                  <th>Despachante</th>
+                  <th>Verificado</th>
+                  <th>Liberado</th>
+                </tr>
+              </thead>
+              <tbody>
+                {acessosFiltrados.map((acesso) => {
+                  const veiculo = lerCampo(acesso, "veiculos", "Veiculos");
+                  return (
+                    <tr key={lerCampo(acesso, "id", "Id")}>
+                      <td>{lerCampo(acesso, "id", "Id") ?? "—"}</td>
+                      <td className="text-nowrap">{formatarData(lerCampo(acesso, "data_entrada", "dataEntrada", "Data_entrada"))}</td>
+                      <td>{lerCampo(acesso, "motorista", "Motorista") || "—"}</td>
+                      <td>{lerCampo(acesso, "cnh", "Cnh", "CNH") || "—"}</td>
+                      <td>{lerCampo(acesso, "telefone_motorista", "telefoneMotorista", "Telefone_motorista") || "—"}</td>
+                      <td>{lerCampo(acesso, "transportadora", "Transportadora") || "—"}</td>
+                      <td>{lerCampo(acesso, "servico", "Servico") || "—"}</td>
+                      <td>{lerCampo(veiculo, "modelo", "Modelo") || "—"}</td>
+                      <td>{lerCampo(acesso, "placa", "Placa") || "—"}</td>
+                      <td>{formatarSimNao(lerCampo(acesso, "veiculo_aberto", "veiculoAberto", "Veiculo_aberto"))}</td>
+                      <td>{lerCampo(acesso, "numero_nf", "numeroNf", "Numero_nf") || "—"}</td>
+                      <td>{lerCampo(acesso, "quantidade", "Quantidade") || "—"}</td>
+                      <td>{lerCampo(acesso, "despachante", "Despachante") || "—"}</td>
+                      <td>{formatarSimNao(lerCampo(acesso, "verificado", "Verificado"))}</td>
+                      <td>{formatarSimNao(lerCampo(acesso, "liberado", "Liberado"))}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
-    </div>
+    </section>
   );
 }
