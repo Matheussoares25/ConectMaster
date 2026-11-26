@@ -174,11 +174,7 @@
   color: var(--color-primary);
   transform: translateX(4px);
 }
-/* ===== Chamados de Compras em standby ===== */
-.gerenciar-usuarios {
-  color: var(--text-primary);
-}
-
+/* ===== COMPONENTES ADMIN COMPARTILHADOS ===== */
 .gu-text-primary {
   color: var(--text-primary) !important;
 }
@@ -226,16 +222,28 @@
   max-width: 280px;
 }
 
-.gu-badge {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  white-space: nowrap;
-  background: rgba(47, 111, 237, 0.15);
-  color: #7fb0ff;
+.gu-btn-secondary {
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast);
 }
+
+.gu-btn-secondary:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+.gu-btn-secondary:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 /* ===== RESPONSIVO ===== */
 
 @media (max-width: 600px) {
@@ -259,10 +267,6 @@
   background-image: var(--dot-grid);
   background-size: var(--dot-grid-size);
   min-height: 100vh;
-}
-
-.permissoes-grup{
-  background-color: var(--bg-sidebar) !important;
 }
 
 .panel-sidebar {
@@ -457,12 +461,13 @@ select.gu-input {
 
 .gu-badge {
   display: inline-block;
-  background: rgba(70, 171, 229, 0.15);
+  background: var(--bg-selector);
   color: var(--color-primary) !important;
   font-size: 12px;
   font-weight: 600;
   padding: 3px 10px;
   border-radius: var(--radius-pill);
+  white-space: nowrap;
 }
 
 .gu-btn-icon {
@@ -598,7 +603,7 @@ select.gu-input {
 .adm-services-history .hc-table {
   color: var(--text-secondary);
   --bs-table-bg: transparent;
-  --bs-table-hover-bg: var(--bg-card-hover);
+  --bs-table-hover-bg: var(--bg-table-hover);
   --bs-table-hover-color: var(--text-primary);
 }
 

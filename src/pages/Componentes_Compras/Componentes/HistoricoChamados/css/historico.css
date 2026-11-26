@@ -1,10 +1,10 @@
 .hc-compras-history {
-          --hc-accent: #46abe5;
-          max-width: 1760px;
-          min-height: calc(100vh - 40px);
-          margin: 0 auto;
-          padding: clamp(16px, 2vw, 32px);
-        }
+  --hc-accent: var(--color-primary);
+  max-width: 1760px;
+  min-height: calc(100vh - 40px);
+  margin: 0 auto;
+  padding: clamp(16px, 2vw, 32px);
+}
 
         .hc-compras-history .hc-page-header,
         .hc-compras-history .hc-list-header,
@@ -18,9 +18,9 @@
         .hc-compras-history .hc-page-header {
           padding: 22px 24px;
           border: 1px solid var(--border-card);
-          border-radius: 16px;
+          border-radius: var(--radius-lg);
           background: linear-gradient(120deg, var(--bg-card), var(--bg-card-hover));
-          box-shadow: 0 8px 26px rgba(15, 23, 42, 0.05);
+          box-shadow: var(--shadow-primary);
         }
 
         .hc-compras-history .hc-page-eyebrow,
@@ -59,7 +59,7 @@
           height: 8px;
           border-radius: 50%;
           background: var(--color-success);
-          box-shadow: 0 0 0 4px rgba(34, 197, 139, 0.12);
+          box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-success) 14%, transparent);
         }
 
         .hc-compras-history .hc-metric-card {
@@ -99,7 +99,7 @@
           box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
         }
 
-        .hc-compras-history .hc-metric-card--total { --hc-metric-accent: #46abe5; }
+        .hc-compras-history .hc-metric-card--total { --hc-metric-accent: var(--color-primary); }
         .hc-compras-history .hc-metric-card--open { --hc-metric-accent: var(--color-primary); }
         .hc-compras-history .hc-metric-card--progress { --hc-metric-accent: var(--color-warning); }
         .hc-compras-history .hc-metric-card--done { --hc-metric-accent: var(--color-success); }
@@ -149,7 +149,7 @@
           height: 22px;
           place-items: center;
           border-radius: 50%;
-          background: rgba(70, 171, 229, 0.14);
+          background: color-mix(in srgb, var(--hc-accent) 14%, var(--bg-card));
           color: var(--hc-accent);
           font-size: 17px;
           line-height: 1;
@@ -200,8 +200,13 @@
         }
 
         .hc-compras-history .hc-table {
-          min-width: 1560px;
+          min-width: 2200px;
           margin-bottom: 0;
+          --bs-table-bg: transparent;
+          --bs-table-color: var(--text-secondary);
+          --bs-table-hover-bg: var(--bg-table-hover, var(--bg-card-hover));
+          --bs-table-hover-color: var(--text-primary);
+          color: var(--text-secondary);
         }
 
         .hc-compras-history .hc-table thead th {
@@ -218,8 +223,8 @@
           line-height: 1.45;
         }
 
-        .hc-compras-history .hc-table tbody tr:hover td {
-          background: var(--bg-card-hover);
+        .hc-compras-history .hc-table tbody tr:hover > td {
+          background: var(--bg-table-hover, var(--bg-card-hover));
         }
 
         .hc-compras-history .hc-table th:first-child,
@@ -243,14 +248,105 @@
 
         .hc-compras-history .hc-table th:nth-child(13),
         .hc-compras-history .hc-table td:nth-child(13) {
+          min-width: 145px;
+        }
+
+        .hc-compras-history .hc-table th:nth-child(14),
+        .hc-compras-history .hc-table td:nth-child(14) {
           min-width: 310px;
+        }
+
+        .hc-compras-history .hc-table th:nth-child(15),
+        .hc-compras-history .hc-table td:nth-child(15),
+        .hc-compras-history .hc-table th:nth-child(16),
+        .hc-compras-history .hc-table td:nth-child(16) {
+          min-width: 240px;
+          max-width: 360px;
+        }
+
+        .hc-compras-history .hc-text-cell {
+          white-space: pre-wrap;
+          overflow-wrap: anywhere;
         }
 
         .hc-compras-history .hc-table .btn {
           margin: 2px;
-          border-radius: 8px;
+          border-radius: var(--radius-sm);
           font-size: 12px;
           font-weight: 600;
+        }
+
+        .hc-compras-history .hc-btn-icon {
+          display: inline-grid;
+          width: 34px;
+          height: 34px;
+          padding: 0;
+          place-items: center;
+          border: 1px solid var(--border-card);
+          border-radius: var(--radius-sm);
+          background: var(--bg-card);
+          color: var(--text-secondary);
+          line-height: 1;
+        }
+
+        .hc-compras-history .hc-btn-icon:hover:not(:disabled) {
+          border-color: var(--color-primary);
+          background: var(--bg-card-hover);
+          color: var(--color-primary);
+        }
+
+        .hc-compras-history .hc-btn-icon:focus-visible,
+        .hc-compras-history .hc-chart-toggle:focus-visible {
+          outline: 2px solid var(--color-primary);
+          outline-offset: 2px;
+        }
+
+        .hc-compras-history .hc-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 4px 9px;
+          border: 1px solid var(--border-card);
+          border-radius: var(--radius-pill);
+          background: var(--bg-card);
+          color: var(--text-secondary);
+          font-size: 12px;
+          font-weight: 600;
+          line-height: 1.3;
+          white-space: nowrap;
+        }
+
+        .hc-compras-history .hc-badge--info,
+        .hc-compras-history .hc-badge--prioridade-2 {
+          border-color: color-mix(in srgb, var(--color-primary) 30%, var(--border-card));
+          background: color-mix(in srgb, var(--color-primary) 14%, var(--bg-card));
+          color: var(--color-primary);
+        }
+
+        .hc-compras-history .hc-badge--warning,
+        .hc-compras-history .hc-badge--prioridade-3 {
+          border-color: color-mix(in srgb, var(--color-warning) 30%, var(--border-card));
+          background: color-mix(in srgb, var(--color-warning) 14%, var(--bg-card));
+          color: var(--color-warning);
+        }
+
+        .hc-compras-history .hc-badge--success,
+        .hc-compras-history .hc-badge--prioridade-1 {
+          border-color: color-mix(in srgb, var(--color-success) 30%, var(--border-card));
+          background: color-mix(in srgb, var(--color-success) 14%, var(--bg-card));
+          color: var(--color-success);
+        }
+
+        .hc-compras-history .hc-badge--danger,
+        .hc-compras-history .hc-badge--prioridade-4 {
+          border-color: color-mix(in srgb, var(--color-danger) 30%, var(--border-card));
+          background: color-mix(in srgb, var(--color-danger) 14%, var(--bg-card));
+          color: var(--color-danger);
+        }
+
+        .hc-compras-history .hc-table .btn:disabled {
+          cursor: not-allowed;
+          opacity: 0.65;
         }
 
         .hc-compras-history .hc-empty-state {
@@ -264,9 +360,9 @@
         }
 
         .hc-row-details > td {
-  background: var(--bg-card);
-  border-top: 0;
   padding: 1rem 1.25rem;
+  border-top: 0;
+  background: var(--bg-card);
 }
 
 .hc-details-grid {
@@ -278,8 +374,8 @@
 .hc-details-item {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
   align-items: flex-start;
+  gap: 0.2rem;
 }
 
 .hc-details-item--full {
@@ -287,24 +383,32 @@
 }
 
 .hc-details-label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: var(--text-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-        @media (max-width: 767.98px) {
-          .hc-compras-history {
-            min-height: 100vh;
-            padding: 14px;
-          }
+@media (max-width: 767.98px) {
+  .hc-compras-history {
+    min-height: 100vh;
+    padding: 14px;
+  }
 
-          .hc-compras-history .hc-page-header,
-          .hc-compras-history .hc-list-header {
-            align-items: flex-start;
-          }
+  .hc-compras-history .hc-page-header,
+  .hc-compras-history .hc-list-header {
+    align-items: flex-start;
+  }
 
-          .hc-compras-history .hc-live-indicator { display: none; }
-          .hc-compras-history .hc-table-viewport { max-height: 65vh; }
-          .hc-compras-history .hc-filters { padding: 10px; }
-        }
+  .hc-compras-history .hc-live-indicator {
+    display: none;
+  }
+
+  .hc-compras-history .hc-table-viewport {
+    max-height: 65vh;
+  }
+
+  .hc-compras-history .hc-filters {
+    padding: 10px;
+  }
+}

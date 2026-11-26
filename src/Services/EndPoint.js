@@ -99,9 +99,10 @@ class Api {
         err.status = response.status;
         throw err;
       }
-
+    
       return data;
     } finally {
+      
       window.dispatchEvent(new Event("loading:end"));
     }
   }

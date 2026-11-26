@@ -1,6 +1,7 @@
 // src/pages/PainelControle/PainelControle.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../../css/adm.css';
 import GerenciarUsuarios from './Componentes/GerenciarUsuarios.jsx';
 import Permissoes from './Componentes/Permissoes.jsx';
 import LogsSistema from './Componentes/LogsSistema.jsx';

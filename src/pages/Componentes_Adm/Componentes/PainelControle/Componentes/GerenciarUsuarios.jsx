@@ -1,5 +1,6 @@
 // src/pages/PainelControle/sections/GerenciarUsuarios.jsx
 import React, { useEffect, useState } from "react";
+import "../../../../Componentes_Adm/css/GerenciarUsuarios.css"
 import Api from "../../../../../Services/EndPoint";
 import Swal from "sweetalert2";
 import { swalBase } from "../../../../../Services/EndPoint";
@@ -31,6 +32,10 @@ export default function GerenciarUsuarios() {
   const [filtroTexto, setFiltroTexto] = useState("");
   const [filtroPerfil, setFiltroPerfil] = useState("");
   const [usuarioAberto, setUsuarioAberto] = useState(null);
+  const [viewsDisponiveis, setViewsDisponiveis] = useState([]);
+  const [viewsSelecionadas, setViewsSelecionadas] = useState([]);
+  const [carregandoViews, setCarregandoViews] = useState(false);
+  const [salvandoViews, setSalvandoViews] = useState(false);
   const [form, setForm] = useState(formInicial);
 
   useEffect(() => {
@@ -289,97 +294,89 @@ export default function GerenciarUsuarios() {
     }
   };
 
-  // ===== VIEWS DO USUÁRIO =====
-  const toggleViews = (id) => {
-    setUsuarioAberto((atual) => (atual === id ? null : id));
-  };
-
-  const addPermissao = async () => {
-    const todasViews = await Api.CallEndpoint("views", "GET");
-    const usuario = usuarios.find((u) => u.id === usuarioAberto);
-    const jaVinculadas = (usuario?.views || []).map((v) => v.viewId);
-
-    const disponiveis = todasViews.filter((v) => !jaVinculadas.includes(v.id));
-
-    if (disponiveis.length === 0) {
-      Swal.fire({
-        ...swalBase,
-        icon: "info",
-        title: "Nenhuma página disponível.",
-      });
+  // ===== PÁGINAS VISÍVEIS DO USUÁRIO =====
+  const toggleViews = async (usuario) => {
+    if (usuarioAberto === usuario.id) {
+      setUsuarioAberto(null);
       return;
     }
 
-    const { value: viewId } = await Swal.fire({
-      ...swalBase,
-      icon: "question",
-      title: "Selecione uma página",
-      showCancelButton: true,
-      html: `
-        <select id="swal-view" class="form-select">
-          ${disponiveis
-            .map(
-              (v) => `<option value="${v.id}">${escapeHtml(v.name)}</option>`,
-            )
-            .join("")}
-        </select>
-      `,
-      preConfirm: () => document.getElementById("swal-view").value,
-    });
-
-    if (!viewId) return;
-
+    setCarregandoViews(true);
     try {
-      await Api.CallEndpoint("usuarioview", "POST", {
-        usuarioId: usuarioAberto,
-        viewId: Number(viewId),
-      });
+      const dataViews = await Api.CallEndpoint("views", "GET");
+      if (!Array.isArray(dataViews)) {
+        throw new Error("Não foi possível carregar a lista de páginas.");
+      }
 
-      Swal.fire({
-        ...swalBase,
-        icon: "success",
-        title: "Página liberada!",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-
-      carregarDados();
+      setViewsDisponiveis(dataViews);
+      setViewsSelecionadas(usuario.views.map((view) => Number(view.viewId)));
+      setUsuarioAberto(usuario.id);
     } catch (error) {
       Swal.fire({
         ...swalBase,
         icon: "error",
-        title: "Erro ao vincular página",
+        title: "Erro ao carregar páginas",
         text: error.message,
       });
+    } finally {
+      setCarregandoViews(false);
     }
   };
 
-  const removeView = async (id) => {
-    Swal.fire({
-      icon: "warning",
-      title: "Excluir permissão?",
-      text: `Tem certeza que deseja desvincular essa permissão?.`,
-      showCancelButton: true,
-      confirmButtonText: "Sim, excluir",
-      cancelButtonText: "Cancelar",
-      background: "#141826",
-      color: "#fff",
-      confirmButtonColor: "#ef5da8",
-      cancelButtonColor: "#2a2f45",
-    }).then(async (result) => {
-      if (result.isConfirmed)
-        try {
-          await Api.CallEndpoint("usuarioview", "DELETE", null, id);
-          carregarDados();
-        } catch (error) {
-          Swal.fire({
-            ...swalBase,
-            icon: "error",
-            title: "Erro ao remover página",
-            text: error.message,
-          });
-        }
-    });
+  const alternarViewSelecionada = (viewId) => {
+    setViewsSelecionadas((atuais) =>
+      atuais.includes(viewId)
+        ? atuais.filter((id) => id !== viewId)
+        : [...atuais, viewId],
+    );
+  };
+
+  const salvarViews = async () => {
+    const usuario = usuarios.find((item) => item.id === usuarioAberto);
+    if (!usuario) return;
+
+    const idsAtuais = new Set(usuario.views.map((view) => Number(view.viewId)));
+    const idsSelecionados = new Set(viewsSelecionadas.map(Number));
+    const paraRemover = usuario.views.filter(
+      (view) => !idsSelecionados.has(Number(view.viewId)),
+    );
+    const paraAdicionar = viewsDisponiveis.filter(
+      (view) => idsSelecionados.has(Number(view.id)) && !idsAtuais.has(Number(view.id)),
+    );
+
+    setSalvandoViews(true);
+    try {
+      for (const view of paraRemover) {
+        await Api.CallEndpoint("usuarioview", "DELETE", null, view.id);
+      }
+      for (const view of paraAdicionar) {
+        await Api.CallEndpoint("usuarioview", "POST", {
+          usuarioId: usuario.id,
+          viewId: Number(view.id),
+        });
+      }
+
+      await carregarDados();
+      setUsuarioAberto(null);
+      Swal.fire({
+        ...swalBase,
+        icon: "success",
+        title: "Páginas atualizadas!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      await carregarDados();
+      setUsuarioAberto(null);
+      Swal.fire({
+        ...swalBase,
+        icon: "error",
+        title: "Erro ao salvar páginas",
+        text: `${error.message} As alterações concluídas foram mantidas; confira as permissões e tente novamente.`,
+      });
+    } finally {
+      setSalvandoViews(false);
+    }
   };
 
   // ===== FILTRO =====
@@ -452,7 +449,7 @@ export default function GerenciarUsuarios() {
               value={form.perfilId}
               onChange={handleChange}
             >
-              <option value="">Selecione um perfil</option>
+              <option value="" >Selecione um perfil</option>
               {perfis.map((perfil) => (
                 <option key={perfil.id} value={perfil.id}>
                   {perfil.name}
@@ -579,13 +576,18 @@ export default function GerenciarUsuarios() {
                       <td className="text-end">
                         <div className="d-flex gap-2 justify-content-end">
                           <button
-                            className="btn btn-sm gu-btn-icon"
-                            title="Ver páginas visíveis"
-                            onClick={() => toggleViews(usuario.id)}
+                            type="button"
+                            className={`btn btn-sm gu-btn-icon ${usuarioAberto === usuario.id ? "is-active" : ""}`}
+                            title="Gerenciar páginas visíveis"
+                            aria-label={`Gerenciar páginas visíveis de ${usuario.nome}`}
+                            aria-expanded={usuarioAberto === usuario.id}
+                            onClick={() => toggleViews(usuario)}
+                            disabled={carregandoViews}
                           >
                             👁
                           </button>
                           <button
+                            type="button"
                             className="btn btn-sm gu-btn-icon"
                             title="Editar"
                             onClick={() => handleEditar(usuario)}
@@ -593,6 +595,7 @@ export default function GerenciarUsuarios() {
                             ✎
                           </button>
                           <button
+                            type="button"
                             className="btn btn-sm gu-btn-icon gu-btn-icon--danger"
                             title="Excluir"
                             onClick={() => handleExcluir(usuario)}
@@ -602,52 +605,75 @@ export default function GerenciarUsuarios() {
                         </div>
                       </td>
                     </tr>
+                    {usuarioAberto === usuario.id && (
+                      <tr>
+                        <td colSpan="6" className="gu-views-cell">
+                          <section className="gu-views-editor" aria-label={`Páginas autorizadas de ${usuario.nome}`}>
+                            <div className="gu-views-editor__header">
+                              <div>
+                                <h3 className="h6 fw-semibold mb-1 gu-text-primary">
+                                  Páginas visíveis para {usuario.nome}
+                                </h3>
+                                <p className="gu-text-muted mb-0">
+                                  Marque as páginas que este usuário pode acessar.
+                                </p>
+                              </div>
+                              <span className="gu-views-count">
+                                {viewsSelecionadas.length} de {viewsDisponiveis.length} selecionadas
+                              </span>
+                            </div>
 
-                    <tr>
-                      <td colSpan="6" className="p-0 border-0">
-                        <div
-                          className={`collapse ${
-                            usuarioAberto === usuario.id ? "show" : ""
-                          }`}
-                        >
-                          <div className="p-3 gu-collapse-panel">
-                            <h6
-                              className="gu-text-primary mb-2"
-                              style={{ fontSize: 13 }}
-                            >
-                              Páginas visíveis para{" "}
-                              <strong>{usuario.nome}</strong>
-                            </h6>
+                            {viewsDisponiveis.length > 0 ? (
+                              <div className="gu-views-grid">
+                                {viewsDisponiveis.map((view) => {
+                                  const selecionada = viewsSelecionadas.includes(Number(view.id));
+                                  const nomeView = view.name
+                                    .replace(/^visual\./i, "")
+                                    .replaceAll(".", " ");
 
-                            {usuario.views.length > 0 ? (
-                              <div className="d-flex flex-wrap gap-2 mb-2">
-                                {usuario.views.map((view) => (
-                                  <span
-                                    key={view.id}
-                                    className="badge text-bg-primary"
-                                    title="Duplo clique para remover"
-                                    onDoubleClick={() => removeView(view.id)}
-                                  >
-                                    {view.name}
-                                  </span>
-                                ))}
+                                  return (
+                                    <label
+                                      key={view.id}
+                                      className={`gu-view-option ${selecionada ? "is-selected" : ""}`}
+                                    >
+                                      <input
+                                        type="checkbox"
+                                        checked={selecionada}
+                                        onChange={() => alternarViewSelecionada(Number(view.id))}
+                                      />
+                                      <span>{nomeView}</span>
+                                    </label>
+                                  );
+                                })}
                               </div>
                             ) : (
-                              <span className="gu-text-muted d-block mb-2">
-                                Nenhuma página liberada para este usuário.
-                              </span>
+                              <p className="gu-text-muted mb-0">
+                                {carregandoViews ? "Carregando páginas..." : "Nenhuma página disponível."}
+                              </p>
                             )}
 
-                            <button
-                              className="btn btn-sm btn-dark"
-                              onClick={addPermissao}
-                            >
-                              + Liberar página
-                            </button>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+                            <div className="gu-views-editor__actions">
+                              <button
+                                type="button"
+                                className="btn gu-btn-secondary"
+                                onClick={() => setUsuarioAberto(null)}
+                                disabled={salvandoViews}
+                              >
+                                Cancelar
+                              </button>
+                              <button
+                                type="button"
+                                className="btn gu-btn-primary"
+                                onClick={salvarViews}
+                                disabled={salvandoViews || carregandoViews}
+                              >
+                                {salvandoViews ? "Salvando..." : "Salvar páginas"}
+                              </button>
+                            </div>
+                          </section>
+                        </td>
+                      </tr>
+                    )}
                   </React.Fragment>
                 ))}
               </tbody>
